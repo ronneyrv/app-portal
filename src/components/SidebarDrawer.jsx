@@ -3,20 +3,39 @@ import { Drawer as MuiDrawer, IconButton, Divider } from "@mui/material";
 import { ChevronLeft, ChevronRight, Inbox, Mail } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import SidebarItems from "./SidebarItems";
-import DirectionsBoatOutlinedIcon from "@mui/icons-material/DirectionsBoatOutlined";
-import AgricultureOutlinedIcon from "@mui/icons-material/AgricultureOutlined";
 import logo from "../assets/images/logo_pptm.png";
 
-const drawerWidth = 240;
+/* Lista de itens do Drawer */
+import DirectionsBoatOutlinedIcon from "@mui/icons-material/DirectionsBoatOutlined";
+import AgricultureOutlinedIcon from "@mui/icons-material/AgricultureOutlined";
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
+import CycloneOutlinedIcon from '@mui/icons-material/CycloneOutlined';
+import FilterHdrOutlinedIcon from '@mui/icons-material/FilterHdrOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import InvertColorsOutlinedIcon from '@mui/icons-material/InvertColorsOutlined';
+import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined';
+import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
+import MobileFriendlyOutlinedIcon from '@mui/icons-material/MobileFriendlyOutlined';
+import LockResetOutlinedIcon from '@mui/icons-material/LockResetOutlined';
+import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCheckCircleOutlined';
 
 const drawerItems = [
-  {
-    title: "Descarregamento",
-    icon: <DirectionsBoatOutlinedIcon />,
-    path: "/descarregamento",
-  },
+  { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/horimetro" },
+  { title: "Descarregamento", icon: <DirectionsBoatOutlinedIcon />, path: "/descarregamento", },
+  { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/horimetro" },
   { title: "Horímetro", icon: <AgricultureOutlinedIcon />, path: "/horimetro" },
+  { title: "Polímero", icon: <InvertColorsOutlinedIcon />, path: "/horimetro" },
+  { title: "Autocombustão", icon: <LocalFireDepartmentOutlinedIcon />, path: "/horimetro" },
+  { title: "Rondas", icon: <MobileFriendlyOutlinedIcon />, path: "/horimetro" },
+  { title: "Prog. de Retoma", icon: <PlaylistAddCheckCircleOutlinedIcon />, path: "/horimetro" },
+  { title: "Prog. de LOTO", icon: <LockResetOutlinedIcon />, path: "/horimetro" },
+  { title: "LOTO", icon: <LockPersonOutlinedIcon />, path: "/horimetro" },
+  { title: "ROT", icon: <MenuBookOutlinedIcon />, path: "/horimetro" },
+  { title: "Gestão", icon: <GroupsOutlinedIcon />, path: "/horimetro" },
 ];
+/* /Lista de itens do Drawer */
+
+const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
