@@ -20,7 +20,7 @@ import LockResetOutlinedIcon from '@mui/icons-material/LockResetOutlined';
 import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCheckCircleOutlined';
 
 const drawerItems = [
-  { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/horimetro" },
+  { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/estoque" },
   { title: "Descarregamento", icon: <DirectionsBoatOutlinedIcon />, path: "/descarregamento", },
   { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/retoma" },
   { title: "Horímetro", icon: <AgricultureOutlinedIcon />, path: "/horimetro" },
