@@ -22,16 +22,16 @@ import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddC
 const drawerItems = [
   { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/horimetro" },
   { title: "Descarregamento", icon: <DirectionsBoatOutlinedIcon />, path: "/descarregamento", },
-  { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/horimetro" },
+  { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/retoma" },
   { title: "Horímetro", icon: <AgricultureOutlinedIcon />, path: "/horimetro" },
-  { title: "Polímero", icon: <InvertColorsOutlinedIcon />, path: "/horimetro" },
-  { title: "Autocombustão", icon: <LocalFireDepartmentOutlinedIcon />, path: "/horimetro" },
-  { title: "Rondas", icon: <MobileFriendlyOutlinedIcon />, path: "/horimetro" },
-  { title: "Prog. de Retoma", icon: <PlaylistAddCheckCircleOutlinedIcon />, path: "/horimetro" },
-  { title: "Prog. de LOTO", icon: <LockResetOutlinedIcon />, path: "/horimetro" },
-  { title: "LOTO", icon: <LockPersonOutlinedIcon />, path: "/horimetro" },
-  { title: "ROT", icon: <MenuBookOutlinedIcon />, path: "/horimetro" },
-  { title: "Gestão", icon: <GroupsOutlinedIcon />, path: "/horimetro" },
+  { title: "Polímero", icon: <InvertColorsOutlinedIcon />, path: "/polimero" },
+  { title: "Autocombustão", icon: <LocalFireDepartmentOutlinedIcon />, path: "/combustao" },
+  { title: "Rondas", icon: <MobileFriendlyOutlinedIcon />, path: "/ronda" },
+  { title: "Prog. de Retoma", icon: <PlaylistAddCheckCircleOutlinedIcon />, path: "/programacao-retoma" },
+  { title: "Prog. de LOTO", icon: <LockResetOutlinedIcon />, path: "/programacao-loto" },
+  { title: "LOTO", icon: <LockPersonOutlinedIcon />, path: "/loto" },
+  { title: "ROT", icon: <MenuBookOutlinedIcon />, path: "/rot" },
+  { title: "Gestão", icon: <GroupsOutlinedIcon />, path: "/gestao" },
 ];
 /* /Lista de itens do Drawer */
 
