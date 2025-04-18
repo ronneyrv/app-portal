@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const SidebarItems = ({ items, open }) => {
+const SidebarItems = ({ items, open, toggleDrawer }) => {
+  
   return (
     <List>
       {items.map(({ title, icon, path }) => (
@@ -19,8 +20,9 @@ const SidebarItems = ({ items, open }) => {
             sx={{
               minHeight: 48,
               justifyContent: open ? "initial" : "center",
-              px: 2.5,
+              px: 2,
             }}
+            onClick={open ? toggleDrawer : undefined}
           >
             <ListItemIcon
               sx={{

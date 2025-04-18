@@ -97,7 +97,7 @@ const SidebarDrawer = ({ open, toggleDrawer }) => {
           {open ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
       </DrawerHeader>
-      <SidebarItems items={drawerItems} open={open} />
+      <SidebarItems items={drawerItems} open={open} toggleDrawer={toggleDrawer} />
     </Drawer>
   );
 };
