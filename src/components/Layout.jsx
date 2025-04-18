@@ -1,11 +1,12 @@
 import React, { useState, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./Navbar";
 import SidebarDrawer, { DrawerHeader } from "./SidebarDrawer";
 import Main from "./Main";
 import { CircularProgress } from "@mui/material";
 import "../styles/layout.css";
+import theme from "../styles/theme";
 
 const Home = lazy(() => import("../pages/Home"));
 const Estoque = lazy(() => import("../pages/Estoque"));
@@ -26,39 +27,41 @@ const Layout = () => {
   const toggleDrawer = () => setOpen((prev) => !prev);
 
   return (
-    <Suspense
-      fallback={
-        <div className="loading-container">
-          <CircularProgress />
-        </div>
-      }
-    >
-      <Router>
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-          <Navbar open={open} toggleDrawer={toggleDrawer} />
-          <SidebarDrawer open={open} toggleDrawer={toggleDrawer} />
-          <Main open={open}>
-            <DrawerHeader />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/estoque" element={<Estoque />} />
-              <Route path="/descarregamento" element={<Descarregamento />} />
-              <Route path="/retoma" element={<Retoma />} />
-              <Route path="/horimetro" element={<Horimetro />} />
-              <Route path="/polimero" element={<Polimero />} />
-              <Route path="/combustao" element={<Combustao />} />
-              <Route path="/ronda" element={<Ronda />} />
-              <Route path="/programacao-retoma" element={<ProgRetoma />} />
-              <Route path="/programacao-loto" element={<ProgLoto />} />
-              <Route path="/loto" element={<Loto />} />
-              <Route path="/rot" element={<Rot />} />
-              <Route path="/gestao" element={<Gestao />} />
-            </Routes>
-          </Main>
-        </Box>
-      </Router>
-    </Suspense>
+    <ThemeProvider theme={theme}>
+      <Suspense
+        fallback={
+          <div className="loading-container">
+            <CircularProgress />
+          </div>
+        }
+      >
+        <Router>
+          <Box sx={{ display: "flex" }}>
+            <CssBaseline />
+            <Navbar open={open} toggleDrawer={toggleDrawer} />
+            <SidebarDrawer open={open} toggleDrawer={toggleDrawer} />
+            <Main open={open}>
+              <DrawerHeader />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/estoque" element={<Estoque />} />
+                <Route path="/descarregamento" element={<Descarregamento />} />
+                <Route path="/retoma" element={<Retoma />} />
+                <Route path="/horimetro" element={<Horimetro />} />
+                <Route path="/polimero" element={<Polimero />} />
+                <Route path="/combustao" element={<Combustao />} />
+                <Route path="/ronda" element={<Ronda />} />
+                <Route path="/programacao-retoma" element={<ProgRetoma />} />
+                <Route path="/programacao-loto" element={<ProgLoto />} />
+                <Route path="/loto" element={<Loto />} />
+                <Route path="/rot" element={<Rot />} />
+                <Route path="/gestao" element={<Gestao />} />
+              </Routes>
+            </Main>
+          </Box>
+        </Router>
+      </Suspense>
+    </ThemeProvider>
   );
 };
 
