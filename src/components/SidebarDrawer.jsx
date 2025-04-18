@@ -1,19 +1,21 @@
 import React from 'react';
 import {
   Drawer as MuiDrawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   IconButton,
   Divider,
-  Toolbar,
 } from '@mui/material';
 import { ChevronLeft, ChevronRight, Inbox, Mail } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import SidebarItems from './SidebarItems';
+import DirectionsBoatOutlinedIcon from '@mui/icons-material/DirectionsBoatOutlined';
+import AgricultureOutlinedIcon from '@mui/icons-material/AgricultureOutlined';
 
 const drawerWidth = 240;
+
+const drawerItems = [
+  { title: 'Descarregamento', icon: <DirectionsBoatOutlinedIcon />, path: '/descarregamento' },
+  { title: 'Horímetro', icon: <AgricultureOutlinedIcon />, path: '/horimetro' },
+]
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -71,30 +73,7 @@ const SidebarDrawer = ({ open, toggleDrawer }) => {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                {index % 2 === 0 ? <Inbox /> : <Mail />}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <SidebarItems items={drawerItems} open={open} />
     </Drawer>
   );
 };

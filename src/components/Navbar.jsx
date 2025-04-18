@@ -2,6 +2,7 @@ import React from 'react';
 import { AppBar as MuiAppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { styled } from '@mui/material/styles';
+import MenuAppBar from './MenuAppBar';
 
 const drawerWidth = 240;
 
@@ -39,9 +40,7 @@ const Navbar = ({ open, toggleDrawer }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Portal PPTM
-        </Typography>
+          <MenuAppBar/>
       </Toolbar>
     </AppBar>
   );
