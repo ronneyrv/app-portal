@@ -1,12 +1,12 @@
 import { styled } from '@mui/material/styles';
 
-const miniWidth = 5;
+const miniWidth = 0;
 
 const Main = styled('main', {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   flexGrow: 1,
-  padding: theme.spacing(0),
+  padding: theme.spacing(2),
   marginLeft: miniWidth,
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
