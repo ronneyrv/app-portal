@@ -1,0 +1,173 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  margin: 0;
+}
+.relatorio {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 28px;
+  box-sizing: border-box;
+  margin: auto;
+  background-color: white;
+}
+
+.rot-header {
+  padding: 4px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+}
+.rot-header h1 {
+  color: #1976d2;
+  margin: 0;
+  font-size: 1.5rem;
+}
+.rot-header img {
+  width: 100px;
+  margin-left: 50px;
+}
+.rot-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rot-subtitle {
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header {
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 2px;
+  margin-bottom: 5px;
+}
+.header input,
+.header select {
+  padding: 2px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  appearance: none;
+}
+.header label {
+  font-size: xx-small;
+  color: #1976d2;
+  padding: 0;
+}
+.header select {
+  display: none;
+}
+.header div {
+  flex: 1;
+  padding: 0 5px;
+}
+
+/* -------------------------- */
+.section-tcld {
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+}
+.section-tcld h2 {
+  text-align: center;
+  font-size: medium;
+  color: #1976d2;
+  margin: 0;
+}
+.grid-tcld {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 2px;
+}
+.info-navio {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 0px solid #ccc;
+  background-color: #fff;
+  margin: 3px;
+  padding: 5px;
+  flex: 1;
+}
+
+.info-navio-row {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  margin-bottom: 3px;
+}
+
+.info-navio-row div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.info-navio-row label {
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.info-navio-row input,
+.info-navio-row select {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  outline: none;
+}
+
+.info-relogio {
+  border-radius: 8px;
+  border: 0px solid #ccc;
+  background-color: #fff;
+  margin: 3px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+@page {
+  size: A4 landscape;
+  margin: 20mm;
+}
+
+
+.side-table {
+  width: auto;
+}
+
+.side-table th,
+.side-table td {
+  border: 1px solid #000;
+  padding: 4px 6px;
+  text-align: left;
+}
+
+.side-table th {
+  width: 100px;
+}
+
+
+.footer {
+  margin-top: 30px;
+  text-align: right;
+  font-style: italic;
+}
