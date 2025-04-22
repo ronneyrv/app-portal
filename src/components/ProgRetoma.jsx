@@ -1,5 +1,11 @@
+import { useState } from "react";
 import "../styles/progretoma.css";
+
 export default function Prog({ dados }) {
+  const [hovered, setHoveredIndex] = useState(false);
+  const [hovered2, setHovered2Index] = useState(false);
+  const [hovered3, setHovered3Index] = useState(false);
+  const [hovered4, setHovered4Index] = useState(false);
   return (
     <table className="prog-tabela">
       <thead>
@@ -27,7 +33,11 @@ export default function Prog({ dados }) {
         </tr>
       </thead>
       <tbody>
-        <tr className="ug1">
+        <tr
+          className={hovered === true ? "highlight-col ug-tr par" : "ug-tr par"}
+          onMouseEnter={() => setHoveredIndex(true)}
+          onMouseLeave={() => setHoveredIndex(false)}
+        >
           <td rowSpan="2" className="col-1">
             UG1
           </td>
@@ -50,7 +60,11 @@ export default function Prog({ dados }) {
           <td>Stacker {dados[25].stacker}</td>
           <td rowSpan="2">{dados[1].obs}</td>
         </tr>
-        <tr className="ug1">
+        <tr
+          className={hovered === true ? "highlight-col ug-tr par" : "ug-tr par"}
+          onMouseEnter={() => setHoveredIndex(true)}
+          onMouseLeave={() => setHoveredIndex(false)}
+        >
           <td colSpan="2">{dados[1].navio}</td>
           <td colSpan="2">{dados[5].navio}</td>
           <td colSpan="2">{dados[9].navio}</td>
@@ -60,7 +74,13 @@ export default function Prog({ dados }) {
           <td colSpan="2">{dados[25].navio}</td>
         </tr>
 
-        <tr className="ug2">
+        <tr
+          className={
+            hovered2 === true ? "highlight-col ug-tr impar" : "ug-tr impar"
+          }
+          onMouseEnter={() => setHovered2Index(true)}
+          onMouseLeave={() => setHovered2Index(false)}
+        >
           <td rowSpan="2" className="col-1">
             UG2
           </td>
@@ -83,7 +103,12 @@ export default function Prog({ dados }) {
           <td>Stacker {dados[26].stacker}</td>
           <td rowSpan="2">{dados[2].obs}</td>
         </tr>
-        <tr className="ug2">
+        <tr          className={
+            hovered2 === true ? "highlight-col ug-tr impar" : "ug-tr impar"
+          }
+          onMouseEnter={() => setHovered2Index(true)}
+          onMouseLeave={() => setHovered2Index(false)}
+>
           <td colSpan="2">{dados[2].navio}</td>
           <td colSpan="2">{dados[6].navio}</td>
           <td colSpan="2">{dados[10].navio}</td>
@@ -93,7 +118,12 @@ export default function Prog({ dados }) {
           <td colSpan="2">{dados[26].navio}</td>
         </tr>
 
-        <tr className="ug3">
+        <tr
+          className={hovered3 === true ? "highlight-col ug-tr par" : "ug-tr par"}
+          onMouseEnter={() => setHovered3Index(true)}
+          onMouseLeave={() => setHovered3Index(false)}
+        >
+
           <td rowSpan="2" className="col-1">
             UG3
           </td>
@@ -116,7 +146,12 @@ export default function Prog({ dados }) {
           <td>Stacker {dados[27].stacker}</td>
           <td rowSpan="2">{dados[3].obs}</td>
         </tr>
-        <tr className="ug3">
+        <tr
+          className={hovered3 === true ? "highlight-col ug-tr par" : "ug-tr par"}
+          onMouseEnter={() => setHovered3Index(true)}
+          onMouseLeave={() => setHovered3Index(false)}
+        >
+
           <td colSpan="2">{dados[3].navio}</td>
           <td colSpan="2">{dados[7].navio}</td>
           <td colSpan="2">{dados[11].navio}</td>
@@ -125,7 +160,14 @@ export default function Prog({ dados }) {
           <td colSpan="2">{dados[23].navio}</td>
           <td colSpan="2">{dados[27].navio}</td>
         </tr>
-        <tr className="emp">
+        <tr
+          className={
+            hovered4 === true ? "highlight-col ug-tr impar" : "ug-tr impar"
+          }
+          onMouseEnter={() => setHovered4Index(true)}
+          onMouseLeave={() => setHovered4Index(false)}
+        >
+
           <td rowSpan="2" colSpan="2" className="col-3">
             Empilha
           </td>
@@ -145,7 +187,14 @@ export default function Prog({ dados }) {
           <td>Stacker {dados[24].stacker}</td>
           <td rowSpan="2">{dados[0].obs}</td>
         </tr>
-        <tr className="emp">
+        <tr
+          className={
+            hovered4 === true ? "highlight-col ug-tr impar" : "ug-tr impar"
+          }
+          onMouseEnter={() => setHovered4Index(true)}
+          onMouseLeave={() => setHovered4Index(false)}
+        >
+
           <td colSpan="2">{dados[0].navio}</td>
           <td colSpan="2">{dados[4].navio}</td>
           <td colSpan="2">{dados[8].navio}</td>
