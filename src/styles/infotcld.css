@@ -1,0 +1,57 @@
+.grid-tcld {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 2px;
+}
+.info-navio {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 0px solid #ccc;
+  background-color: #fff;
+  margin: 3px;
+  padding: 5px;
+  flex: 1;
+}
+
+.info-navio-row {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  margin-bottom: 3px;
+}
+
+.info-navio-row div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.info-navio-row label {
+  font-size: xx-small;
+  color: #1976d2;
+  margin-top: 2px;
+}
+
+.info-navio-row input,
+.info-navio-row select {
+  font-size: 12px;
+  padding: 3px 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  outline: none;
+}
+
+.info-relogio {
+  border-radius: 8px;
+  border: 0px solid #ccc;
+  background-color: #fff;
+  margin: 3px;
+  width: 200px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
