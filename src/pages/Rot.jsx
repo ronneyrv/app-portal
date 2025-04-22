@@ -5,6 +5,9 @@ import logo from "../assets/images/logo_pptm.png";
 import operacao from "../assets/config/operacao";
 import Relogio from "../components/GraficRelogio";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import html2pdf from "html2pdf.js";
+import Prog from "../components/ProgRetoma";
+import progRetoma from "../assets/config/DataProgRetoma";
 
 export default function Rot() {
   const [dataSelecionada, setDataSelecionada] = useState("");
@@ -14,8 +17,32 @@ export default function Rot() {
   const [elaboradores, setElaboradores] = useState([]);
   const [supervisor, setSupervisor] = useState("");
 
-  const descarregando = [
-    { cliente: "Energia Pecem" },
+  const gerarPDF = () => {
+    const element = document.querySelector(".relatorio");
+
+    const opt = {
+      margin: 0,
+      filename: "relatorio-turno.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+    };
+
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .toPdf()
+      .get("pdf")
+      .then((pdf) => {
+        const pdfBlob = pdf.output("blob");
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        window.open(blobUrl, "_blank");
+      });
+  };
+
+  const descarregamento = [
+    { cliente: "ENERGIA PECEM" },
     { navio: "MV TESTE MOCADO" },
     { arqueacao: "75.456,25" },
     { atracacao: "19/04/2025 10:30" },
@@ -25,7 +52,7 @@ export default function Rot() {
     { meta: 3.5 },
     { dias: 3.8 },
   ];
-  const dadosNavio = Object.assign({}, ...descarregando);
+  const dadosNavio = Object.assign({}, ...descarregamento);
 
   const handleDataChange = (e) => {
     setDataSelecionada(e.target.value);
@@ -47,8 +74,18 @@ export default function Rot() {
 
   return (
     <div>
-      <Button variant="outlined">
+      <Button
+        variant="outlined"
+        onClick={gerarPDF}
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          zIndex: 1000,
+        }}
+      >
         <PictureAsPdfOutlinedIcon />
+        gerar pdf
       </Button>
       <Paper className="relatorio" elevation={3}>
         <div className="rot-header">
@@ -109,10 +146,8 @@ export default function Rot() {
               ))}
             </select>
           </div>
-
           <div>
             <label>Supervisão:</label>
-
             <input
               type="text"
               value={supervisor}
@@ -131,319 +166,73 @@ export default function Rot() {
                   <label>Cliente:</label>
                   <input
                     type="text"
-                    style={{ width: "150px", height: "31px" }}
+                    style={{ width: "150px" }}
                     defaultValue={dadosNavio.cliente}
+                    readOnly
                   />
                 </div>
                 <div>
                   <label>Navio:</label>
                   <input
                     type="text"
-                    style={{ width: "230px", height: "31px" }}
+                    style={{ width: "230px" }}
                     defaultValue={dadosNavio.navio}
+                    readOnly
                   />
                 </div>
                 <div>
                   <label>Arqueação Inicial:</label>
                   <input
                     type="text"
-                    style={{ width: "120px", height: "31px" }}
+                    style={{ width: "120px" }}
                     defaultValue={dadosNavio.arqueacao}
+                    readOnly
                   />
                 </div>
               </div>
               <div className="info-navio-row">
                 <div>
                   <label>Atracação:</label>
-                  <input type="text" defaultValue={dadosNavio.atracacao} />
+                  <input
+                    type="text"
+                    defaultValue={dadosNavio.atracacao}
+                    readOnly
+                  />
                 </div>
                 <div>
                   <label>Início da operação:</label>
-                  <input type="text" defaultValue={dadosNavio.inicioOP} />
+                  <input
+                    type="text"
+                    defaultValue={dadosNavio.inicioOP}
+                    readOnly
+                  />
                 </div>
               </div>
               <div className="info-navio-row">
                 <div>
                   <label>Saldo à Bordo:</label>
-                  <input type="text" defaultValue={dadosNavio.saldo} />
+                  <input type="text" defaultValue={dadosNavio.saldo} readOnly />
                 </div>
                 <div>
                   <label>Previsão de Término:</label>
-                  <input type="text" defaultValue={dadosNavio.fimOP} />
+                  <input type="text" defaultValue={dadosNavio.fimOP} readOnly />
                 </div>
               </div>
             </div>
 
             <div className="info-relogio">
-              <Relogio plano={dadosNavio.meta} real={dadosNavio.dias} />
+              <Relogio
+                plano={dadosNavio.meta}
+                real={dadosNavio.dias}
+                readOnly
+              />
             </div>
           </div>
         </div>
 
         <div className="section-programacao">
           <h2>Programação de Retoma</h2>
-          <table className="prog-tabela">
-            <thead>
-              <tr>
-                <th rowSpan="2" colSpan="3"></th>
-                <th colSpan="2">Segunda</th>
-                <th colSpan="2">Terça</th>
-                <th colSpan="2">Quarta</th>
-                <th colSpan="2">Quinta</th>
-                <th colSpan="2">Sexta</th>
-                <th colSpan="2">Sábado</th>
-                <th colSpan="2">Domingo</th>
-                <th rowSpan="2" className="col-fim">
-                  Observação
-                </th>
-              </tr>
-              <tr>
-                <th colSpan="2">21/abr</th>
-                <th colSpan="2">22/abr</th>
-                <th colSpan="2">23/abr</th>
-                <th colSpan="2">24/abr</th>
-                <th colSpan="2">25/abr</th>
-                <th colSpan="2">26/abr</th>
-                <th colSpan="2">27/abr</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="ug1">
-                <td rowSpan="4" className="col-1">
-                  UG1
-                </td>
-                <td rowSpan="2" className="col-2">
-                  Retoma
-                </td>
-                <td className="col-3">Pilha</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td rowSpan="4"></td>
-              </tr>
-              <tr className="ug1">
-                <td className="col-3">Navio</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr className="ug1">
-                <td rowSpan="2" className="col-2">
-                  Empilha
-                </td>
-                <td className="col-3">Pilha</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr className="ug1">
-                <td className="col-3">Navio</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              <tr className="ug2">
-                <td rowSpan="4" className="col-1">
-                  UG2
-                </td>
-                <td rowSpan="2" className="col-2">
-                  Retoma
-                </td>
-                <td className="col-3">Pilha</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td rowSpan="4"></td>
-              </tr>
-              <tr className="ug2">
-                <td className="col-3">Navio</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr className="ug2">
-                <td rowSpan="2" className="col-2">
-                  Empilha
-                </td>
-                <td className="col-3">Pilha</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr className="ug2">
-                <td className="col-3">Navio</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              <tr className="ug3">
-                <td rowSpan="4" className="col-1">
-                  UG3
-                </td>
-                <td rowSpan="2" className="col-2">
-                  Retoma
-                </td>
-                <td className="col-3">Pilha</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td rowSpan="4"></td>
-              </tr>
-              <tr className="ug3">
-                <td className="col-3">Navio</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr className="ug3">
-                <td rowSpan="2">Empilha</td>
-                <td className="col-3">Pilha</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr className="ug3">
-                <td className="col-3">Navio</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+          <Prog dados={progRetoma}/>
         </div>
 
         <div className="section-retoma">

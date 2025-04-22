@@ -16,7 +16,7 @@ const needle = (value, data, cx, cy, iR, oR, color) => {
   const length = (iR + 2 * oR) / 3;
   const sin = Math.sin(-RADIAN * ang);
   const cos = Math.cos(-RADIAN * ang);
-  const r = 5;
+  const r = 2;
   const x0 = cx + 5;
   const y0 = cy + 5;
   const xba = x0 + r * sin;

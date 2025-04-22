@@ -1,0 +1,48 @@
+.prog-tabela {
+  border-collapse: collapse;
+  width: 95cw;
+  text-align: center;
+  font-family: sans-serif;
+  margin: 2px;
+}
+
+.prog-tabela th,
+.prog-tabela td {
+  border: 1px solid #333;
+  padding: 1px;
+  font-size: 7px;
+}
+
+.prog-tabela thead th {
+  background-color: #ccc;
+}
+.col-1 {
+  width: 20px;
+  font-weight: bold;
+}
+.col-2 {
+  width: 40px;
+  font-weight: bold;
+}
+.col-3 {
+  font-weight: bold;
+}
+.col-fim {
+  width: 100px;
+  font-size: 6px;
+}
+
+.ug1 td {
+  background-color: #dceaf9;
+}
+
+.ug2 td {
+  background-color: #e4f0f5;
+}
+
+.ug3 td {
+  background-color: #f8d5c1;
+}
+.emp td {
+  background-color: #f3f3f3;
+}

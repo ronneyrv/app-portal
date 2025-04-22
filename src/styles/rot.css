@@ -6,7 +6,7 @@ body {
 .relatorio {
   width: 210mm;
   min-height: 297mm;
-  padding: 28px;
+  padding: 18px;
   box-sizing: border-box;
   margin: auto;
   background-color: white;
@@ -40,7 +40,7 @@ body {
   align-items: center;
 }
 .header {
-  height: auto;
+  height: 45px;
   border-radius: 5px;
   border: 1px solid #1976d2;
   display: flex;
@@ -51,6 +51,7 @@ body {
 }
 .header input,
 .header select {
+    width: 120px;
   padding: 2px;
   border: none;
   outline: none;
@@ -118,14 +119,14 @@ body {
 }
 
 .info-navio-row label {
-  font-size: 14px;
-  margin-bottom: 4px;
-  font-weight: 500;
+    font-size: xx-small;
+  color: #1976d2;
+  margin-top: 2px;
 }
 
 .info-navio-row input,
 .info-navio-row select {
-  padding: 6px 8px;
+  padding: 2px 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f8f8f8;
@@ -138,10 +139,10 @@ body {
   background-color: #fff;
   margin: 3px;
   width: 200px;
+  height: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
 }
 /* -------------------------- */
 
@@ -160,53 +161,6 @@ body {
   font-size: medium;
   color: #1976d2;
   margin: 0;
-}
-.prog-tabela {
-  border-collapse: collapse;
-  width: 90cw;
-  text-align: center;
-  font-family: sans-serif;
-  margin: 2px;
-}
-
-.prog-tabela th,
-.prog-tabela td {
-  border: 1px solid #333;
-  padding: 1px;
-  font-size: 7px;
-}
-
-.prog-tabela thead th {
-  background-color: #ccc;
-}
-.col-1 {
-  width: 20px;
-  font-weight: bold;
-}
-.col-2 {
-  width: 40px;
-  font-weight: bold;
-}
-.col-3 {
-  width: 30px;
-  font-size: 4px;
-  font-weight: bold;
-}
-.col-fim {
-  width: 100px;
-  font-size: 6px;
-}
-
-.ug1 td {
-  background-color: #dceaf9;
-}
-
-.ug2 td {
-  background-color: #e4f0f5;
-}
-
-.ug3 td {
-  background-color: #f8d5c1;
 }
 
 /* -------------------------- */
