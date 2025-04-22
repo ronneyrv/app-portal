@@ -1,0 +1,31 @@
+.header {
+  height: 45px;
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 2px;
+  margin-bottom: 5px;
+}
+.header input,
+.header select {
+  width: 120px;
+  padding: 2px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  appearance: none;
+}
+.header label {
+  font-size: xx-small;
+  color: #1976d2;
+  padding: 0;
+}
+.header select {
+  display: none;
+}
+.header div {
+  flex: 1;
+  padding: 0 5px;
+}
