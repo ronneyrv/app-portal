@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Paper } from "@mui/material";
 import "../styles/rot.css";
 import logo from "../assets/images/logo_pptm.png";
-import operacao from "../assets/config/operacao";
-import Relogio from "../components/GraficRelogio";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import html2pdf from "html2pdf.js";
 import Prog from "../components/ProgRetoma";
 import progRetoma from "../assets/config/DataProgRetoma";
+import HeaderRot from "../components/HeaderRot";
+import InfoTCLD from "../components/InfoTCLD";
+import descarregamento from "../assets/config/DataDecarregamento";
 
 export default function Rot() {
-  const [dataSelecionada, setDataSelecionada] = useState("");
-  const [turnoSelecionado, setTurnoSelecionado] = useState("");
-  const [equipeSelecionada, setEquipeSelecionada] = useState("");
-  const [elaboradorSelecionado, setElaboradorSelecionado] = useState("");
-  const [elaboradores, setElaboradores] = useState([]);
-  const [supervisor, setSupervisor] = useState("");
 
   const gerarPDF = () => {
     const element = document.querySelector(".relatorio");
@@ -41,36 +36,7 @@ export default function Rot() {
       });
   };
 
-  const descarregamento = [
-    { cliente: "ENERGIA PECEM" },
-    { navio: "MV TESTE MOCADO" },
-    { arqueacao: "75.456,25" },
-    { atracacao: "19/04/2025 10:30" },
-    { inicioOP: "19/04/2025 13:15" },
-    { saldo: "32.159,2" },
-    { fimOP: "22/04/2025 6:40" },
-    { meta: 3.5 },
-    { dias: 3.8 },
-  ];
-  const dadosNavio = Object.assign({}, ...descarregamento);
 
-  const handleDataChange = (e) => {
-    setDataSelecionada(e.target.value);
-  };
-  const handleTurnoChange = (e) => {
-    setTurnoSelecionado(e.target.value);
-  };
-  const handleElaboradorChange = (e) => {
-    setElaboradorSelecionado(e.target.value);
-  };
-  const handleEquipeChange = (e) => {
-    const equipe = e.target.value;
-    setEquipeSelecionada(equipe);
-    const filtrados = operacao.filter((op) => op.equipe === equipe);
-    setElaboradores(filtrados);
-    const gestor = filtrados.length > 0 ? filtrados[0].gestor : "";
-    setSupervisor(gestor);
-  };
 
   return (
     <div>
@@ -94,140 +60,11 @@ export default function Rot() {
             <img src={logo} alt="Logo PPTM" />
           </div>
         </div>
-        <div className="header">
-          <div>
-            <label>Data:</label>
-            <input
-              type="date"
-              value={dataSelecionada}
-              onChange={handleDataChange}
-            />
-          </div>
-          <div>
-            <label>Turno:</label>
-            <select
-              style={{ display: dataSelecionada ? "block" : "none" }}
-              value={turnoSelecionado}
-              onChange={handleTurnoChange}
-            >
-              <option value="">Selecione</option>
-              <option value="manha">07:30 as 19:30</option>
-              <option value="noite">19:30 as 07:30</option>
-            </select>
-          </div>
-          <div>
-            <label>Equipe:</label>
-            {turnoSelecionado && (
-              <select
-                value={equipeSelecionada}
-                onChange={handleEquipeChange}
-                style={{ display: dataSelecionada ? "block" : "none" }}
-              >
-                <option value="">Selecione</option>
-                <option value="A">Equipe A</option>
-                <option value="B">Equipe B</option>
-                <option value="C">Equipe C</option>
-                <option value="D">Equipe D</option>
-              </select>
-            )}
-          </div>
-          <div>
-            <label>Elaborador:</label>
-            <select
-              style={{ display: equipeSelecionada ? "block" : "none" }}
-              value={elaboradorSelecionado}
-              onChange={handleElaboradorChange}
-            >
-              <option value="">Selecione</option>
-              {elaboradores.map((item) => (
-                <option key={item.id} value={item.nome}>
-                  {item.nome}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label>Supervisão:</label>
-            <input
-              type="text"
-              value={supervisor}
-              readOnly
-              style={{ display: elaboradorSelecionado ? "block" : "none" }}
-            />
-          </div>
-        </div>
-
+        <HeaderRot/>
         <div className="section-tcld">
           <h2>Operação TCLD</h2>
-          <div className="grid-tcld">
-            <div className="info-navio">
-              <div className="info-navio-row">
-                <div>
-                  <label>Cliente:</label>
-                  <input
-                    type="text"
-                    style={{ width: "150px" }}
-                    defaultValue={dadosNavio.cliente}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label>Navio:</label>
-                  <input
-                    type="text"
-                    style={{ width: "230px" }}
-                    defaultValue={dadosNavio.navio}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label>Arqueação Inicial:</label>
-                  <input
-                    type="text"
-                    style={{ width: "120px" }}
-                    defaultValue={dadosNavio.arqueacao}
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="info-navio-row">
-                <div>
-                  <label>Atracação:</label>
-                  <input
-                    type="text"
-                    defaultValue={dadosNavio.atracacao}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label>Início da operação:</label>
-                  <input
-                    type="text"
-                    defaultValue={dadosNavio.inicioOP}
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="info-navio-row">
-                <div>
-                  <label>Saldo à Bordo:</label>
-                  <input type="text" defaultValue={dadosNavio.saldo} readOnly />
-                </div>
-                <div>
-                  <label>Previsão de Término:</label>
-                  <input type="text" defaultValue={dadosNavio.fimOP} readOnly />
-                </div>
-              </div>
-            </div>
+          <InfoTCLD dados={descarregamento}/>
 
-            <div className="info-relogio">
-              <Relogio
-                plano={dadosNavio.meta}
-                real={dadosNavio.dias}
-                readOnly
-              />
-            </div>
-          </div>
         </div>
 
         <div className="section-programacao">
