@@ -1,0 +1,26 @@
+.tabela-container {
+  padding: 2px;
+  overflow-x: auto;
+  font-size: 9px;
+}
+.tabela-retomado {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.tabela-retomado th,
+.tabela-retomado td {
+  border: 1px solid #ddd;
+  padding: 2px 4px;
+  text-align: center;
+}
+.tabela-retomado th {
+  background-color: #1976d2;
+  color: #ffffff;
+}
+.tabela-retomado tr:nth-child(even) {
+  background-color: #e6e6e6;
+}
+.tabela-retomado tr:hover {
+  background-color: #ffffff;
+}
