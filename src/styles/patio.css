@@ -1,0 +1,103 @@
+.containe-patio {
+  height: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+div {
+  box-sizing: border-box;
+}
+.layout {
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+}
+.patio {
+  margin: 5px;
+}
+.patio-1,
+.patio-2,
+.patio-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  background: #fff;
+}
+.pilhas {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.patio-1 div,
+.patio-2 div,
+.patio-3 div {
+  border-radius: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+.pilha-1A,
+.pilha-1B {
+  width: 215px;
+  height: 60px;
+  background: linear-gradient(167deg, #ffecb3 40%, #ffc107 60%);
+}
+.pilha-3A,
+.pilha-3B {
+  width: 215px;
+  height: 60px;
+  background: linear-gradient(165deg, #80deea 40%, #00bcd4 60%);
+}
+.pilha-2A {
+  width: 105px;
+  height: 110px;
+  background: linear-gradient(135deg, #ffecb3 40%, #ffc107 60%);
+}
+.pilha-2B,
+.pilha-2C,
+.pilha-2D {
+  width: 105px;
+  height: 110px;
+  background: linear-gradient(135deg, #80deea 40%, #00bcd4 60%);
+}
+
+.topo-1A,
+.topo-2A,
+.topo-1B {
+  background: #ffd54f;
+  border: 1px solid none;
+}
+.topo-2B,
+.topo-2C,
+.topo-2D,
+.topo-3A,
+.topo-3B {
+  background: #4dd0e1;
+  border: 1px solid none;
+}
+.can-linha-1,
+.can-linha-2,
+.can-linha-3,
+.can-linha-4,
+.can-linha-5,
+.can-linha-6 {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.obs {
+  background-color: #ccc;
+  width: 300px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+}
