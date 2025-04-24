@@ -7,7 +7,6 @@ body {
   width: 210mm;
   min-height: 297mm;
   padding: 18px;
-  box-sizing: border-box;
   margin: auto;
   background-color: white;
 }
@@ -51,6 +50,21 @@ body {
 }
 /* -------------------------- */
 
+.section-patio {
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #1976d2;
+  justify-content: center;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+}
+.section-patio h2 {
+  text-align: center;
+  font-size: medium;
+  color: #1976d2;
+  margin: 0;
+}
+/* -------------------------- */
 .section-programacao {
   height: auto;
   border-radius: 5px;
@@ -67,7 +81,6 @@ body {
   color: #1976d2;
   margin: 0;
 }
-
 /* -------------------------- */
 
 .section-retoma {
@@ -86,6 +99,7 @@ body {
   color: #1976d2;
   margin: 0;
 }
+
 
 /* -------------------------- */
 

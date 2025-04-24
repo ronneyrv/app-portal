@@ -9,9 +9,12 @@ import progRetoma from "../assets/config/DataProgRetoma";
 import HeaderRot from "../components/HeaderRot";
 import InfoTCLD from "../components/InfoTCLD";
 import descarregamento from "../assets/config/DataDecarregamento";
+import RetomaTurno from "../components/RetomaTurno";
+import retomado from "../assets/config/DataRetoma";
+import EventosRot from "../components/EventosRot";
+import Patio from "../components/Patio";
 
 export default function Rot() {
-
   const gerarPDF = () => {
     const element = document.querySelector(".relatorio");
 
@@ -20,7 +23,7 @@ export default function Rot() {
       filename: "relatorio-turno.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       pagebreak: { mode: ["avoid-all", "css", "legacy"] },
     };
 
@@ -35,8 +38,6 @@ export default function Rot() {
         window.open(blobUrl, "_blank");
       });
   };
-
-
 
   return (
     <div>
@@ -60,46 +61,30 @@ export default function Rot() {
             <img src={logo} alt="Logo PPTM" />
           </div>
         </div>
-        <HeaderRot/>
+        <HeaderRot />
         <div className="section-tcld">
           <h2>Operação TCLD</h2>
-          <InfoTCLD dados={descarregamento}/>
+          <InfoTCLD dados={descarregamento} />
+        </div>
 
+        <div className="section-patio">
+        <h2>Pátio de carvão</h2>
+          <Patio/>
         </div>
 
         <div className="section-programacao">
           <h2>Programação de Retoma</h2>
-          <Prog dados={progRetoma}/>
+          <Prog dados={progRetoma} />
         </div>
 
         <div className="section-retoma">
           <h2>Retomado</h2>
+          <RetomaTurno dados={retomado} />
         </div>
 
         <div className="section-evento">
           <h2>Eventos</h2>
-          <table className="side-table">
-            <thead>
-              <tr>
-                <th>Evento</th>
-                <th>Descrição</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>
-                  <input type="text" placeholder="Ex: Falha UG1" />
-                </th>
-                <td>
-                  <input type="text" placeholder="Descreva aqui..." />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div className="footer">
-          São Luís, ____ de ______________ de ______. Hora: ____:____
+          <EventosRot />
         </div>
       </Paper>
     </div>
