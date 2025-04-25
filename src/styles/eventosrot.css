@@ -10,12 +10,12 @@
   font-size: 10px;
 }
 .evento-header-a {
-    width: 120px;
-    text-align: center;
+  width: 120px;
+  text-align: center;
 }
 .evento-header-b {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 .rows {
   display: grid;
@@ -30,8 +30,8 @@
 }
 
 .evento-title {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
   width: 100px;
   font-weight: bold;
   text-align: center;

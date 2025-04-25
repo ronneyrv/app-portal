@@ -48,7 +48,7 @@ div {
 .pilha-1B {
   width: 215px;
   height: 60px;
-  background: linear-gradient(167deg, #ffecb3 40%, #ffc107 60%);
+  background: linear-gradient(167deg, #ffd180 40%, #ff6d00 60%);
 }
 .pilha-3A,
 .pilha-3B {
@@ -59,7 +59,7 @@ div {
 .pilha-2A {
   width: 105px;
   height: 110px;
-  background: linear-gradient(135deg, #ffecb3 40%, #ffc107 60%);
+  background: linear-gradient(135deg, #ffd180 40%, #ff6d00 60%);
 }
 .pilha-2B,
 .pilha-2C,
@@ -72,7 +72,7 @@ div {
 .topo-1A,
 .topo-2A,
 .topo-1B {
-  background: #ffd54f;
+  background: #ffab40;
   border: 1px solid none;
 }
 .topo-2B,
@@ -91,13 +91,64 @@ div {
 .can-linha-6 {
   display: flex;
   justify-content: center;
-  gap: 25px;
+  gap: 30px;
 }
 
-.obs {
-  background-color: #ccc;
+.observacao {
+  background-color: #fff;
   width: 300px;
   border-radius: 4px;
   font-weight: bold;
   text-align: center;
+  padding: 3px;
+}
+
+.observacao textarea {
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  font-size: 10px;
+  padding: 0.3rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.observacao h3 {
+  margin: 0;
+}
+.observacao label {
+  font-size: 10px;
+}
+.stqPol {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0 3px;
+  font-size: 10px;
+}
+.umectacao-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+.umectacao-status h4 {
+  margin: 0;
+}
+.umectacao-legenda {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  margin-bottom: 3px;
+}
+.legenda {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.legenda div {
+  font-size: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -3,398 +3,16 @@ import SignalWifiStatusbar4BarIcon from "@mui/icons-material/SignalWifiStatusbar
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import SignalWifiConnectedNoInternet4Icon from "@mui/icons-material/SignalWifiConnectedNoInternet4";
 import Divider from "@mui/material/Divider";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import GppGoodIcon from "@mui/icons-material/GppGood";
+import GppBadIcon from "@mui/icons-material/GppBad";
+import alturas from "../assets/config/DataAlturas";
+import canhoes from "../assets/config/DataCanhoes";
+import stqPolimero from "../assets/config/DataStdPolimero";
+import polimero from "../assets/config/DataPolimero";
+import sisUmectacao from "../assets/config/DataSisUmectacao";
 
 export default function Patio() {
-  const alturas = {
-    "1A": 7,
-    "1B": 7,
-    "2A": 8,
-    "2B": 5,
-    "2C": 10,
-    "2D": 0,
-    "3A": 8,
-    "3B": 10,
-  };
-  const canhoes = [
-    {
-      can: "A1",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A2",
-      modo: "indisponivel",
-      icon: "SignalWifiConnectedNoInternet4Icon",
-      cor: "#FF0000",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A3",
-      modo: "desabilitado",
-      icon: "SignalWifiOffIcon",
-      cor: "#757575",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A4",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A5",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A6",
-      modo: "indisponivel",
-      icon: "SignalWifiConnectedNoInternet4Icon",
-      cor: "#FF0000",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A7",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A8",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A9",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A10",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A11",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A12",
-      modo: "desabilitado",
-      icon: "SignalWifiOffIcon",
-      cor: "#757575",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A13",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A14",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A15",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A16",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A17",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A18",
-      modo: "indisponivel",
-      icon: "SignalWifiConnectedNoInternet4Icon",
-      cor: "#FF0000",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A19",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A20",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A21",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A22",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A23",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A24",
-      modo: "desabilitado",
-      icon: "SignalWifiOffIcon",
-      cor: "#757575",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A25",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A26",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A27",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A28",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A29",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A30",
-      modo: "indisponivel",
-      icon: "SignalWifiConnectedNoInternet4Icon",
-      cor: "#FF0000",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A31",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A32",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A33",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A34",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A35",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A36",
-      modo: "desabilitado",
-      icon: "SignalWifiOffIcon",
-      cor: "#757575",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A37",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A38",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A39",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A40",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A41",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A42",
-      modo: "indisponivel",
-      icon: "SignalWifiConnectedNoInternet4Icon",
-      cor: "#FF0000",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A43",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A44",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A45",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(0deg)",
-    },
-    {
-      can: "A46",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A47",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A48",
-      modo: "desabilitado",
-      icon: "SignalWifiOffIcon",
-      cor: "#757575",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A49",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A50",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A51",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A52",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A53",
-      modo: "disponivel",
-      icon: "SignalWifiStatusbar4BarIcon",
-      cor: "#76ff03",
-      lado: "rotate(180deg)",
-    },
-    {
-      can: "A54",
-      modo: "indisponivel",
-      icon: "SignalWifiConnectedNoInternet4Icon",
-      cor: "#FF0000",
-      lado: "rotate(180deg)",
-    },
-  ];
 
   const iconMap = {
     SignalWifiStatusbar4BarIcon,
@@ -552,7 +170,84 @@ export default function Patio() {
           </div>
         </div>
       </div>
-      <div className="obs"></div>
+      <div className="observacao">
+        <div className="polimero">
+          <h3>Validade do Polímero</h3>
+          {polimero.map((item) => (
+            <div
+              key={item.pilha}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "3px",
+              }}
+            >
+              <WaterDropIcon style={{ fontSize: 15, color: item.cor }} />
+              <span>
+                {item.pilha}: {item.validade} - {item.acao}
+              </span>
+            </div>
+          ))}
+          <label>Estoque de Polímero:</label>
+          <div className="stqPol">
+            {stqPolimero.map((item, index) => (
+              <div key={index}>
+                {item.cliente}: {item.litro} litros
+              </div>
+            ))}
+          </div>
+        </div>
+        <Divider />
+        <div className="umectacao">
+          <h3>Sistema de Umectação</h3>
+          <div>
+            {sisUmectacao.map((item, index) => (
+              <div key={index} className="umectacao-status">
+                {item.disponível ? (
+                  <GppGoodIcon style={{ fontSize: 20, color: "#76ff03" }} />
+                ) : (
+                  <GppBadIcon style={{ fontSize: 20, color: "#ff1744" }} />
+                )}
+                {item.disponível ? (
+                  <h4>Sistema Disponível</h4>
+                ) : (
+                  <h4>Sistema Indisponível</h4>
+                )}
+              </div>
+            ))}
+
+            <div className="umectacao-legenda">
+              <label>Legenda:</label>
+              <div className="legenda">
+                <div>
+                  <SignalWifiStatusbar4BarIcon
+                    style={{ fontSize: 15, color: "#76ff03" }}
+                  />
+                  <span>DISPONÍVEL</span>
+                </div>
+                <div>
+                  <SignalWifiOffIcon
+                    style={{ fontSize: 15, color: "#757575" }}
+                  />
+                  <span>DESABILITADO</span>
+                </div>
+                <div>
+                  <SignalWifiConnectedNoInternet4Icon
+                    style={{ fontSize: 15, color: "#FF0000" }}
+                  />
+                  <span>INDISPONÍVEL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Divider />
+
+        <div className="obs">
+          <h3>Observações:</h3>
+          <textarea rows={7}></textarea>
+        </div>
+      </div>
     </div>
   );
 }
