@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from './LoadingSpinner';
 
 const ProtectedRoute = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(null);
@@ -17,8 +18,7 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if (loggedIn === null) {
-    // Ainda carregando (opcional: você pode colocar um spinner)
-    return <div>Carregando...</div>;
+    return <LoadingSpinner />;
   }
 
   if (!loggedIn) {
