@@ -5,9 +5,9 @@ import Navbar from "./Navbar";
 import SidebarDrawer, { DrawerHeader } from "./SidebarDrawer";
 import Main from "./Main";
 import { CircularProgress } from "@mui/material";
-import "../styles/layout.css";
 import theme from "../styles/theme";
 import ProtectedRoute from "../components/ProtectedRoute";
+import LoadingSpinner from "../components/LoadingSpinner"
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -32,9 +32,7 @@ const Layout = () => {
     <ThemeProvider theme={theme}>
       <Suspense
         fallback={
-          <div className="loading-container">
-            <CircularProgress />
-          </div>
+          <LoadingSpinner/>
         }
       >
         <Router>
