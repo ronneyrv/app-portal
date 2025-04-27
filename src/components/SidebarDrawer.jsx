@@ -20,18 +20,18 @@ import LockResetOutlinedIcon from '@mui/icons-material/LockResetOutlined';
 import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCheckCircleOutlined';
 
 const drawerItems = [
-  { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/estoque" },
-  { title: "Descarregamento", icon: <DirectionsBoatOutlinedIcon />, path: "/descarregamento", },
-  { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/retoma" },
-  { title: "Horímetro", icon: <AgricultureOutlinedIcon />, path: "/horimetro" },
-  { title: "Polímero", icon: <InvertColorsOutlinedIcon />, path: "/polimero" },
-  { title: "Autocombustão", icon: <LocalFireDepartmentOutlinedIcon />, path: "/combustao" },
-  { title: "Rondas", icon: <MobileFriendlyOutlinedIcon />, path: "/ronda" },
-  { title: "Prog. de Retoma", icon: <PlaylistAddCheckCircleOutlinedIcon />, path: "/programacao-retoma" },
-  { title: "Prog. de LOTO", icon: <LockResetOutlinedIcon />, path: "/programacao-loto" },
-  { title: "LOTO", icon: <LockPersonOutlinedIcon />, path: "/loto" },
-  { title: "ROT", icon: <MenuBookOutlinedIcon />, path: "/rot" },
-  { title: "Gestão", icon: <GroupsOutlinedIcon />, path: "/gestao" },
+  { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/pptm/estoque" },
+  { title: "Descarregamento", icon: <DirectionsBoatOutlinedIcon />, path: "/pptm/descarregamento", },
+  { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/pptm/retoma" },
+  { title: "Horímetro", icon: <AgricultureOutlinedIcon />, path: "/pptm/horimetro" },
+  { title: "Polímero", icon: <InvertColorsOutlinedIcon />, path: "/pptm/polimero" },
+  { title: "Autocombustão", icon: <LocalFireDepartmentOutlinedIcon />, path: "/pptm/combustao" },
+  { title: "Rondas", icon: <MobileFriendlyOutlinedIcon />, path: "/pptm/ronda" },
+  { title: "Prog. de Retoma", icon: <PlaylistAddCheckCircleOutlinedIcon />, path: "/pptm/programacao-retoma" },
+  { title: "Prog. de LOTO", icon: <LockResetOutlinedIcon />, path: "/pptm/programacao-loto" },
+  { title: "LOTO", icon: <LockPersonOutlinedIcon />, path: "/pptm/loto" },
+  { title: "ROT", icon: <MenuBookOutlinedIcon />, path: "/pptm/rot" },
+  { title: "Gestão", icon: <GroupsOutlinedIcon />, path: "/pptm/gestao" },
 ];
 /* /Lista de itens do Drawer */
 

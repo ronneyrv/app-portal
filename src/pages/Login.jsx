@@ -1,22 +1,32 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/login', {
-        username,
-        password
-      });
+      const response = await axios.post(
+        "http://localhost:3001/login",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      
       setMessage(response.data.message);
+      navigate("/pptm");
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
-      setMessage('Erro no login.');
+      console.error("Erro ao fazer login:", error);
+      setMessage("Erro no login.");
     }
   };
 
@@ -29,13 +39,15 @@ function Login() {
           placeholder="Usuário"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        /><br/>
+        />
+        <br />
         <input
           type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        /><br/>
+        />
+        <br />
         <button type="submit">Entrar</button>
       </form>
       <p>{message}</p>

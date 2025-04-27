@@ -7,6 +7,7 @@ import Main from "./Main";
 import { CircularProgress } from "@mui/material";
 import "../styles/layout.css";
 import theme from "../styles/theme";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -39,27 +40,36 @@ const Layout = () => {
         <Router>
           <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <Navbar open={open} toggleDrawer={toggleDrawer} />
-            <SidebarDrawer open={open} toggleDrawer={toggleDrawer} />
-            <Main open={open}>
-              <DrawerHeader />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/estoque" element={<Estoque />} />
-                <Route path="/descarregamento" element={<Descarregamento />} />
-                <Route path="/retoma" element={<Retoma />} />
-                <Route path="/horimetro" element={<Horimetro />} />
-                <Route path="/polimero" element={<Polimero />} />
-                <Route path="/combustao" element={<Combustao />} />
-                <Route path="/ronda" element={<Ronda />} />
-                <Route path="/programacao-retoma" element={<ProgRetoma />} />
-                <Route path="/programacao-loto" element={<ProgLoto />} />
-                <Route path="/loto" element={<Loto />} />
-                <Route path="/rot" element={<Rot />} />
-                <Route path="/gestao" element={<Gestao />} />
-              </Routes>
-            </Main>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route
+                path="/pptm/*"
+                element={
+                  <ProtectedRoute>
+                    <Navbar open={open} toggleDrawer={toggleDrawer} />
+                    <SidebarDrawer open={open} toggleDrawer={toggleDrawer} />
+                    <Main open={open}>
+                      <DrawerHeader />
+                      <Routes>
+                      <Route path="/" element={<Home />} />
+                        <Route path="/estoque" element={<Estoque />} />
+                        <Route path="/descarregamento" element={<Descarregamento />} />
+                        <Route path="/retoma" element={<Retoma />} />
+                        <Route path="/horimetro" element={<Horimetro />} />
+                        <Route path="/polimero" element={<Polimero />} />
+                        <Route path="/combustao" element={<Combustao />} />
+                        <Route path="/ronda" element={<Ronda />} />
+                        <Route path="/programacao-retoma" element={<ProgRetoma />} />
+                        <Route path="/programacao-loto" element={<ProgLoto />} />
+                        <Route path="/loto" element={<Loto />} />
+                        <Route path="rot" element={<Rot />} />
+                        <Route path="/gestao" element={<Gestao />} />
+                      </Routes>
+                    </Main>
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
           </Box>
         </Router>
       </Suspense>
