@@ -9,6 +9,7 @@ import "../styles/layout.css";
 import theme from "../styles/theme";
 
 const Home = lazy(() => import("../pages/Home"));
+const Login = lazy(() => import("../pages/Login"));
 const Estoque = lazy(() => import("../pages/Estoque"));
 const Descarregamento = lazy(() => import("../pages/Descarregamento"));
 const Horimetro = lazy(() => import("../pages/Horimetro"));
@@ -44,6 +45,7 @@ const Layout = () => {
               <DrawerHeader />
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/estoque" element={<Estoque />} />
                 <Route path="/descarregamento" element={<Descarregamento />} />
                 <Route path="/retoma" element={<Retoma />} />
