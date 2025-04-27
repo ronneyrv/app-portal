@@ -7,10 +7,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [username, setUsername] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
   const handleMenu = (event) => {
@@ -35,6 +37,7 @@ export default function MenuAppBar() {
   }, []);
 
   const handleLogout = () => {
+    setLoading(true);
     axios
       .post("http://localhost:3001/logout", {}, { withCredentials: true })
       .then(() => {
@@ -43,6 +46,9 @@ export default function MenuAppBar() {
       })
       .catch((error) => {
         console.error("Erro ao realizar logout:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -50,6 +56,7 @@ export default function MenuAppBar() {
     <Toolbar
       sx={{ display: "flex", justifyContent: "space-between", width: "100vw" }}
     >
+      {loading ? <LoadingSpinner /> : null}
       <Link to="/pptm" style={{ textDecoration: "none", color: "inherit" }}>
         <Typography variant="h6" component="div" sx={{ cursor: "pointer" }}>
           Portal PPTM
@@ -81,7 +88,15 @@ export default function MenuAppBar() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>{username && <span>{username}</span>}</div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {username && <span>{username}</span>}
+          </div>
           <MenuItem onClick={handleClose}>Minha Conta</MenuItem>
           <MenuItem onClick={handleLogout}>Sair</MenuItem>
         </Menu>
