@@ -1,0 +1,78 @@
+.container-login {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    margin: 100px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .container-login img {
+    width: 250px;
+    margin: 10px;
+  }
+    
+  .container-login form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .container-login input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .container-login button {
+    width: 50%;
+    padding: 12px;
+    margin-top: 30px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .container-login button:hover {
+    background-color: #125ea6;
+  }
+  
+  .alert-login {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .container-login .signup-link {
+    margin-top: 0px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .container-login .signup {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .container-login .signup a {
+    text-decoration: none;
+    color: #ccc;
+  }
+  
+  .container-login .signup a:hover {
+    color: #555;
+  }
+  

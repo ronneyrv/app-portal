@@ -9,8 +9,9 @@ import theme from "../styles/theme";
 import ProtectedRoute from "../components/ProtectedRoute";
 import LoadingSpinner from "../components/LoadingSpinner"
 
-const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
+const SignUp = lazy(() => import("../pages/Signup"));
+const Home = lazy(() => import("../pages/Home"));
 const Estoque = lazy(() => import("../pages/Estoque"));
 const Descarregamento = lazy(() => import("../pages/Descarregamento"));
 const Horimetro = lazy(() => import("../pages/Horimetro"));
@@ -40,6 +41,7 @@ const Layout = () => {
             <CssBaseline />
             <Routes>
               <Route path="/" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route
                 path="/pptm/*"
                 element={
