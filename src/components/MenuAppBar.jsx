@@ -8,10 +8,11 @@ import Menu from "@mui/material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
+import { Divider } from "@mui/material";
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [username, setUsername] = React.useState("");
+  const [usuario, setUsuario] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export default function MenuAppBar() {
       .get("http://localhost:3001/verificaLogin", { withCredentials: true })
       .then((response) => {
         if (response.data.loggedIn) {
-          setUsername(response.data.user.username); // Exibe o nome do usuário
+          setUsuario(response.data.user.usuario);
         }
       })
       .catch((error) => {
@@ -41,7 +42,7 @@ export default function MenuAppBar() {
     axios
       .post("http://localhost:3001/logout", {}, { withCredentials: true })
       .then(() => {
-        setUsername("");
+        setUsuario("");
         navigate("/");
       })
       .catch((error) => {
@@ -64,13 +65,15 @@ export default function MenuAppBar() {
       </Link>
       <div>
         <IconButton
-          size="large"
+          size="small"
           aria-label="account of current user"
           aria-controls="menu-appbar"
           aria-haspopup="true"
           onClick={handleMenu}
           color="inherit"
-        >
+          
+          >
+          <div style={{marginRight: '5px'}}>{usuario}</div>
           <AccountCircle />
         </IconButton>
         <Menu
@@ -93,11 +96,13 @@ export default function MenuAppBar() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              fontWeight: "bold"
             }}
           >
-            {username && <span>{username}</span>}
+            {usuario && <span>{usuario}</span>}
           </div>
-          <MenuItem onClick={handleClose}>Minha Conta</MenuItem>
+          <Divider />
+          <MenuItem onClick={handleClose}>Configuração</MenuItem>
           <MenuItem onClick={handleLogout}>Sair</MenuItem>
         </Menu>
       </div>
