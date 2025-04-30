@@ -65,7 +65,6 @@ export default function Admin() {
 
       handleClose();
       fetchUsuarios();
-      
     } catch (error) {
       console.error("Erro ao atualizar usuário:", error);
       setSnackbar({
@@ -83,7 +82,8 @@ export default function Admin() {
     transform: "translate(-50%, -50%)",
     width: 500,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    borderRadius: "12px",
+    border: "none",
     boxShadow: 24,
     p: 4,
   };
@@ -134,6 +134,7 @@ export default function Admin() {
                 <Select
                   labelId="nivel-label"
                   value={usuarioSelecionado.nivel_permissao}
+                  label="Nível"
                   onChange={(e) =>
                     setUsuarioSelecionado({
                       ...usuarioSelecionado,
@@ -161,39 +162,40 @@ export default function Admin() {
 
       <Paper className="container-admin" elevation={3}>
         <Typography variant="h5" gutterBottom>
-          CONFIGURAÇÕES DE ADMINISTRADOR
+          CONFIGURAÇÕES
         </Typography>
-
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Usuário</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Nível</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {usuarios.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.usuario}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.nivel_permissao}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => handleEdit(item)}
-                  >
-                    Editar
-                  </Button>
-                </TableCell>
+        <div className="tabela-scroll">
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Usuário</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Nível</TableCell>
+                <TableCell></TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {usuarios.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>{item.usuario}</TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.nivel_permissao}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => handleEdit(item)}
+                    >
+                      Editar
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </Paper>
     </div>
   );
