@@ -5,6 +5,7 @@ import axios from "axios";
 import "../styles/login.css";
 import logo from "../assets/images/logo_pptm.png";
 import Alert from "@mui/material/Alert";
+import MessageAlert from "../components/MessageAlert";
 
 function Login() {
   const [usuario, setUsuario] = useState("");
@@ -86,11 +87,7 @@ function Login() {
         </div>
         <button type="submit">Entrar</button>
       </form>
-      {message && (
-        <div className="alert-login">
-          <Alert severity={typeMessage}>{message}</Alert>
-        </div>
-      )}
+      <MessageAlert type={typeMessage} message={message} />
     </Paper>
   );
 }

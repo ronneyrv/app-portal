@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
 import axios from "axios";
 import "../styles/signup.css";
 import logo from "../assets/images/logo_pptm.png";
 import Alert from "@mui/material/Alert";
+import MessageAlert from "../components/MessageAlert";
 
 function Signup() {
   const [usuario, setUsuario] = useState("");
@@ -115,11 +116,7 @@ function Signup() {
         />
         <button type="submit">Cadastrar</button>
       </form>
-      {message && (
-        <div className="alert-login">
-          <Alert severity={typeMessage}>{message}</Alert>
-        </div>
-      )}
+      <MessageAlert type={typeMessage} message={message} />
     </Paper>
   );
 }

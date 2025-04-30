@@ -12,7 +12,7 @@ import { Divider } from "@mui/material";
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [usuario, setUsuario] = React.useState("");
+  const [usuario, setUsuario] = React.useState({ nome: "", nivel: "" });
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
@@ -24,12 +24,20 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
+  const admin = () => {
+    navigate("/pptm/admin");
+    setAnchorEl(null);
+  };
+
   React.useEffect(() => {
     axios
       .get("http://localhost:3001/verificaLogin", { withCredentials: true })
       .then((response) => {
         if (response.data.loggedIn) {
-          setUsuario(response.data.user.usuario);
+          setUsuario({
+            nome: response.data.user.usuario,
+            nivel: response.data.user.nivel,
+          });
         }
       })
       .catch((error) => {
@@ -71,9 +79,8 @@ export default function MenuAppBar() {
           aria-haspopup="true"
           onClick={handleMenu}
           color="inherit"
-          
-          >
-          <div style={{marginRight: '5px'}}>{usuario}</div>
+        >
+          <div style={{ marginRight: "5px" }}>{usuario.nome}</div>
           <AccountCircle />
         </IconButton>
         <Menu
@@ -96,12 +103,15 @@ export default function MenuAppBar() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              fontWeight: "bold"
+              fontWeight: "bold",
             }}
           >
-            {usuario && <span>{usuario}</span>}
+            {usuario && <span>{usuario.nome}</span>}
           </div>
           <Divider />
+          {usuario.nivel === "admin" && (
+            <MenuItem onClick={admin}>Administrador</MenuItem>
+          )}
           <MenuItem onClick={handleClose}>Configuração</MenuItem>
           <MenuItem onClick={handleLogout}>Sair</MenuItem>
         </Menu>

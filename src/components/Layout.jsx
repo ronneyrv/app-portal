@@ -4,7 +4,6 @@ import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./Navbar";
 import SidebarDrawer, { DrawerHeader } from "./SidebarDrawer";
 import Main from "./Main";
-import { CircularProgress } from "@mui/material";
 import theme from "../styles/theme";
 import ProtectedRoute from "../components/ProtectedRoute";
 import LoadingSpinner from "../components/LoadingSpinner"
@@ -24,6 +23,7 @@ const ProgLoto = lazy(() => import("../pages/ProgLoto"));
 const Loto = lazy(() => import("../pages/Loto"));
 const Rot = lazy(() => import("../pages/Rot"));
 const Gestao = lazy(() => import("../pages/Gestao"));
+const Admin = lazy(() => import("../pages/Admin"));
 
 const Layout = () => {
   const [open, setOpen] = useState(false);
@@ -64,6 +64,7 @@ const Layout = () => {
                         <Route path="/loto" element={<Loto />} />
                         <Route path="rot" element={<Rot />} />
                         <Route path="/gestao" element={<Gestao />} />
+                        <Route path="/admin" element={<Admin />} />
                       </Routes>
                     </Main>
                   </ProtectedRoute>
