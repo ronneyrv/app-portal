@@ -1,0 +1,9 @@
+.container-admin {
+  padding: 20px;
+  background-color: white;
+}
+.container-admin h1 {
+  color: #1976d2;
+  margin: 0;
+  font-size: 1.5rem;
+}
