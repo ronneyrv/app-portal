@@ -52,8 +52,12 @@
   width: 100%;
   overflow: hidden;
   resize: none;
-  font-size: 10px;
+  font-size: 9px;
   padding: 0.3rem;
   font-family: inherit;
   box-sizing: border-box;
+  color: #3b3b3b;
+}
+.evento-content textarea::placeholder {
+  color: #3b3b3b;
 }

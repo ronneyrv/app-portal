@@ -38,7 +38,7 @@ export default function EventosRot() {
                   <label htmlFor={id}>{item}</label>
                 </div>
                 <div className="evento-content">
-                  <textarea id={id} rows="2" onInput={autoResize} />
+                  <textarea id={id} rows="2" onInput={autoResize} placeholder="Sem ocorrências no turno."/>
                 </div>
               </div>
             );
