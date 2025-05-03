@@ -6,7 +6,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function NotificationSnackbar({ open, message, severity = "info", onClose, autoHideDuration = 4000 }) {
+export default function NotifyBar({ open, message, severity = "info", onClose, autoHideDuration = 4000 }) {
   return (
     <Snackbar
       open={open}

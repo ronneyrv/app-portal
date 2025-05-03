@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import NotificationSnackbar from "../components/NotificationSnackbar";
+import NotifyBar from "../components/NotifyBar";
 import {
   FormControl,
   InputLabel,
@@ -25,7 +25,7 @@ export default function Admin() {
   const [usuarios, setUsuarios] = useState([]);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const [snackbar, setSnackbar] = useState({
+  const [notify, setNotify] = useState({
     open: false,
     message: "",
     severity: "success",
@@ -57,7 +57,7 @@ export default function Admin() {
         `http://localhost:3001/usuarios/${usuarioSelecionado.id}`,
         usuarioSelecionado
       );
-      setSnackbar({
+      setNotify({
         open: true,
         message: "Usuário atualizado com sucesso!",
         severity: "success",
@@ -67,7 +67,7 @@ export default function Admin() {
       fetchUsuarios();
     } catch (error) {
       console.error("Erro ao atualizar usuário:", error);
-      setSnackbar({
+      setNotify({
         open: true,
         message: "Erro ao atualizar usuário.",
         severity: "error",
@@ -90,11 +90,11 @@ export default function Admin() {
 
   return (
     <div>
-      <NotificationSnackbar
-        open={snackbar.open}
-        message={snackbar.message}
-        severity={snackbar.severity}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      <NotifyBar
+        open={notify.open}
+        message={notify.message}
+        severity={notify.severity}
+        onClose={() => setNotify({ ...notify, open: false })}
       />
       <Modal
         open={open}
