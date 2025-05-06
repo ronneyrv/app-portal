@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
-import axios from "axios";
-import "../styles/signup.css";
 import logo from "../assets/images/logo_pptm.png";
-import Alert from "@mui/material/Alert";
 import MessageAlert from "../components/MessageAlert";
+import "../styles/signup.css";
 
 function Signup() {
   const [usuario, setUsuario] = useState("");
@@ -55,29 +53,36 @@ function Signup() {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/register",
-        {
-          usuario,
-          email,
-          senha,
-        },
-        {
-          withCredentials: true,
+    fetch("http://localhost:3001/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ usuario, email, senha }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+          fildAlert(res);
         }
-      );
-
-      if (response.data.type === "success") {
-        fildAlert(response.data);
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Erro ao cadastrar:", error);
-      fildAlert(error.response?.data);
-    }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          fildAlert(data);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          fildAlert(data);
+          return;
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao cadastrar:", err);
+        fildAlert(err.res?.data);
+      });
   };
 
   return (
@@ -110,7 +115,7 @@ function Signup() {
         />
         <input
           type="password"
-          placeholder="Confirmar senha"
+          placeholder="Confirme a senha"
           value={senha2}
           onChange={(e) => setSenha2(e.target.value)}
         />

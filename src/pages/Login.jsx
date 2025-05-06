@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
-import axios from "axios";
-import "../styles/login.css";
 import logo from "../assets/images/logo_pptm.png";
-import Alert from "@mui/material/Alert";
 import MessageAlert from "../components/MessageAlert";
+import "../styles/login.css";
 
 function Login() {
   const [usuario, setUsuario] = useState("");
@@ -37,27 +35,34 @@ function Login() {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/login",
-        {
-          usuario,
-          senha,
-        },
-        {
-          withCredentials: true,
+    fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ usuario, senha }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+          fildAlert(res);
         }
-      );
-
-      fildAlert(response.data);
-
-      if (response.data.type === "success") {
-        navigate("/pptm");
-      }
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      fildAlert(error.response?.data);
-    }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          fildAlert(data);
+          navigate("/pptm");
+        } else {
+          fildAlert(data);
+          return;
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao fazer login:", err);
+        fildAlert(err.res?.data);
+      });
   };
 
   return (
@@ -82,10 +87,13 @@ function Login() {
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
         />
+        <div className="password">
+          <Link to="/password">Esqueci a senha</Link>
+        </div>
+        <button type="submit">Entrar</button>
         <div className="signup">
           <Link to="/signup">Cadastrar usuário</Link>
         </div>
-        <button type="submit">Entrar</button>
       </form>
       <MessageAlert type={typeMessage} message={message} />
     </Paper>

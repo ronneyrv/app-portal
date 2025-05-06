@@ -1,19 +1,18 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Divider } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
-import { Divider } from "@mui/material";
 
 export default function MenuAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [usuario, setUsuario] = React.useState({ nome: "", nivel: "" });
-  const [loading, setLoading] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [usuario, setUsuario] = useState({ nome: "", nivel: "" });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleMenu = (event) => {
@@ -27,38 +26,59 @@ export default function MenuAppBar() {
   const admin = () => {
     navigate("/pptm/admin");
     setAnchorEl(null);
+    0;
   };
 
-  React.useEffect(() => {
-    axios
-      .get("http://localhost:3001/verificaLogin", { withCredentials: true })
-      .then((response) => {
-        if (response.data.loggedIn) {
+  useEffect(() => {
+    fetch("http://localhost:3001/verificaLogin", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.loggedIn) {
           setUsuario({
-            nome: response.data.user.usuario,
-            nivel: response.data.user.nivel,
+            nome: data.user.usuario,
+            nivel: data.user.nivel,
           });
         }
       })
-      .catch((error) => {
-        console.error("Erro ao verificar login:", error);
+      .catch((err) => {
+        console.error("Erro ao verificar login:", err);
       });
   }, []);
 
   const handleLogout = () => {
     setLoading(true);
-    axios
-      .post("http://localhost:3001/logout", {}, { withCredentials: true })
-      .then(() => {
-        setUsuario("");
-        navigate("/");
+    fetch("http://localhost:3001/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
       })
-      .catch((error) => {
-        console.error("Erro ao realizar logout:", error);
+      .then((data) => {
+        if (data.type === "success") {
+          setUsuario("");
+          navigate("/");
+        } else {
+          return;
+        }
       })
-      .finally(() => {
-        setLoading(false);
+      .catch((err) => {
+        console.error("Erro ao realizar logout:", err);
       });
+    setLoading(false);
   };
 
   return (

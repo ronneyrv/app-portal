@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -35,14 +34,26 @@ export default function Admin() {
   }, []);
 
   const fetchUsuarios = async () => {
-    try {
-      const res = await axios.get("http://localhost:3001/usuarios", {
-        withCredentials: true,
+    fetch("http://localhost:3001/usuarios", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setUsuarios(data);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar usuários:", err);
+        setNotify({
+          open: true,
+          message: "Erro ao buscar usuários",
+          severity: "error",
+        });
       });
-      setUsuarios(res.data);
-    } catch (err) {
-      console.error("Erro ao buscar usuários:", err);
-    }
   };
 
   const handleEdit = (user) => {
@@ -52,27 +63,45 @@ export default function Admin() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put(
-        `http://localhost:3001/usuarios/${usuarioSelecionado.id}`,
-        usuarioSelecionado
-      );
-      setNotify({
-        open: true,
-        message: "Usuário atualizado com sucesso!",
-        severity: "success",
-      });
 
-      handleClose();
-      fetchUsuarios();
-    } catch (error) {
-      console.error("Erro ao atualizar usuário:", error);
-      setNotify({
-        open: true,
-        message: "Erro ao atualizar usuário.",
-        severity: "error",
+    fetch(`http://localhost:3001/usuarios/${usuarioSelecionado.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(usuarioSelecionado),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          setNotify({
+            open: true,
+            message: data.message,
+            severity: "success",
+          });
+          handleClose();
+          fetchUsuarios();
+        } else {
+          setNotify({
+            open: true,
+            message: data.message,
+            severity: data.type,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Erro de rede ou algo muito grave:", err);
+        setNotify({
+          open: true,
+          message: "Erro ao atualizar usuário.",
+          severity: "error",
+        });
       });
-    }
   };
 
   const style = {
