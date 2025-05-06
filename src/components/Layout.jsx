@@ -10,6 +10,7 @@ import LoadingSpinner from "../components/LoadingSpinner"
 
 const Login = lazy(() => import("../pages/Login"));
 const SignUp = lazy(() => import("../pages/Signup"));
+const Password = lazy(() => import("../pages/Password"));
 const Home = lazy(() => import("../pages/Home"));
 const Estoque = lazy(() => import("../pages/Estoque"));
 const Descarregamento = lazy(() => import("../pages/Descarregamento"));
@@ -42,6 +43,7 @@ const Layout = () => {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/password" element={<Password />} />
               <Route
                 path="/pptm/*"
                 element={
