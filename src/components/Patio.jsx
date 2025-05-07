@@ -1,4 +1,4 @@
-import "../styles/patio.css";
+import { useState, useEffect } from "react";
 import SignalWifiStatusbar4BarIcon from "@mui/icons-material/SignalWifiStatusbar4Bar";
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import SignalWifiConnectedNoInternet4Icon from "@mui/icons-material/SignalWifiConnectedNoInternet4";
@@ -6,18 +6,77 @@ import Divider from "@mui/material/Divider";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import GppBadIcon from "@mui/icons-material/GppBad";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+
+import NotifyBar from "../components/NotifyBar";
+
 import alturas from "../assets/config/DataAlturas";
-import canhoes from "../assets/config/DataCanhoes";
-import stqPolimero from "../assets/config/DataStdPolimero";
 import polimero from "../assets/config/DataPolimero";
+import stqPolimero from "../assets/config/DataStdPolimero";
 import sisUmectacao from "../assets/config/DataSisUmectacao";
 
+import "../styles/patio.css";
+
 export default function Patio() {
+  const [canhoes, setCanhoes] = useState([]);
+  const [canhaoSelecionado, setCanhaoSelecionado] = useState(null);
+  const [modoSelecionado, setModoSelecionado] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [notify, setNotify] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  useEffect(() => {fetchCanhoes()}, []);
 
   const iconMap = {
-    SignalWifiStatusbar4BarIcon,
-    SignalWifiConnectedNoInternet4Icon,
-    SignalWifiOffIcon,
+    disponivel: (
+      <SignalWifiStatusbar4BarIcon
+        sx={{
+          fontSize: 20,
+          color: "#76ff03",
+        }}
+      />
+    ),
+    indisponivel: (
+      <SignalWifiConnectedNoInternet4Icon
+        sx={{
+          fontSize: 20,
+          color: "#FF0000",
+        }}
+      />
+    ),
+    desabilitado: (
+      <SignalWifiOffIcon
+        sx={{
+          fontSize: 20,
+          color: "#757575",
+        }}
+      />
+    ),
+  };
+
+  const rotationMap = {
+    cima: "0deg",
+    baixo: "180deg",
+  };
+
+  const handleClose = () => setOpen(false);
+
+  const configCanhao = (id, modo) => {
+    setCanhaoSelecionado(id);
+    setModoSelecionado(modo);
+    setOpen(true);
   };
 
   const calcEstiloTopo = (id, altura) => {
@@ -44,210 +103,348 @@ export default function Patio() {
     </div>
   );
 
+  const fetchCanhoes = () => {
+    fetch("http://localhost:3001/canhoes", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          setCanhoes(data.data);
+        } else {
+          console.error("Erro ao buscar canhoes");
+        }
+      })
+      .catch((error) => {
+        console.error("Erro de rede:", error);
+      });
+  };
+
+  const handleUpdateCanhao = async (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:3001/canhoes/${canhaoSelecionado}`, {
+      credentials: "include",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ modo: modoSelecionado }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          setNotify({
+            open: true,
+            message: data.message,
+            severity: "success",
+          });
+          handleClose();
+          fetchCanhoes();
+        } else {
+          setNotify({
+            open: true,
+            message: data.message,
+            severity: data.type,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Erro na base de dados:", err);
+        setNotify({
+          open: true,
+          message: "Erro ao atualizar usuário.",
+          severity: "error",
+        });
+      });
+  };
+
   return (
-    <div className="containe-patio">
-      <div className=" layout">
-        <div className="patio">
-          <div className="patio-3">
-            <div className="can-linha-6">
-              {[...canhoes.slice(45, 54).reverse()].map((item, index) => {
-                const IconComponent = iconMap[item.icon];
-                return (
-                  <div key={index} title={item.can}>
-                    <IconComponent
-                      sx={{
-                        color: item.cor,
-                        fontSize: 20,
-                        transform: item.lado,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="pilhas">
-              <div className="pilha-3B">{renderPilha("3B")}</div>
-              <div className="pilha-3A">{renderPilha("3A")}</div>
-            </div>
-            <div className="can-linha-5">
-              {[...canhoes.slice(36, 45).reverse()].map((item, index) => {
-                const IconComponent = iconMap[item.icon];
-                return (
-                  <div key={index} title={item.can}>
-                    <IconComponent
-                      sx={{
-                        color: item.cor,
-                        fontSize: 20,
-                        transform: item.lado,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <Divider />
-          <div className="patio-2">
-            <div className="can-linha-4">
-              {[...canhoes.slice(27, 36).reverse()].map((item, index) => {
-                const IconComponent = iconMap[item.icon];
-                return (
-                  <div key={index} title={item.can}>
-                    <IconComponent
-                      sx={{
-                        color: item.cor,
-                        fontSize: 20,
-                        transform: item.lado,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="pilhas">
-              <div className="pilha-2D">{renderPilha("2D")}</div>
-              <div className="pilha-2C">{renderPilha("2C")}</div>
-              <div className="pilha-2B">{renderPilha("2B")}</div>
-              <div className="pilha-2A">{renderPilha("2A")}</div>
-            </div>
-            <div className="can-linha-3">
-              {[...canhoes.slice(18, 27).reverse()].map((item, index) => {
-                const IconComponent = iconMap[item.icon];
-                return (
-                  <div key={index} title={item.can}>
-                    <IconComponent
-                      sx={{
-                        color: item.cor,
-                        fontSize: 20,
-                        transform: item.lado,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <Divider />
-          <div className="patio-1">
-            <div className="can-linha-2">
-              {[...canhoes.slice(9, 18).reverse()].map((item, index) => {
-                const IconComponent = iconMap[item.icon];
-                return (
-                  <div key={index} title={item.can}>
-                    <IconComponent
-                      sx={{
-                        color: item.cor,
-                        fontSize: 20,
-                        transform: item.lado,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="pilhas">
-              <div className="pilha-1B">{renderPilha("1B")}</div>
-              <div className="pilha-1A">{renderPilha("1A")}</div>
-            </div>
-
-            <div className="can-linha-1">
-              {[...canhoes.slice(0, 9).reverse()].map((item, index) => {
-                const IconComponent = iconMap[item.icon];
-                return (
-                  <div key={index} title={item.can}>
-                    <IconComponent
-                      sx={{
-                        color: item.cor,
-                        fontSize: 20,
-                        transform: item.lado,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="observacao">
-        <div className="polimero">
-          <h3>Validade do Polímero</h3>
-          {polimero.map((item) => (
-            <div
-              key={item.pilha}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "3px",
-              }}
-            >
-              <WaterDropIcon style={{ fontSize: 15, color: item.cor }} />
-              <span>
-                {item.pilha}: {item.validade} - {item.acao}
-              </span>
-            </div>
-          ))}
-          <label>Estoque de Polímero:</label>
-          <div className="stqPol">
-            {stqPolimero.map((item, index) => (
-              <div key={index}>
-                {item.cliente}: {item.litro} litros
+    <>
+      <NotifyBar
+        open={notify.open}
+        message={notify.message}
+        severity={notify.severity}
+        onClose={() => setNotify({ ...notify, open: false })}
+      />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 300,
+            bgcolor: "background.paper",
+            borderRadius: "12px",
+            border: "none",
+            boxShadow: 24,
+            p: 2,
+          }}
+        >
+          {
+            <form onSubmit={handleUpdateCanhao}>
+              <div style={{ width: "100%", textAlign: "center" }}>
+                <Typography variant="h4">{canhaoSelecionado}</Typography>
               </div>
-            ))}
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="status-label">Status</InputLabel>
+                <Select
+                  labelId="status-label"
+                  value={modoSelecionado}
+                  label="Status"
+                  onChange={(e) => setModoSelecionado(e.target.value)}
+                >
+                  <MenuItem value="disponivel">DISPONÍVEL</MenuItem>
+                  <MenuItem value="indisponivel">INDISPONÍVEL</MenuItem>
+                  <MenuItem value="desabilitado">DESABILITADO</MenuItem>
+                </Select>
+              </FormControl>
+              <Button type="submit" variant="contained" color="primary">
+                Salvar
+              </Button>
+            </form>
+          }
+        </Box>
+      </Modal>
+
+      <div className="containe-patio">
+        <div className=" layout">
+          <div className="patio">
+            <div className="patio-3">
+              <div className="can-linha-6">
+                {[...canhoes.slice(45, 54).reverse()].map((item, index) => {
+                  const IconComponent = iconMap[item.modo];
+                  const rotation = rotationMap[item.posicao] || "0deg";
+                  return (
+                    <div key={index} title={item.can}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transform: `rotate(${rotation})`,
+                        }}
+                        onClick={() => configCanhao(item.can, item.modo)}
+                      >
+                        {IconComponent}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="pilhas">
+                <div className="pilha-3B">{renderPilha("3B")}</div>
+                <div className="pilha-3A">{renderPilha("3A")}</div>
+              </div>
+              <div className="can-linha-5">
+                {[...canhoes.slice(36, 45).reverse()].map((item, index) => {
+                  const IconComponent = iconMap[item.modo];
+                  const rotation = rotationMap[item.posicao] || "0deg";
+                  return (
+                    <div key={index} title={item.can}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transform: `rotate(${rotation})`,
+                        }}
+                        onClick={() => configCanhao(item.can, item.modo)}
+                      >
+                        {IconComponent}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Divider />
+            <div className="patio-2">
+              <div className="can-linha-4">
+                {[...canhoes.slice(27, 36).reverse()].map((item, index) => {
+                  const IconComponent = iconMap[item.modo];
+                  const rotation = rotationMap[item.posicao] || "0deg";
+                  return (
+                    <div key={index} title={item.can}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transform: `rotate(${rotation})`,
+                        }}
+                        onClick={() => configCanhao(item.can, item.modo)}
+                      >
+                        {IconComponent}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="pilhas">
+                <div className="pilha-2D">{renderPilha("2D")}</div>
+                <div className="pilha-2C">{renderPilha("2C")}</div>
+                <div className="pilha-2B">{renderPilha("2B")}</div>
+                <div className="pilha-2A">{renderPilha("2A")}</div>
+              </div>
+              <div className="can-linha-3">
+                {[...canhoes.slice(18, 27).reverse()].map((item, index) => {
+                  const IconComponent = iconMap[item.modo];
+                  const rotation = rotationMap[item.posicao] || "0deg";
+                  return (
+                    <div key={index} title={item.can}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transform: `rotate(${rotation})`,
+                        }}
+                        onClick={() => configCanhao(item.can, item.modo)}
+                      >
+                        {IconComponent}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Divider />
+            <div className="patio-1">
+              <div className="can-linha-2">
+                {[...canhoes.slice(9, 18).reverse()].map((item, index) => {
+                  const IconComponent = iconMap[item.modo];
+                  const rotation = rotationMap[item.posicao] || "0deg";
+                  return (
+                    <div key={index} title={item.can}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transform: `rotate(${rotation})`,
+                        }}
+                        onClick={() => configCanhao(item.can, item.modo)}
+                      >
+                        {IconComponent}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="pilhas">
+                <div className="pilha-1B">{renderPilha("1B")}</div>
+                <div className="pilha-1A">{renderPilha("1A")}</div>
+              </div>
+
+              <div className="can-linha-1">
+                {[...canhoes.slice(0, 9).reverse()].map((item, index) => {
+                  const IconComponent = iconMap[item.modo];
+                  const rotation = rotationMap[item.posicao] || "0deg";
+                  return (
+                    <div key={index} title={item.can}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transform: `rotate(${rotation})`,
+                        }}
+                        onClick={() => configCanhao(item.can, item.modo)}
+                      >
+                        {IconComponent}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
-        <Divider />
+        <div className="observacao">
         <div className="umectacao">
-          <h3>Sistema de Umectação</h3>
-          <div>
-            {sisUmectacao.map((item, index) => (
-              <div key={index} className="umectacao-status">
-                {item.disponível ? (
-                  <GppGoodIcon style={{ fontSize: 20, color: "#76ff03" }} />
-                ) : (
-                  <GppBadIcon style={{ fontSize: 20, color: "#ff1744" }} />
-                )}
-                {item.disponível ? (
-                  <h4>Sistema Disponível</h4>
-                ) : (
-                  <h4>Sistema Indisponível</h4>
-                )}
-              </div>
-            ))}
+            <h3>Sistema de Umectação</h3>
+            <div>
+              {sisUmectacao.map((item, index) => (
+                <div key={index} className="umectacao-status">
+                  {item.disponível ? (
+                    <GppGoodIcon style={{ fontSize: 20, color: "#76ff03" }} />
+                  ) : (
+                    <GppBadIcon style={{ fontSize: 20, color: "#ff1744" }} />
+                  )}
+                  {item.disponível ? (
+                    <h4>Sistema Disponível</h4>
+                  ) : (
+                    <h4>Sistema Indisponível</h4>
+                  )}
+                </div>
+              ))}
 
-            <div className="umectacao-legenda">
-              <label>Legenda:</label>
-              <div className="legenda">
-                <div>
-                  <SignalWifiStatusbar4BarIcon
-                    style={{ fontSize: 15, color: "#76ff03" }}
-                  />
-                  <span>DISPONÍVEL</span>
-                </div>
-                <div>
-                  <SignalWifiOffIcon
-                    style={{ fontSize: 15, color: "#757575" }}
-                  />
-                  <span>DESABILITADO</span>
-                </div>
-                <div>
-                  <SignalWifiConnectedNoInternet4Icon
-                    style={{ fontSize: 15, color: "#FF0000" }}
-                  />
-                  <span>INDISPONÍVEL</span>
+              <div className="umectacao-legenda">
+                <label>Legenda:</label>
+                <div className="legenda">
+                  <div>
+                    <SignalWifiStatusbar4BarIcon
+                      style={{ fontSize: 15, color: "#76ff03" }}
+                    />
+                    <span>DISPONÍVEL</span>
+                  </div>
+                  <div>
+                    <SignalWifiOffIcon
+                      style={{ fontSize: 15, color: "#757575" }}
+                    />
+                    <span>DESABILITADO</span>
+                  </div>
+                  <div>
+                    <SignalWifiConnectedNoInternet4Icon
+                      style={{ fontSize: 15, color: "#FF0000" }}
+                    />
+                    <span>INDISPONÍVEL</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <Divider />
+          <Divider />
 
-        <div className="obs">
-          <h3>Observações:</h3>
-          <textarea rows={7}></textarea>
+          <div className="polimero">
+            <h3>Validade do Polímero</h3>
+            {polimero.map((item) => (
+              <div
+                key={item.pilha}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "3px",
+                }}
+              >
+                <WaterDropIcon style={{ fontSize: 15, color: item.cor }} />
+                <span>
+                  {item.pilha}: {item.validade} - {item.acao}
+                </span>
+              </div>
+            ))}
+            <label>Estoque de Polímero:</label>
+            <div className="stqPol">
+              {stqPolimero.map((item, index) => (
+                <div key={index}>
+                  {item.cliente}: {item.litro} litros
+                </div>
+              ))}
+            </div>
+          </div>
+          <Divider />
+
+          <div className="obs">
+            <h3>Observações:</h3>
+            <textarea rows={7}></textarea>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

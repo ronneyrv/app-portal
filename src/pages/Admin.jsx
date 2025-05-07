@@ -65,6 +65,7 @@ export default function Admin() {
     e.preventDefault();
 
     fetch(`http://localhost:3001/usuarios/${usuarioSelecionado.id}`, {
+      credentials: "include",
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
