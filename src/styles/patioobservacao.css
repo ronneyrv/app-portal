@@ -1,0 +1,15 @@
+.obs textarea {
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  font-size: 10px;
+  padding: 0.3rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.obs h3 {
+  margin: 0;
+}
+.obs label {
+  font-size: 10px;
+}

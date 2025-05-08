@@ -1,21 +1,8 @@
-.containe-patio {
-  height: 100%;
-  padding: 5px;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
 div {
   box-sizing: border-box;
 }
-.layout {
-  width: 100%;
-  background: #fff;
-  border-radius: 4px;
-}
 .patio {
-  margin: 5px;
+  height: 100%;
 }
 .patio-1,
 .patio-2,
@@ -94,61 +81,3 @@ div {
   gap: 30px;
 }
 
-.observacao {
-  background-color: #fff;
-  width: 300px;
-  border-radius: 4px;
-  font-weight: bold;
-  text-align: center;
-  padding: 3px;
-}
-
-.observacao textarea {
-  width: 100%;
-  overflow: hidden;
-  resize: none;
-  font-size: 10px;
-  padding: 0.3rem;
-  font-family: inherit;
-  box-sizing: border-box;
-}
-.observacao h3 {
-  margin: 0;
-}
-.observacao label {
-  font-size: 10px;
-}
-.stqPol {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 0 3px;
-  font-size: 10px;
-}
-.umectacao-status {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-left: 10px;
-}
-.umectacao-status h4 {
-  margin: 0;
-}
-.umectacao-legenda {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f0f0f0;
-  margin-bottom: 3px;
-}
-.legenda {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-.legenda div {
-  font-size: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
