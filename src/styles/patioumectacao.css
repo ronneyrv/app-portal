@@ -1,0 +1,36 @@
+.umectacao {
+  padding: 3px;
+}
+.umectacao h3 {
+  margin: 0;
+}
+.umectacao-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.umectacao-status:hover {
+  background-color: #7db3f1;
+}
+.umectacao-status h4 {
+  margin: 0;
+}
+.umectacao-legenda {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  margin-bottom: 3px;
+}
+.legenda {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.legenda div {
+  font-size: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
