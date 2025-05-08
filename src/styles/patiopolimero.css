@@ -1,0 +1,22 @@
+.polimero {
+  padding: 3px;
+}
+.polimero h3 {
+  margin: 0;
+}
+.row-polimero {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+.row-polimero:hover {
+  background-color: #f0f0f0;
+}
+.stqPol {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0 3px;
+  font-size: 10px;
+}
