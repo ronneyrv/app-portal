@@ -2,9 +2,12 @@ import { useState } from "react";
 import operacao from "../assets/config/DataOperacao";
 import '../styles/headerrot.css';
 
-export default function HeaderRot() {
-  const [dataSelecionada, setDataSelecionada] = useState("");
-  const [turnoSelecionado, setTurnoSelecionado] = useState("");
+export default function HeaderRot({
+  dataSelecionada,
+  setDataSelecionada,
+  turnoSelecionado,
+  setTurnoSelecionado,
+}) {
   const [equipeSelecionada, setEquipeSelecionada] = useState("");
   const [elaboradorSelecionado, setElaboradorSelecionado] = useState("");
   const [elaboradores, setElaboradores] = useState([]);
@@ -46,8 +49,8 @@ export default function HeaderRot() {
           onChange={handleTurnoChange}
         >
           <option value="">Selecione</option>
-          <option value="manha">07:30 as 19:30</option>
-          <option value="noite">19:30 as 07:30</option>
+          <option value="DIA">07:30 as 19:30</option>
+          <option value="NOITE">19:30 as 07:30</option>
         </select>
       </div>
       <div>

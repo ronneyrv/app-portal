@@ -1,32 +1,83 @@
-import '../styles/retomaturno.css';
+import { useEffect, useState } from "react";
+import "../styles/retomaturno.css";
 
-export default function RetomaTurno({dados}) {
-    return(
-        <div className="tabela-container">
-        <table className="tabela-retomado">
-          <thead>
+export default function RetomaTurno({ dataSelecionada, turnoSelecionado }) {
+  const [retomado, setRetomado] = useState([]);
+
+  const dataFormatada = (d) => {
+    const data = new Date(d);
+    const dataStr = data.toLocaleDateString("pt-BR");
+    const horaStr = data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${dataStr} ${horaStr}`;
+  };
+
+  useEffect(() => {
+    setRetomado([]);
+
+    if (dataSelecionada && turnoSelecionado) {
+      fetch("http://localhost:3001/retomado", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          data: dataSelecionada,
+          turno: turnoSelecionado,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            console.error("HTTP status:", res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.type === "success") {
+            setRetomado(data.data);
+          }
+        })
+        .catch((err) => {
+          console.error("Erro ao buscar o retomado:", err);
+        });
+    }
+  }, [dataSelecionada, turnoSelecionado]);
+
+  return (
+    <div className="tabela-container">
+      <table className="tabela-retomado">
+        <thead>
+          <tr>
+            <th>Unidade</th>
+            <th>Equipamento</th>
+            <th>Pilha</th>
+            <th>Início</th>
+            <th>Fim</th>
+            <th>Volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          {retomado.length === 0 ? (
             <tr>
-              <th>Unidade</th>
-              <th>Equipamento</th>
-              <th>Pilha</th>
-              <th>Início</th>
-              <th>Fim</th>
-              <th>Volume</th>
+              <td colSpan="6">Sem retoma no turno</td>
             </tr>
-          </thead>
-          <tbody>
-            {dados.map((item, index) => (
+          ) : (
+            retomado.map((item, index) => (
               <tr key={index}>
-                <td>{item.unidade}</td>
-                <td>{item.equipamento}</td>
+                <td>{item.ug}</td>
+                <td>{item.maquina}</td>
                 <td>{item.pilha}</td>
-                <td>{item.inicio}</td>
-                <td>{item.fim}</td>
-                <td>{item.volume}</td>
+                <td>{dataFormatada(item.inicio)}</td>
+                <td>{dataFormatada(item.fim)}</td>
+                <td>{item.volume} t</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    )
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
 }
