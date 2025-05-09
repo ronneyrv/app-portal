@@ -1,11 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/progretoma.css";
 
-export default function Prog({ dados }) {
+export default function Prog() {
+  const [progRetoma, setprogRetoma] = useState([]);
+  const [semana, setSemana] = useState(0);
   const [hovered, setHoveredIndex] = useState(false);
   const [hovered2, setHovered2Index] = useState(false);
   const [hovered3, setHovered3Index] = useState(false);
   const [hovered4, setHovered4Index] = useState(false);
+
+  const dataFormatada = (d) => new Date(d).toLocaleDateString("pt-BR");
+
+  const definirSemana = () => {
+    const hoje = new Date();
+    const primeiroDiaDoAno = new Date(hoje.getFullYear(), 0, 1);
+    const diaSemana = primeiroDiaDoAno.getDay();
+    const ajustePrimeiroDia = diaSemana === 0 ? 6 : diaSemana - 1; // Ajustar para começar a semana na segunda (segunda = 1, domingo = 7)
+    const msPorDia = 24 * 60 * 60 * 1000;
+    const diasDesdePrimeiro =
+      Math.floor((hoje - primeiroDiaDoAno) / msPorDia) + ajustePrimeiroDia;
+    const semanaAtual = Math.ceil(diasDesdePrimeiro / 7) + 1;
+    setSemana(semanaAtual);
+  };
+
+  useEffect(() => {
+    definirSemana();
+  }, []);
+
+  useEffect(() => {
+    if (semana === 0) return;
+
+    fetch(`http://localhost:3001/prog-retoma/${semana}`, {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          setprogRetoma(data.data);
+        } else {
+          console.error(data.message);
+          setprogRetoma([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro de rede:", error);
+        setprogRetoma([]);
+      });
+  }, [semana]);
+
   return (
     <table className="prog-tabela">
       <thead>
@@ -23,13 +70,27 @@ export default function Prog({ dados }) {
           </th>
         </tr>
         <tr>
-          <th colSpan="2">{dados[1].dia}</th>
-          <th colSpan="2">{dados[5].dia}</th>
-          <th colSpan="2">{dados[9].dia}</th>
-          <th colSpan="2">{dados[13].dia}</th>
-          <th colSpan="2">{dados[17].dia}</th>
-          <th colSpan="2">{dados[21].dia}</th>
-          <th colSpan="2">{dados[25].dia}</th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[0].dia) : "?"}
+          </th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[1].dia) : "?"}
+          </th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[2].dia) : "?"}
+          </th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[3].dia) : "?"}
+          </th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[4].dia) : "?"}
+          </th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[5].dia) : "?"}
+          </th>
+          <th colSpan="2">
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[6].dia) : "?"}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -44,34 +105,52 @@ export default function Prog({ dados }) {
           <td rowSpan="2" className="col-2">
             Retoma
           </td>
-          <td>{dados[1].pilha}</td>
-          <td>Stacker {dados[1].stacker}</td>
-          <td>{dados[5].pilha}</td>
-          <td>Stacker {dados[5].stacker}</td>
-          <td>{dados[9].pilha}</td>
-          <td>Stacker {dados[9].stacker}</td>
-          <td>{dados[13].pilha}</td>
-          <td>Stacker {dados[13].stacker}</td>
-          <td>{dados[17].pilha}</td>
-          <td>Stacker {dados[17].stacker}</td>
-          <td>{dados[21].pilha}</td>
-          <td>Stacker {dados[21].stacker}</td>
-          <td>{dados[25].pilha}</td>
-          <td>Stacker {dados[25].stacker}</td>
-          <td rowSpan="2" className="col-fix">{dados[1].obs}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].maquina_ug1 : "?"}</td>
+          <td rowSpan="2" className="col-fix">
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_ug1
+              : `Programação Semana ${semana} não foi definida!`}
+          </td>
         </tr>
         <tr
           className={hovered === true ? "highlight-col ug-tr par" : "ug-tr par"}
           onMouseEnter={() => setHoveredIndex(true)}
           onMouseLeave={() => setHoveredIndex(false)}
         >
-          <td colSpan="2" className="row-fix">{dados[1].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[5].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[9].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[13].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[17].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[21].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[25].navio}</td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[0].navio_ug1 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[1].navio_ug1 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[2].navio_ug1 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[3].navio_ug1 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[4].navio_ug1 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[5].navio_ug1 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[6].navio_ug1 : "?"}
+          </td>
         </tr>
 
         <tr
@@ -87,21 +166,25 @@ export default function Prog({ dados }) {
           <td rowSpan="2" className="col-2">
             Retoma
           </td>
-          <td>{dados[2].pilha}</td>
-          <td>Stacker {dados[2].stacker}</td>
-          <td>{dados[6].pilha}</td>
-          <td>Stacker {dados[6].stacker}</td>
-          <td>{dados[10].pilha}</td>
-          <td>Stacker {dados[10].stacker}</td>
-          <td>{dados[14].pilha}</td>
-          <td>Stacker {dados[14].stacker}</td>
-          <td>{dados[18].pilha}</td>
-          <td>Stacker {dados[18].stacker}</td>
-          <td>{dados[22].pilha}</td>
-          <td>Stacker {dados[22].stacker}</td>
-          <td>{dados[26].pilha}</td>
-          <td>Stacker {dados[26].stacker}</td>
-          <td rowSpan="2" className="col-fix">{dados[2].obs}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].maquina_ug2 : "?"}</td>
+          <td rowSpan="2" className="col-fix">
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_ug2
+              : `Programação Semana ${semana} não foi definida!`}
+          </td>
         </tr>
         <tr
           className={
@@ -110,13 +193,27 @@ export default function Prog({ dados }) {
           onMouseEnter={() => setHovered2Index(true)}
           onMouseLeave={() => setHovered2Index(false)}
         >
-          <td colSpan="2" className="row-fix">{dados[2].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[6].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[10].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[14].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[18].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[22].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[26].navio}</td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[0].navio_ug2 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[1].navio_ug2 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[2].navio_ug2 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[3].navio_ug2 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[4].navio_ug2 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[5].navio_ug2 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[6].navio_ug2 : "?"}
+          </td>
         </tr>
 
         <tr
@@ -132,21 +229,25 @@ export default function Prog({ dados }) {
           <td rowSpan="2" className="col-2">
             Retoma
           </td>
-          <td>{dados[3].pilha}</td>
-          <td>Stacker {dados[3].stacker}</td>
-          <td>{dados[7].pilha}</td>
-          <td>Stacker {dados[7].stacker}</td>
-          <td>{dados[11].pilha}</td>
-          <td>Stacker {dados[11].stacker}</td>
-          <td>{dados[15].pilha}</td>
-          <td>Stacker {dados[15].stacker}</td>
-          <td>{dados[19].pilha}</td>
-          <td>Stacker {dados[19].stacker}</td>
-          <td>{dados[23].pilha}</td>
-          <td>Stacker {dados[23].stacker}</td>
-          <td>{dados[27].pilha}</td>
-          <td>Stacker {dados[27].stacker}</td>
-          <td rowSpan="2" className="col-fix">{dados[3].obs}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].maquina_ug3 : "?"}</td>
+          <td rowSpan="2" className="col-fix">
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_ug3
+              : `Programação Semana ${semana} não foi definida!`}
+          </td>
         </tr>
         <tr
           className={
@@ -155,13 +256,27 @@ export default function Prog({ dados }) {
           onMouseEnter={() => setHovered3Index(true)}
           onMouseLeave={() => setHovered3Index(false)}
         >
-          <td colSpan="2" className="row-fix">{dados[3].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[7].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[11].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[15].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[19].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[23].navio}</td>
-          <td colSpan="2" className="row-fix">{dados[27].navio}</td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[0].navio_ug3 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[1].navio_ug3 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[2].navio_ug3 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[3].navio_ug3 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[4].navio_ug3 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[5].navio_ug3 : "?"}
+          </td>
+          <td colSpan="2" className="row-fix">
+            {progRetoma.length > 0 ? progRetoma[6].navio_ug3 : "?"}
+          </td>
         </tr>
         <tr
           className={
@@ -173,21 +288,25 @@ export default function Prog({ dados }) {
           <td rowSpan="2" colSpan="2" className="col-3">
             Empilha
           </td>
-          <td>{dados[0].pilha}</td>
-          <td>Stacker {dados[0].stacker}</td>
-          <td>{dados[4].pilha}</td>
-          <td>Stacker {dados[4].stacker}</td>
-          <td>{dados[8].pilha}</td>
-          <td>Stacker {dados[8].stacker}</td>
-          <td>{dados[12].pilha}</td>
-          <td>Stacker {dados[12].stacker}</td>
-          <td>{dados[16].pilha}</td>
-          <td>Stacker {dados[16].stacker}</td>
-          <td>{dados[20].pilha}</td>
-          <td>Stacker {dados[20].stacker}</td>
-          <td>{dados[24].pilha}</td>
-          <td>Stacker {dados[24].stacker}</td>
-          <td rowSpan="2" className="col-fix">{dados[0].obs}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td rowSpan="2" className="col-fix">
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_empilha
+              : `Programação Semana ${semana} não foi definida!`}
+          </td>
         </tr>
         <tr
           className={
@@ -196,13 +315,27 @@ export default function Prog({ dados }) {
           onMouseEnter={() => setHovered4Index(true)}
           onMouseLeave={() => setHovered4Index(false)}
         >
-          <td colSpan="2" className="row-fix2">{dados[0].navio}</td>
-          <td colSpan="2" className="row-fix2">{dados[4].navio}</td>
-          <td colSpan="2" className="row-fix2">{dados[8].navio}</td>
-          <td colSpan="2" className="row-fix2">{dados[12].navio}</td>
-          <td colSpan="2" className="row-fix2">{dados[16].navio}</td>
-          <td colSpan="2" className="row-fix2">{dados[20].navio}</td>
-          <td colSpan="2" className="row-fix2">{dados[24].navio}</td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[0].navio_empilha : "?"}
+          </td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[1].navio_empilha : "?"}
+          </td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[2].navio_empilha : "?"}
+          </td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[3].navio_empilha : "?"}
+          </td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[4].navio_empilha : "?"}
+          </td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[5].navio_empilha : "?"}
+          </td>
+          <td colSpan="2" className="row-fix2">
+            {progRetoma.length > 0 ? progRetoma[6].navio_empilha : "?"}
+          </td>
         </tr>
       </tbody>
     </table>
