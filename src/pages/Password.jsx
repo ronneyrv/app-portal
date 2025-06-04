@@ -15,6 +15,7 @@ function Password() {
 
   function fildAlert(data) {
     switch (data.type) {
+      case "info":
       case "success":
       case "error":
       case "warning":
@@ -26,39 +27,43 @@ function Password() {
         setMessage("Algo inesperado ocorreu.");
         break;
     }
+    setTimeout(() => {
+      setTypeMessage("");
+      setMessage("");
+    }, 3000);
   }
 
-  const handleSignup = async (e) => {
+  const handleNewPassword = async (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || !novaSenha || !novaSenha2) {
-      fildAlert({ type: "warning", message: "Preencha todos os campos" });
+      fildAlert({ type: "info", message: "Preencha todos os campos" });
       return;
     }
 
     if (!emailRegex.test(email)) {
-      fildAlert({ type: "warning", message: "e-mail inválido" });
+      fildAlert({ type: "info", message: "e-mail inválido" });
       return;
     }
 
     if (novaSenha.length < 6) {
-      fildAlert({ type: "warning", message: "Senha menor que 6 dígitos" });
+      fildAlert({ type: "info", message: "Senha menor que 6 dígitos" });
       return;
     }
 
     if (novaSenha !== novaSenha2) {
-      fildAlert({ type: "warning", message: "As senhas não coincidem" });
+      fildAlert({ type: "info", message: "As senhas não coincidem" });
       return;
     }
 
-    fetch("http://localhost:3001/reset-password", {
-      method: "POST",
+    fetch("http://localhost:3001/usuario", {
+      method: "PUT",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
-      body: JSON.stringify({ email, novaSenha }),
+      body: JSON.stringify({ email: email, senha: novaSenha }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -69,10 +74,12 @@ function Password() {
       })
       .then((data) => {
         if (data.type === "success") {
+          
           fildAlert(data);
           setTimeout(() => {
             navigate("/");
-          }, 2000);
+          }, 3000);
+
         } else {
           fildAlert(data);
           return;
@@ -88,7 +95,7 @@ function Password() {
     <Paper className="container-reset" elevation={3}>
       <img src={logo} alt="Logo PPTM" />
       <h4>Redefinir senha</h4>
-      <form onSubmit={handleSignup}>
+      <form onSubmit={handleNewPassword}>
         <input
           type="email"
           placeholder="E-mail cadastrado"

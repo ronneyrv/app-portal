@@ -29,6 +29,7 @@ export default function Admin() {
     message: "",
     severity: "success",
   });
+
   useEffect(() => {
     fetchUsuarios();
   }, []);
@@ -44,7 +45,15 @@ export default function Admin() {
         return res.json();
       })
       .then((data) => {
-        setUsuarios(data);
+        if (data.type === "success") {
+          setUsuarios(data.data);
+        } else {
+          setNotify({
+            open: true,
+            message: data.message,
+            severity: data.type,
+          });
+        }
       })
       .catch((err) => {
         console.error("Erro ao buscar usuários:", err);
@@ -64,13 +73,17 @@ export default function Admin() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    fetch(`http://localhost:3001/usuarios/${usuarioSelecionado.id}`, {
-      credentials: "include",
+    fetch("http://localhost:3001/usuario", {
       method: "PUT",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(usuarioSelecionado),
+      body: JSON.stringify({
+        usuario: usuarioSelecionado.usuario,
+        email: usuarioSelecionado.email,
+        permissao: usuarioSelecionado.permissao,
+      }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -145,6 +158,7 @@ export default function Admin() {
                     usuario: e.target.value,
                   })
                 }
+                disabled
                 margin="normal"
               />
               <TextField
@@ -157,18 +171,19 @@ export default function Admin() {
                     email: e.target.value,
                   })
                 }
+                disabled
                 margin="normal"
               />
               <FormControl fullWidth margin="normal">
                 <InputLabel id="nivel-label">Nível</InputLabel>
                 <Select
                   labelId="nivel-label"
-                  value={usuarioSelecionado.nivel_permissao}
+                  value={usuarioSelecionado.permissao}
                   label="Nível"
                   onChange={(e) =>
                     setUsuarioSelecionado({
                       ...usuarioSelecionado,
-                      nivel_permissao: e.target.value,
+                      permissao: e.target.value,
                     })
                   }
                 >
@@ -178,6 +193,7 @@ export default function Admin() {
                   <MenuItem value="supervisao">Supervisão</MenuItem>
                   <MenuItem value="analistico">Analístico</MenuItem>
                   <MenuItem value="gerencia">Gerencia</MenuItem>
+                  <MenuItem value="desenvolvedor">Dev</MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
                 </Select>
               </FormControl>
@@ -211,7 +227,7 @@ export default function Admin() {
                   <TableCell>{item.id}</TableCell>
                   <TableCell>{item.usuario}</TableCell>
                   <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.nivel_permissao}</TableCell>
+                  <TableCell>{item.permissao}</TableCell>
                   <TableCell>
                     <Button
                       variant="outlined"

@@ -29,6 +29,13 @@ function Signup() {
     }
   }
 
+  function primeiraMaiuscula(str) {
+    return str.replace(
+      /\b(\p{L})(\p{L}*)/gu,
+      (match, firstLetter, rest) => firstLetter.toLocaleUpperCase() + rest
+    );
+  }
+
   const handleSignup = async (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,13 +60,13 @@ function Signup() {
       return;
     }
 
-    fetch("http://localhost:3001/register", {
+    fetch("http://localhost:3001/usuarios", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
-      body: JSON.stringify({ usuario, email, senha }),
+      body: JSON.stringify({ usuario: usuario, email: email, senha: senha }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -93,13 +100,8 @@ function Signup() {
           type="text"
           placeholder="Nome social"
           value={usuario}
-          onChange={(e) => {
-            const valor = e.target.value;
-            const formatado = valor
-              .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase());
-            setUsuario(formatado);
-          }}
+          onChange={(e) => setUsuario(e.target.value)}
+          onBlur={() => setUsuario(primeiraMaiuscula(usuario))}
         />
         <input
           type="email"

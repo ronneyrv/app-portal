@@ -16,7 +16,7 @@ export default function PatioObs() {
   }, []);
 
   const fetchBuscarObs = () => {
-    fetch("http://localhost:3001/observacao/rot", {
+    fetch("http://localhost:3001/observacoes/rot", {
       credentials: "include",
     })
       .then((res) => {
@@ -38,7 +38,7 @@ export default function PatioObs() {
   };
 
   const fetchAtualizarObs = (text) => {
-    fetch("http://localhost:3001/observacao/rot/set", {
+    fetch("http://localhost:3001/observacoes/rot", {
       credentials: "include",
       method: "PUT",
       headers: {
@@ -55,9 +55,6 @@ export default function PatioObs() {
       .then((data) => {
         if (data.type === "success") {
           fetchBuscarObs();
-        } else {
-          console.log(data.message);
-          fetchBuscarObs();
         }
       })
       .catch((err) => {
@@ -67,7 +64,7 @@ export default function PatioObs() {
   };
 
   return (
-    <>
+    <div>
       <NotifyBar
         open={notify.open}
         message={notify.message}
@@ -83,6 +80,6 @@ export default function PatioObs() {
           onBlur={(e) => fetchAtualizarObs(e.target.value)}
         />
       </div>
-    </>
+    </div>
   );
 }

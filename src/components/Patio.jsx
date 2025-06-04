@@ -123,13 +123,13 @@ export default function Patio() {
 
   const handleUpdateCanhao = async (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/canhoes/${canhaoSelecionado}`, {
+    fetch(`http://localhost:3001/canhao`, {
       credentials: "include",
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ modo: modoSelecionado }),
+      body: JSON.stringify({ can: canhaoSelecionado, modo: modoSelecionado }),
     })
       .then((res) => {
         if (!res.ok) {

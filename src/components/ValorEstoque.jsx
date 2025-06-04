@@ -5,7 +5,7 @@ export default function ValorEstoque() {
   const [estoque, setEstoque] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/estoque-total", {
+    fetch("http://localhost:3001/estoque/diario", {
       credentials: "include",
     })
       .then((res) => {

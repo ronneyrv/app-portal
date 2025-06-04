@@ -18,7 +18,7 @@ export default function RetomaTurno({ dataSelecionada, turnoSelecionado }) {
     setRetomado([]);
 
     if (dataSelecionada && turnoSelecionado) {
-      fetch("http://localhost:3001/retomado", {
+      fetch("http://localhost:3001/retoma", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

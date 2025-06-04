@@ -6,7 +6,8 @@ import SidebarDrawer, { DrawerHeader } from "./SidebarDrawer";
 import Main from "./Main";
 import theme from "../styles/theme";
 import ProtectedRoute from "../components/ProtectedRoute";
-import LoadingSpinner from "../components/LoadingSpinner"
+import LoadingSpinner from "../components/LoadingSpinner";
+import { UsuarioProvider } from "../contexts/UsuarioContext";
 
 const Login = lazy(() => import("../pages/Login"));
 const SignUp = lazy(() => import("../pages/Signup"));
@@ -32,11 +33,7 @@ const Layout = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Suspense
-        fallback={
-          <LoadingSpinner/>
-        }
-      >
+      <Suspense fallback={<LoadingSpinner />}>
         <Router>
           <Box sx={{ display: "flex" }}>
             <CssBaseline />
@@ -48,27 +45,38 @@ const Layout = () => {
                 path="/pptm/*"
                 element={
                   <ProtectedRoute>
-                    <Navbar open={open} toggleDrawer={toggleDrawer} />
-                    <SidebarDrawer open={open} toggleDrawer={toggleDrawer} />
-                    <Main open={open}>
-                      <DrawerHeader />
-                      <Routes>
-                      <Route path="/" element={<Home />} />
-                        <Route path="/estoque" element={<Estoque />} />
-                        <Route path="/descarregamento" element={<Descarregamento />} />
-                        <Route path="/retoma" element={<Retoma />} />
-                        <Route path="/horimetro" element={<Horimetro />} />
-                        <Route path="/polimero" element={<Polimero />} />
-                        <Route path="/combustao" element={<Combustao />} />
-                        <Route path="/ronda" element={<Ronda />} />
-                        <Route path="/programacao-retoma" element={<ProgRetoma />} />
-                        <Route path="/programacao-loto" element={<ProgLoto />} />
-                        <Route path="/loto" element={<Loto />} />
-                        <Route path="rot" element={<Rot />} />
-                        <Route path="/gestao" element={<Gestao />} />
-                        <Route path="/admin" element={<Admin />} />
-                      </Routes>
-                    </Main>
+                    <UsuarioProvider>
+                      <Navbar open={open} toggleDrawer={toggleDrawer} />
+                      <SidebarDrawer open={open} toggleDrawer={toggleDrawer} />
+                      <Main open={open}>
+                        <DrawerHeader />
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/estoque" element={<Estoque />} />
+                          <Route
+                            path="/descarregamento"
+                            element={<Descarregamento />}
+                          />
+                          <Route path="/retoma" element={<Retoma />} />
+                          <Route path="/horimetro" element={<Horimetro />} />
+                          <Route path="/polimero" element={<Polimero />} />
+                          <Route path="/combustao" element={<Combustao />} />
+                          <Route path="/ronda" element={<Ronda />} />
+                          <Route
+                            path="/programacao-retoma"
+                            element={<ProgRetoma />}
+                          />
+                          <Route
+                            path="/programacao-loto"
+                            element={<ProgLoto />}
+                          />
+                          <Route path="/loto" element={<Loto />} />
+                          <Route path="rot" element={<Rot />} />
+                          <Route path="/gestao" element={<Gestao />} />
+                          <Route path="/admin" element={<Admin />} />
+                        </Routes>
+                      </Main>
+                    </UsuarioProvider>
                   </ProtectedRoute>
                 }
               />

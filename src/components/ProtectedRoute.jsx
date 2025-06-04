@@ -1,17 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
-import LoadingSpinner from './LoadingSpinner';
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ProtectedRoute = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/verificaLogin', { withCredentials: true })
-      .then(response => {
-        setLoggedIn(response.data.loggedIn);
+    fetch("http://localhost:3001/verificaLogin", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setLoggedIn(data.loggedIn);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoggedIn(false);
         console.error(error);
       });

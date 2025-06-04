@@ -8,30 +8,90 @@ import logo from "../assets/images/logo_pptm.png";
 /* Lista de itens do Drawer */
 import DirectionsBoatOutlinedIcon from "@mui/icons-material/DirectionsBoatOutlined";
 import AgricultureOutlinedIcon from "@mui/icons-material/AgricultureOutlined";
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import CycloneOutlinedIcon from '@mui/icons-material/CycloneOutlined';
-import FilterHdrOutlinedIcon from '@mui/icons-material/FilterHdrOutlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import InvertColorsOutlinedIcon from '@mui/icons-material/InvertColorsOutlined';
-import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined';
-import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
-import MobileFriendlyOutlinedIcon from '@mui/icons-material/MobileFriendlyOutlined';
-import LockResetOutlinedIcon from '@mui/icons-material/LockResetOutlined';
-import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCheckCircleOutlined';
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import CycloneOutlinedIcon from "@mui/icons-material/CycloneOutlined";
+import FilterHdrOutlinedIcon from "@mui/icons-material/FilterHdrOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import InvertColorsOutlinedIcon from "@mui/icons-material/InvertColorsOutlined";
+import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepartmentOutlined";
+import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
+import MobileFriendlyOutlinedIcon from "@mui/icons-material/MobileFriendlyOutlined";
+import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
+import PlaylistAddCheckCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCheckCircleOutlined";
 
 const drawerItems = [
-  { title: "Estoque", icon: <FilterHdrOutlinedIcon />, path: "/pptm/estoque" },
-  { title: "Descarregamento", icon: <DirectionsBoatOutlinedIcon />, path: "/pptm/descarregamento", },
-  { title: "Retoma", icon: <CycloneOutlinedIcon />, path: "/pptm/retoma" },
-  { title: "Horímetro", icon: <AgricultureOutlinedIcon />, path: "/pptm/horimetro" },
-  { title: "Polímero", icon: <InvertColorsOutlinedIcon />, path: "/pptm/polimero" },
-  { title: "Autocombustão", icon: <LocalFireDepartmentOutlinedIcon />, path: "/pptm/combustao" },
-  { title: "Rondas", icon: <MobileFriendlyOutlinedIcon />, path: "/pptm/ronda" },
-  { title: "Prog. de Retoma", icon: <PlaylistAddCheckCircleOutlinedIcon />, path: "/pptm/programacao-retoma" },
-  { title: "Prog. de LOTO", icon: <LockResetOutlinedIcon />, path: "/pptm/programacao-loto" },
-  { title: "LOTO", icon: <LockPersonOutlinedIcon />, path: "/pptm/loto" },
-  { title: "ROT", icon: <MenuBookOutlinedIcon />, path: "/pptm/rot" },
-  { title: "Gestão", icon: <GroupsOutlinedIcon />, path: "/pptm/gestao" },
+  {
+    title: "Estoque",
+    icon: <FilterHdrOutlinedIcon />,
+    path: "/pptm/estoque",
+    permissao: 7,
+  },
+  {
+    title: "Descarregamento",
+    icon: <DirectionsBoatOutlinedIcon />,
+    path: "/pptm/descarregamento",
+    permissao: 7,
+  },
+  {
+    title: "Retoma",
+    icon: <CycloneOutlinedIcon />,
+    path: "/pptm/retoma",
+    permissao: 7,
+  },
+  {
+    title: "Horímetro",
+    icon: <AgricultureOutlinedIcon />,
+    path: "/pptm/horimetro",
+    permissao: 7,
+  },
+  {
+    title: "Polímero",
+    icon: <InvertColorsOutlinedIcon />,
+    path: "/pptm/polimero",
+    permissao: 7,
+  },
+  {
+    title: "Autocombustão",
+    icon: <LocalFireDepartmentOutlinedIcon />,
+    path: "/pptm/combustao",
+    permissao: 7,
+  },
+  {
+    title: "Rondas",
+    icon: <MobileFriendlyOutlinedIcon />,
+    path: "/pptm/ronda",
+    permissao: 6,
+  },
+  {
+    title: "Prog. de Retoma",
+    icon: <PlaylistAddCheckCircleOutlinedIcon />,
+    path: "/pptm/programacao-retoma",
+    permissao: 6,
+  },
+  {
+    title: "Prog. de LOTO",
+    icon: <LockResetOutlinedIcon />,
+    path: "/pptm/programacao-loto",
+    permissao: 7,
+  },
+  {
+    title: "LOTO",
+    icon: <LockPersonOutlinedIcon />,
+    path: "/pptm/loto",
+    permissao: 7,
+  },
+  {
+    title: "ROT",
+    icon: <MenuBookOutlinedIcon />,
+    path: "/pptm/rot",
+    permissao: 7,
+  },
+  {
+    title: "Gestão",
+    icon: <GroupsOutlinedIcon />,
+    path: "/pptm/gestao",
+    permissao: 5,
+  },
 ];
 /* /Lista de itens do Drawer */
 
@@ -97,7 +157,11 @@ const SidebarDrawer = ({ open, toggleDrawer }) => {
           {open ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
       </DrawerHeader>
-      <SidebarItems items={drawerItems} open={open} toggleDrawer={toggleDrawer} />
+      <SidebarItems
+        items={drawerItems}
+        open={open}
+        toggleDrawer={toggleDrawer}
+      />
     </Drawer>
   );
 };

@@ -27,6 +27,13 @@ function Login() {
     }
   }
 
+  function primeiraMaiuscula(str) {
+    return str.replace(
+      /\b(\p{L})(\p{L}*)/gu,
+      (match, firstLetter, rest) => firstLetter.toLocaleUpperCase() + rest
+    );
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -37,11 +44,11 @@ function Login() {
 
     fetch("http://localhost:3001/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
-      body: JSON.stringify({ usuario, senha }),
+      body: JSON.stringify({ usuario: usuario, senha: senha }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -52,7 +59,6 @@ function Login() {
       })
       .then((data) => {
         if (data.type === "success") {
-          fildAlert(data);
           navigate("/pptm");
         } else {
           fildAlert(data);
@@ -73,13 +79,8 @@ function Login() {
           type="text"
           placeholder="Usuário"
           value={usuario}
-          onChange={(e) => {
-            const valor = e.target.value;
-            const formatado = valor
-              .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase());
-            setUsuario(formatado);
-          }}
+          onChange={(e) => setUsuario(e.target.value)}
+          onBlur={() => setUsuario(primeiraMaiuscula(usuario))}
         />
         <input
           type="password"

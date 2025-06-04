@@ -41,7 +41,7 @@ export default function PatioUmectacao() {
   };
 
   const fetchUmectacao = () => {
-    fetch("http://localhost:3001/umectacao", {
+    fetch("http://localhost:3001/canhao/sistema", {
       credentials: "include",
     })
       .then((res) => {
@@ -64,7 +64,7 @@ export default function PatioUmectacao() {
 
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/umectacao/status`, {
+    fetch(`http://localhost:3001/canhao/sistema`, {
       credentials: "include",
       method: "PUT",
       headers: {

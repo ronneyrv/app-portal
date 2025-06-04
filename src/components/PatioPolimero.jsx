@@ -20,7 +20,7 @@ export default function PatioPolimero() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/polimero/status", {
+    fetch("http://localhost:3001/polimero", {
       credentials: "include",
     })
       .then((res) => {

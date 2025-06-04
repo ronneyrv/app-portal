@@ -43,7 +43,6 @@ export default function Prog() {
         if (data.type === "success") {
           setprogRetoma(data.data);
         } else {
-          console.error(data.message);
           setprogRetoma([]);
         }
       })
