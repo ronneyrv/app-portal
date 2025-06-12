@@ -3,8 +3,10 @@
 }
 .polimero h3 {
   margin: 0;
+  font-size: 12px;
 }
 .row-polimero {
+  font-size: 11px;
   display: flex;
   align-items: center;
   gap: 3px;

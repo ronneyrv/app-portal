@@ -1,7 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../styles/retomaturno.css";
 
-export default function RetomaTurno({ dataSelecionada, turnoSelecionado }) {
+export default function RetomaTurno({
+  dataSelecionada,
+  turnoSelecionado,
+  setRetomaJson,
+  rotJSON,
+  deHoje,
+}) {
   const [retomado, setRetomado] = useState([]);
 
   const dataFormatada = (d) => {
@@ -13,6 +19,15 @@ export default function RetomaTurno({ dataSelecionada, turnoSelecionado }) {
     });
     return `${dataStr} ${horaStr}`;
   };
+
+  const dados = useMemo(() => {
+    if (deHoje) return retomado;
+    return rotJSON?.retoma_turno ?? retomado;
+  }, [rotJSON, retomado, deHoje]);
+  
+  useEffect(() => {
+    setRetomaJson(retomado);
+  }, [retomado]);
 
   useEffect(() => {
     setRetomado([]);
@@ -60,12 +75,12 @@ export default function RetomaTurno({ dataSelecionada, turnoSelecionado }) {
           </tr>
         </thead>
         <tbody>
-          {retomado.length === 0 ? (
+          {dados.length === 0 ? (
             <tr>
               <td colSpan="6">Sem retoma no turno</td>
             </tr>
           ) : (
-            retomado.map((item, index) => (
+            dados.map((item, index) => (
               <tr key={index}>
                 <td>{item.ug}</td>
                 <td>{item.maquina}</td>

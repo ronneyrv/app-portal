@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NotifyBar from "../components/NotifyBar";
 import "../styles/patioobservacao.css";
 
-export default function PatioObs() {
+export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   const [obs, setObs] = useState([]);
 
   const [notify, setNotify] = useState({
@@ -11,9 +11,20 @@ export default function PatioObs() {
     severity: "success",
   });
 
+  const dados = useMemo(() => {
+    if (deHoje) return obs;
+    return rotJSON?.patio_obs ?? obs;
+  }, [rotJSON, obs, deHoje]);
+
   useEffect(() => {
-    fetchBuscarObs();
-  }, []);
+    if (!rotJSON) {
+      fetchBuscarObs();
+    }
+  }, [rotJSON]);
+
+  useEffect(() => {
+    setObsJson(obs);
+  }, [obs]);
 
   const fetchBuscarObs = () => {
     fetch("http://localhost:3001/observacoes/rot", {
@@ -74,8 +85,8 @@ export default function PatioObs() {
       <div className="obs">
         <h3>Observações:</h3>
         <textarea
-          rows={7}
-          value={obs}
+          rows={6}
+          value={dados}
           onChange={(e) => setObs(e.target.value)}
           onBlur={(e) => fetchAtualizarObs(e.target.value)}
         />

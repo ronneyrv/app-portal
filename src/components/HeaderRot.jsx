@@ -1,35 +1,99 @@
-import { useState } from "react";
-import operacao from "../assets/config/DataOperacao";
-import '../styles/headerrot.css';
+import { useEffect, useMemo, useState } from "react";
+import "../styles/headerrot.css";
 
 export default function HeaderRot({
   dataSelecionada,
   setDataSelecionada,
   turnoSelecionado,
   setTurnoSelecionado,
+  setEquipeSelecionada,
+  elaboradorSelecionado,
+  setElaboradorSelecionado,
+  setSupervisor,
+  supervisor,
+  rotJSON,
 }) {
-  const [equipeSelecionada, setEquipeSelecionada] = useState("");
-  const [elaboradorSelecionado, setElaboradorSelecionado] = useState("");
+  const [operacao, setOperacao] = useState([]);
   const [elaboradores, setElaboradores] = useState([]);
-  const [supervisor, setSupervisor] = useState("");
+  const [equipe, setEquipe] = useState("");
+  const [elaborador, setElaborador] = useState("");
 
   const handleDataChange = (e) => {
     setDataSelecionada(e.target.value);
   };
+
   const handleTurnoChange = (e) => {
     setTurnoSelecionado(e.target.value);
   };
-  const handleElaboradorChange = (e) => {
-    setElaboradorSelecionado(e.target.value);
-  };
+
   const handleEquipeChange = (e) => {
     const equipe = e.target.value;
+    setEquipe(equipe);
     setEquipeSelecionada(equipe);
+
     const filtrados = operacao.filter((op) => op.equipe === equipe);
     setElaboradores(filtrados);
     const gestor = filtrados.length > 0 ? filtrados[0].gestor : "";
     setSupervisor(gestor);
   };
+
+  const handleElaboradorChange = (e) => {
+    const nome = e.target.value;
+    setElaborador(nome);
+    setElaboradorSelecionado(nome);
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:3001/equipe", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          setOperacao(data.data);
+        }
+      })
+      .catch((err) => console.error("Erro ao buscar equipe:", err));
+  }, []);
+
+  useEffect(() => {
+    if (rotJSON) {
+      const dados = rotJSON;
+      const equipeROT = dados.equipe || "";
+      const elaboradorROT = dados.elaborador || "";
+
+      setDataSelecionada(dados.data || "");
+      setTurnoSelecionado(dados.turno || "");
+      setEquipeSelecionada(equipeROT);
+      setEquipe(equipeROT);
+
+      const filtrados = operacao.filter((op) => op.equipe === equipeROT);
+      setElaboradores(filtrados);
+
+      setElaboradorSelecionado(elaboradorROT);
+      setElaborador(elaboradorROT);
+
+      const gestor = filtrados.length > 0 ? filtrados[0].gestor : "";
+      setSupervisor(dados.supervisor || gestor);
+    } else {
+      setDataSelecionada("");
+      setTurnoSelecionado("");
+      setEquipeSelecionada("");
+      setEquipe("");
+      setElaboradores([]);
+      setElaboradorSelecionado("");
+      setElaborador("");
+      setSupervisor("");
+    }
+  }, [rotJSON, operacao]);
 
   return (
     <div className="header">
@@ -57,7 +121,7 @@ export default function HeaderRot({
         <label>Equipe:</label>
         {turnoSelecionado && (
           <select
-            value={equipeSelecionada}
+            value={equipe}
             onChange={handleEquipeChange}
             style={{ display: dataSelecionada ? "block" : "none" }}
           >
@@ -72,8 +136,8 @@ export default function HeaderRot({
       <div>
         <label>Elaborador:</label>
         <select
-          style={{ display: equipeSelecionada ? "block" : "none" }}
-          value={elaboradorSelecionado}
+          style={{ display: equipe ? "block" : "none" }}
+          value={elaborador}
           onChange={handleElaboradorChange}
         >
           <option value="">Selecione</option>

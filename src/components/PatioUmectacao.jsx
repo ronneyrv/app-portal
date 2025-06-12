@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import SignalWifiStatusbar4BarIcon from "@mui/icons-material/SignalWifiStatusbar4Bar";
@@ -18,7 +18,7 @@ import NotifyBar from "../components/NotifyBar";
 
 import "../styles/patioumectacao.css";
 
-export default function PatioUmectacao() {
+export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
   const [disponivel, setDisponivel] = useState(0);
   const [statusSelecionado, setStatusSelecionado] = useState(null);
   const [open, setOpen] = useState(false);
@@ -31,9 +31,20 @@ export default function PatioUmectacao() {
 
   const handleClose = () => setOpen(false);
 
+  const dados = useMemo(() => {
+    if (deHoje) return disponivel;
+    return rotJSON?.patio_umectacao?.disponivel ?? disponivel;
+  }, [rotJSON, disponivel, deHoje]);
+
   useEffect(() => {
-    fetchUmectacao();
-  }, []);
+    if (!rotJSON) {
+      fetchUmectacao();
+    }
+  }, [rotJSON]);
+
+  useEffect(() => {
+    setUmectacaoJson({ disponivel: disponivel });
+  }, [disponivel]);
 
   const handleStatus = (st) => {
     setStatusSelecionado(st);
@@ -165,7 +176,7 @@ export default function PatioUmectacao() {
             className="umectacao-status"
             onClick={() => handleStatus(disponivel)}
           >
-            {disponivel === 1 ? (
+            {dados === 1 ? (
               <>
                 <GppGoodIcon style={{ fontSize: 20, color: "#76ff03" }} />
                 <h4>Sistema Disponível</h4>

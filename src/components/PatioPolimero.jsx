@@ -1,70 +1,88 @@
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../styles/patiopolimero.css";
 
-export default function PatioPolimero() {
+export default function PatioPolimero({
+  setPolimeroJson,
+  setPolimeroVolJson,
+  rotJSON,
+  deHoje,
+}) {
   const [validade, setValidade] = useState([]);
   const [volume, setVolume] = useState([]);
 
   const verificarPrazo = (dia) => {
     const dataItem = new Date(dia);
     const dataHoje = new Date();
-
     dataItem.setHours(0, 0, 0, 0);
     dataHoje.setHours(0, 0, 0, 0);
-
     const diffTime = Math.abs(dataHoje - dataItem);
     const diffDias = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
     return diffDias > 20 ? "Reaplicar" : "No prazo";
   };
 
-  useEffect(() => {
-    fetch("http://localhost:3001/polimero", {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          console.error("HTTP status:", res.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data.type === "success") {
-          setValidade(data.data);
-        } else {
-          console.error("Erro ao buscar status polímero");
-        }
-      })
-      .catch((error) => {
-        console.error("Erro de rede:", error);
-      });
+  const dadosValidade = useMemo(() => {
+    return rotJSON?.patio_polimero ?? validade;
+  }, [rotJSON, validade]);
 
-    fetch("http://localhost:3001/polimero/volume", {
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          console.error("HTTP status:", res.status);
-        }
-        return res.json();
+  const dadosVolume = useMemo(() => {
+    if (deHoje) return volume;
+    return rotJSON?.patio_polimero_vol ?? volume;
+  }, [rotJSON, volume, deHoje]);
+
+  useEffect(() => {
+    setPolimeroJson(validade);
+    setPolimeroVolJson(volume);
+  }, [validade, volume]);
+
+  useEffect(() => {
+    if (!rotJSON) {
+      fetch("http://localhost:3001/polimero", {
+        credentials: "include",
       })
-      .then((data) => {
-        if (data.type === "success") {
-          setVolume(data.data);
-        } else {
-          console.error("Erro ao buscar volume de polímero");
-        }
+        .then((res) => {
+          if (!res.ok) {
+            console.error("HTTP status:", res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.type === "success") {
+            setValidade(data.data);
+          } else {
+            console.error("Erro ao buscar status polímero");
+          }
+        })
+        .catch((error) => {
+          console.error("Erro de rede:", error);
+        });
+
+      fetch("http://localhost:3001/polimero/volume", {
+        credentials: "include",
       })
-      .catch((error) => {
-        console.error("Erro de rede:", error);
-      });
-  }, []);
+        .then((res) => {
+          if (!res.ok) {
+            console.error("HTTP status:", res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.type === "success") {
+            setVolume(data.data);
+          } else {
+            console.error("Erro ao buscar volume de polímero");
+          }
+        })
+        .catch((error) => {
+          console.error("Erro de rede:", error);
+        });
+    }
+  }, [rotJSON]);
 
   return (
     <div className="polimero">
       <h3>Validade do Polímero</h3>
-      {validade.map((item) => {
+      {dadosValidade.map((item) => {
         const dataFormatada = new Date(item.data).toLocaleDateString("pt-BR");
         return (
           <div key={item.pilha} className="row-polimero">
@@ -83,9 +101,9 @@ export default function PatioPolimero() {
           </div>
         );
       })}
-      <label>Estoque de Polímero:</label>
+      <h3>Estoque de Polímero:</h3>
       <div className="stqPol">
-        {volume.map((item, index) => (
+        {dadosVolume.map((item, index) => (
           <div key={index}>
             {item.cliente}: {item.volume} litros
           </div>
