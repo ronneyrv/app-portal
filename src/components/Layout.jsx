@@ -20,7 +20,7 @@ const Retoma = lazy(() => import("../pages/Retoma"));
 const Polimero = lazy(() => import("../pages/Polimero"));
 const Combustao = lazy(() => import("../pages/Combustao"));
 const Ronda = lazy(() => import("../pages/Ronda"));
-const ProgRetoma = lazy(() => import("../pages/ProgRetoma"));
+const RetomaProg = lazy(() => import("../pages/RetomaProg"));
 const ProgLoto = lazy(() => import("../pages/ProgLoto"));
 const Loto = lazy(() => import("../pages/Loto"));
 const Rot = lazy(() => import("../pages/Rot"));
@@ -64,7 +64,7 @@ const Layout = () => {
                           <Route path="/ronda" element={<Ronda />} />
                           <Route
                             path="/programacao-retoma"
-                            element={<ProgRetoma />}
+                            element={<RetomaProg />}
                           />
                           <Route
                             path="/programacao-loto"
