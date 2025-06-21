@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import InputsProgramacao from "../components/RetomaProg/InputsProgramacao";
-import "../styles/retomaprog.css";
+import InputsProgramacao from "../../components/RetomaProg/inputsProgramacao";
+import "./retomaprog.css";
 
 export default function ProgramacaoRetoma() {
   const [ano, setAno] = useState("");
   const [semana, setSemana] = useState("");
   const [dias, setDias] = useState([]);
-  const [pilhas, setPilhas] = useState("");
-  const [maquinas, setMaquinas] = useState("");
-  const [navios, setNavios] = useState("");
-  const [observacao, setObservacao] = useState("");
-
-  const programacao = [];
 
   const definirSemana = () => {
     const hoje = new Date();

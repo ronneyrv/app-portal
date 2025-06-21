@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
-import logo from "../assets/images/logo_pptm.png";
-import MessageAlert from "../components/MessageAlert";
-import "../styles/password.css";
+import logo from "../../assets/images/logo_pptm.png";
+import MessageAlert from "../../components/MessageAlert";
+import "./password.css";
 
 function Password() {
   const [email, setEmail] = useState("");
@@ -74,12 +74,10 @@ function Password() {
       })
       .then((data) => {
         if (data.type === "success") {
-          
           fildAlert(data);
           setTimeout(() => {
             navigate("/");
           }, 3000);
-
         } else {
           fildAlert(data);
           return;

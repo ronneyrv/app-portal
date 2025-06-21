@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import NotifyBar from "../components/NotifyBar";
-import "../styles/patioobservacao.css";
+import "./patioobservacao.css";
+import NotifyBar from "../NotifyBar";
 
 export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   const [obs, setObs] = useState([]);

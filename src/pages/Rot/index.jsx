@@ -4,20 +4,20 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 import Divider from "@mui/material/Divider";
 
-import Prog from "../components/ProgRetoma";
-import HeaderRot from "../components/HeaderRot";
-import InfoTCLD from "../components/InfoTCLD";
-import RetomaTurno from "../components/RetomaTurno";
-import EventosRot from "../components/EventosRot";
-import Patio from "../components/Patio";
-import ValorEstoque from "../components/ValorEstoque";
-import LoadingSpinner from "../components/LoadingSpinner";
-import NotifyBar from "../components/NotifyBar";
-import PatioUmectacao from "../components/PatioUmectacao";
-import PatioPolimero from "../components/PatioPolimero";
-import PatioObs from "../components/PatioObservacao";
-import "../styles/rot.css";
-import ModalRot from "../components/ModalRot";
+import Prog from "../../components/Rot/ProgRetoma";
+import HeaderRot from "../../components/Rot/HeaderRot";
+import InfoTCLD from "../../components/Rot/InfoTCLD";
+import RetomaTurno from "../../components/Rot/RetomaTurno";
+import EventosRot from "../../components/Rot/EventosRot";
+import Patio from "../../components/Rot/Patio";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import PatioPolimero from "../../components/Rot/PatioPolimero";
+import ModalRot from "../../components/Rot/ModalRot";
+import ValorEstoque from "../../components/Rot/ValorEstoque";
+import NotifyBar from "../../components/NotifyBar";
+import PatioUmectacao from "../../components/Rot/PatioUmectacao";
+import PatioObs from "../../components/Rot/PatioObservacao";
+import "./rot.css";
 
 export default function Rot() {
   const [dataSelecionada, setDataSelecionada] = useState("");

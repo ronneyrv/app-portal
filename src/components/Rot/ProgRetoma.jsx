@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "../styles/progretoma.css";
+import "./progretoma.css";
 
 export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
   const [progRetoma, setprogRetoma] = useState([]);

@@ -8,8 +8,8 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import LoadingSpinner from "./LoadingSpinner";
-import NotifyBar from "./NotifyBar";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import NotifyBar from "../NotifyBar";
 
 export default function ModalRot({
   confirmData,

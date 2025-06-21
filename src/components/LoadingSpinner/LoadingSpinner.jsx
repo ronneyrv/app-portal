@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import '../styles/loadingspinner.css';
+import './loadingspinner.css';
 
 const LoadingSpinner = () => {
   return (

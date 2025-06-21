@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import NotifyBar from "../components/NotifyBar";
 import {
   FormControl,
   InputLabel,
@@ -17,7 +16,8 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import "../styles/admin.css";
+import NotifyBar from "../components/NotifyBar";
+import "./admin.css";
 
 export default function Admin() {
   const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);

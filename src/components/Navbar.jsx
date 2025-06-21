@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar as MuiAppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { AppBar as MuiAppBar, Toolbar, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { styled } from '@mui/material/styles';
 import MenuAppBar from './MenuAppBar';

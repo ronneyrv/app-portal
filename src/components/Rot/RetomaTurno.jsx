@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "../styles/retomaturno.css";
+import "./retomaturno.css";
 
 export default function RetomaTurno({
   dataSelecionada,

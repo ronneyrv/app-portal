@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 
 const ProtectedRoute = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(null);

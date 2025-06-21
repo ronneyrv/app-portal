@@ -1,5 +1,5 @@
 export default function Combustao() {
     return(
-        <h1>Pagina Combustao</h1>
+        <h1>Pagina Combustão</h1>
     )
 }

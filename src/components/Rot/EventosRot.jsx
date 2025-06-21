@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "../styles/eventosrot.css";
+import "./eventosrot.css";
 
 export default function EventosRot({
   setAndamentoJson,

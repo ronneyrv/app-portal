@@ -1,6 +1,6 @@
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import { useEffect, useMemo, useState } from "react";
-import "../styles/patiopolimero.css";
+import "./patiopolimero.css";
 
 export default function PatioPolimero({
   setPolimeroJson,

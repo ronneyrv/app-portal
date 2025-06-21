@@ -1,6 +1,6 @@
 import React from "react";
-import { Drawer as MuiDrawer, IconButton, Divider } from "@mui/material";
-import { ChevronLeft, ChevronRight, Inbox, Mail } from "@mui/icons-material";
+import { Drawer as MuiDrawer, IconButton } from "@mui/material";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import SidebarItems from "./SidebarItems";
 import logo from "../assets/images/logo_pptm.png";

@@ -14,11 +14,11 @@ import {
   Typography,
 } from "@mui/material";
 
-import NotifyBar from "../components/NotifyBar";
+import NotifyBar from "../NotifyBar";
 
-import alturas from "../assets/config/DataAlturas";
+import alturas from "../../assets/config/DataAlturas";
 
-import "../styles/patio.css";
+import "./patio.css";
 
 export default function Patio({ setPatioJson, rotJSON, deHoje }) {
   const [canhoes, setCanhoes] = useState([]);

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import "./InputsProgramacao.css";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import NotifyBar from "../NotifyBar";
+import "./inputsProgramacao.css";
 
 export default function InputsProgramacao({ dias, semana }) {
   const [loading, setLoading] = useState(false);
@@ -425,7 +425,9 @@ export default function InputsProgramacao({ dias, semana }) {
         onClose={() => setNotify({ ...notify, open: false })}
       />
       {loading ? <LoadingSpinner /> : null}
-      {["UG1", "UG2", "UG3"].map((item) => renderBloco(item, true, false))}
+      {["UG1", "UG2", "UG3"].map((item) => (
+        <div key={item}>{renderBloco(item, true, false)}</div>
+      ))}
       {renderBloco("Empilha", false, true)}
       {
         <button onClick={handleSalvar} className="button-save">

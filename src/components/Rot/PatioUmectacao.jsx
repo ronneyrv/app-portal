@@ -14,9 +14,10 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import NotifyBar from "../components/NotifyBar";
 
-import "../styles/patioumectacao.css";
+
+import "./patioumectacao.css";
+import NotifyBar from "../NotifyBar";
 
 export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
   const [disponivel, setDisponivel] = useState(0);

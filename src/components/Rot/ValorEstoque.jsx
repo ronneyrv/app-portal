@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "../styles/valorestoque.css";
+import "./valorestoque.css";
 
 export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
   const [estoque, setEstoque] = useState([]);

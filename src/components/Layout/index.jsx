@@ -1,34 +1,34 @@
 import React, { useState, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
-import Navbar from "./Navbar";
-import SidebarDrawer, { DrawerHeader } from "./SidebarDrawer";
-import Main from "./Main";
-import theme from "../styles/theme";
-import ProtectedRoute from "../components/ProtectedRoute";
-import LoadingSpinner from "../components/LoadingSpinner";
-import { UsuarioProvider } from "../contexts/UsuarioContext";
+import { UsuarioProvider } from "../../contexts/UsuarioContext";
+import SidebarDrawer, { DrawerHeader } from "../SidebarDrawer";
+import ProtectedRoute from "../ProtectedRoute";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import theme from "./theme";
+import Main from "../Main";
+import Navbar from "../Navbar";
 
-const Login = lazy(() => import("../pages/Login"));
-const SignUp = lazy(() => import("../pages/Signup"));
-const Password = lazy(() => import("../pages/Password"));
-const Home = lazy(() => import("../pages/Home"));
-const Estoque = lazy(() => import("../pages/Estoque"));
-const Descarregamento = lazy(() => import("../pages/Descarregamento"));
-const Horimetro = lazy(() => import("../pages/Horimetro"));
-const Retoma = lazy(() => import("../pages/Retoma"));
-const Polimero = lazy(() => import("../pages/Polimero"));
-const Combustao = lazy(() => import("../pages/Combustao"));
-const Ronda = lazy(() => import("../pages/Ronda"));
-const RetomaProg = lazy(() => import("../pages/RetomaProg"));
-const ProgLoto = lazy(() => import("../pages/ProgLoto"));
-const Loto = lazy(() => import("../pages/Loto"));
-const Rot = lazy(() => import("../pages/Rot"));
-const Gestao = lazy(() => import("../pages/Gestao"));
-const Admin = lazy(() => import("../pages/Admin"));
+const Login = lazy(() => import("../../pages/Login"));
+const SignUp = lazy(() => import("../../pages/SignUp"));
+const Password = lazy(() => import("../../pages/Password"));
+const Home = lazy(() => import("../../pages/Home"));
+const Estoque = lazy(() => import("../../pages/Estoque"));
+const Descarregamento = lazy(() => import("../../pages/Descarregamento"));
+const Horimetro = lazy(() => import("../../pages/Horimetro"));
+const Retoma = lazy(() => import("../../pages/Retoma"));
+const Polimero = lazy(() => import("../../pages/Polimero"));
+const Combustao = lazy(() => import("../../pages/Combustao"));
+const Ronda = lazy(() => import("../../pages/Ronda"));
+const RetomaProg = lazy(() => import("../../pages/RetomaProg"));
+const ProgLoto = lazy(() => import("../../pages/ProgLoto"));
+const Loto = lazy(() => import("../../pages/Loto"));
+const Rot = lazy(() => import("../../pages/Rot"));
+const Gestao = lazy(() => import("../../pages/Gestao"));
+const Admin = lazy(() => import("../../pages/Admin"));
 
 const Layout = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => setOpen((prev) => !prev);
 
   return (

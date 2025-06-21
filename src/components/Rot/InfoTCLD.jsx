@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import Relogio from "../components/GraficRelogio";
-import "../styles/infotcld.css";
+import Relogio from "./GraficRelogio";
+import "./infotcld.css";
 
 export default function InfoTCLD({ setInfoTcldJson, rotJSON, deHoje }) {
   const [descarregamento, setDescarregamento] = useState({});

@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 import { useUsuario } from "../contexts/useUsuario";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -141,7 +141,7 @@ export default function MenuAppBar() {
       body: JSON.stringify({
         usuario: conta.usuario,
         email: conta.email,
-        senha: conta.senha
+        senha: conta.senha,
       }),
     })
       .then((res) => {

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "../styles/headerrot.css";
+import "./headerrot.css";
 
 export default function HeaderRot({
   dataSelecionada,
