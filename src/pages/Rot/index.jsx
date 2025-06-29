@@ -414,18 +414,18 @@ export default function Rot() {
           <div className="rot-header">
             <div className="rot-title">
               <img
-                src="http://172.20.229.55:5173/images/logo_pptm.png"
+                src="http://172.20.229.55/images/logo_pptm.png"
                 alt="Logo PPTM"
                 id="pptm"
               />
               <h1>RELATÓRIO OPERACIONAL DE TURNO</h1>
               <img
-                src="http://172.20.229.55:5173/images/logo_ep.png"
+                src="http://172.20.229.55/images/logo_ep.png"
                 alt="Logo EP"
                 id="ep"
               />
               <img
-                src="http://172.20.229.55:5173/images/logo_eneva.png"
+                src="http://172.20.229.55/images/logo_eneva.png"
                 alt="Logo Eneva"
                 id="eneva"
               />
