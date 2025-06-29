@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
-import logo from "../../assets/images/logo_pptm.png";
+import logo from "../../../public/images/logo_pptm.png";
 import MessageAlert from "../../components/MessageAlert";
 import "./login.css";
 
