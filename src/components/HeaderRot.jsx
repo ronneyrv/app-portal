@@ -44,7 +44,7 @@ export default function HeaderRot({
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/equipe", {
+    fetch("http://172.20.229.55:3000/equipe", {
       headers: {
         "Content-Type": "application/json",
       },

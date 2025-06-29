@@ -60,7 +60,7 @@ function Signup() {
       return;
     }
 
-    fetch("http://localhost:3001/usuarios", {
+    fetch("http://172.20.229.55:3000/usuarios", {
       method: "POST",
       credentials: "include",
       headers: {

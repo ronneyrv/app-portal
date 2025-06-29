@@ -6,7 +6,7 @@ export const UsuarioProvider = ({ children }) => {
   const [usuario, setUsuario] = useState({ nome: "", nivel: "" });
 
   const verificarLogin = () => {
-    fetch("http://localhost:3001/verificaLogin", {
+    fetch("http://172.20.229.55:3000/verificaLogin", {
       method: "POST",
       credentials: "include",
       headers: {

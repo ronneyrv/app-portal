@@ -37,7 +37,7 @@ export default function PatioPolimero({
 
   useEffect(() => {
     if (!rotJSON) {
-      fetch("http://localhost:3001/polimero", {
+      fetch("http://172.20.229.55:3000/polimero", {
         credentials: "include",
       })
         .then((res) => {
@@ -57,7 +57,7 @@ export default function PatioPolimero({
           console.error("Erro de rede:", error);
         });
 
-      fetch("http://localhost:3001/polimero/volume", {
+      fetch("http://172.20.229.55:3000/polimero/volume", {
         credentials: "include",
       })
         .then((res) => {

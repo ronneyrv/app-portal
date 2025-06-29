@@ -41,7 +41,7 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
   useEffect(() => {
     if (semana === 0) return;
 
-    fetch(`http://localhost:3001/prog-retoma/${semana}`, {
+    fetch(`http://172.20.229.55:3000/prog-retoma/${semana}`, {
       credentials: "include",
     })
       .then((res) => {

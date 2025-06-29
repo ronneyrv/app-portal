@@ -52,7 +52,7 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
   };
 
   const fetchUmectacao = () => {
-    fetch("http://localhost:3001/canhao/sistema", {
+    fetch("http://172.20.229.55:3000/canhao/sistema", {
       credentials: "include",
     })
       .then((res) => {
@@ -75,7 +75,7 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
 
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/canhao/sistema`, {
+    fetch(`http://172.20.229.55:3000/canhao/sistema`, {
       credentials: "include",
       method: "PUT",
       headers: {

@@ -36,7 +36,7 @@ export default function InfoTCLD({ setInfoTcldJson, rotJSON, deHoje }) {
 
   useEffect(() => {
     if (!rotJSON) {
-      fetch("http://localhost:3001/descarregando", {
+      fetch("http://172.20.229.55:3000/descarregando", {
         credentials: "include",
       })
         .then((res) => {

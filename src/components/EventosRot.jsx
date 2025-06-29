@@ -54,7 +54,7 @@ export default function EventosRot({
   }
 
   const fetchBuscarEvent = () => {
-    fetch("http://localhost:3001/eventos/andamento/rot", {
+    fetch("http://172.20.229.55:3000/eventos/andamento/rot", {
       credentials: "include",
     })
       .then((res) => {
@@ -76,7 +76,7 @@ export default function EventosRot({
   };
 
   const fetchAtualizarEvent = (text) => {
-    fetch("http://localhost:3001/eventos/andamento/rot", {
+    fetch("http://172.20.229.55:3000/eventos/andamento/rot", {
       credentials: "include",
       method: "PUT",
       headers: {

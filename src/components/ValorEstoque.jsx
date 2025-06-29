@@ -15,7 +15,7 @@ export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
 
   useEffect(() => {
     if (!rotJSON) {
-      fetch("http://localhost:3001/estoque/diario", {
+      fetch("http://172.20.229.55:3000/estoque/diario", {
         credentials: "include",
       })
         .then((res) => {

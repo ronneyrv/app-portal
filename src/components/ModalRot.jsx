@@ -66,7 +66,7 @@ export default function ModalRot({
 
   const buscarJSON = async () => {
     try {
-      const res = await fetch("http://localhost:3001/arquivo/rot", {
+      const res = await fetch("http://172.20.229.55:3000/arquivo/rot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

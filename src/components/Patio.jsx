@@ -111,7 +111,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
   );
 
   const fetchCanhoes = () => {
-    fetch("http://localhost:3001/canhoes", {
+    fetch("http://172.20.229.55:3000/canhoes", {
       credentials: "include",
     })
       .then((res) => {
@@ -134,7 +134,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
 
   const handleUpdateCanhao = async (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/canhao`, {
+    fetch(`http://172.20.229.55:3000/canhao`, {
       credentials: "include",
       method: "PUT",
       headers: {

@@ -57,7 +57,7 @@ function Password() {
       return;
     }
 
-    fetch("http://localhost:3001/usuario", {
+    fetch("http://172.20.229.55:3000/usuario", {
       method: "PUT",
       credentials: "include",
       headers: {

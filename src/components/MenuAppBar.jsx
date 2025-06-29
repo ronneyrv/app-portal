@@ -47,7 +47,7 @@ export default function MenuAppBar() {
   const handleModal = () => {
     setAnchorEl(null);
 
-    fetch("http://localhost:3001/verificaLogin", {
+    fetch("http://172.20.229.55:3000/verificaLogin", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -81,7 +81,7 @@ export default function MenuAppBar() {
 
   const handleLogout = () => {
     setLoading(true);
-    fetch("http://localhost:3001/logout", {
+    fetch("http://172.20.229.55:3000/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export default function MenuAppBar() {
       return;
     }
 
-    fetch("http://localhost:3001/usuario", {
+    fetch("http://172.20.229.55:3000/usuario", {
       method: "PUT",
       credentials: "include",
       headers: {

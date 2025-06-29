@@ -27,7 +27,7 @@ export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   }, [obs]);
 
   const fetchBuscarObs = () => {
-    fetch("http://localhost:3001/observacoes/rot", {
+    fetch("http://172.20.229.55:3000/observacoes/rot", {
       credentials: "include",
     })
       .then((res) => {
@@ -49,7 +49,7 @@ export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   };
 
   const fetchAtualizarObs = (text) => {
-    fetch("http://localhost:3001/observacoes/rot", {
+    fetch("http://172.20.229.55:3000/observacoes/rot", {
       credentials: "include",
       method: "PUT",
       headers: {

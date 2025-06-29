@@ -35,7 +35,7 @@ export default function Admin() {
   }, []);
 
   const fetchUsuarios = async () => {
-    fetch("http://localhost:3001/usuarios", {
+    fetch("http://172.20.229.55:3000/usuarios", {
       credentials: "include",
     })
       .then((res) => {
@@ -73,7 +73,7 @@ export default function Admin() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3001/usuario", {
+    fetch("http://172.20.229.55:3000/usuario", {
       method: "PUT",
       credentials: "include",
       headers: {

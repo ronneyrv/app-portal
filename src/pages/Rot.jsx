@@ -195,7 +195,7 @@ export default function Rot() {
 
   const salvarJSON = async () => {
     try {
-      const res = await fetch("http://localhost:3001/rot", {
+      const res = await fetch("http://172.20.229.55:3000/rot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -344,7 +344,7 @@ export default function Rot() {
     `;
 
     try {
-      const response = await fetch("http://localhost:3001/gerar-pdf", {
+      const response = await fetch("http://172.20.229.55:3000/gerar-pdf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -414,18 +414,18 @@ export default function Rot() {
           <div className="rot-header">
             <div className="rot-title">
               <img
-                src="http://localhost:5173/src/assets/images/logo_pptm.png"
+                src="http://172.20.229.55:5173/src/assets/images/logo_pptm.png"
                 alt="Logo PPTM"
                 id="pptm"
               />
               <h1>RELATÓRIO OPERACIONAL DE TURNO</h1>
               <img
-                src="http://localhost:5173/src/assets/images/logo_ep.png"
+                src="http://172.20.229.55:5173/src/assets/images/logo_ep.png"
                 alt="Logo EP"
                 id="ep"
               />
               <img
-                src="http://localhost:5173/src/assets/images/logo_eneva.png"
+                src="http://172.20.229.55:5173/src/assets/images/logo_eneva.png"
                 alt="Logo Eneva"
                 id="eneva"
               />
