@@ -16,7 +16,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import NotifyBar from "../components/NotifyBar";
+import NotifyBar from "../../components/NotifyBar";
 import "./admin.css";
 
 export default function Admin() {
