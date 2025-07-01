@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
-import logo from "../../../public/images/logo_pptm.png";
 import MessageAlert from "../../components/MessageAlert";
 import "./password.css";
 
@@ -91,7 +90,7 @@ function Password() {
 
   return (
     <Paper className="container-reset" elevation={3}>
-      <img src={logo} alt="Logo PPTM" />
+      <img src="/images/logo_pptm.png" alt="Logo PPTM" />
       <h4>Redefinir senha</h4>
       <form onSubmit={handleNewPassword}>
         <input

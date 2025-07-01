@@ -3,7 +3,6 @@ import { Drawer as MuiDrawer, IconButton } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import SidebarItems from "./SidebarItems";
-import logo from "../../public/images/logo_pptm.png";
 
 /* Lista de itens do Drawer */
 import DirectionsBoatOutlinedIcon from "@mui/icons-material/DirectionsBoatOutlined";
@@ -148,7 +147,7 @@ const SidebarDrawer = ({ open, toggleDrawer }) => {
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
         <img
-          src={logo}
+          src="/images/logo_pptm.png" 
           alt="Logo PPTM"
           style={{ height: 40, objectFit: "contain" }}
         />

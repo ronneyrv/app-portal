@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
-import logo from "../../../public/images/logo_pptm.png";
 import MessageAlert from "../../components/MessageAlert";
 import "./login.css";
 
@@ -73,7 +72,7 @@ function Login() {
 
   return (
     <Paper className="container-login" elevation={3}>
-      <img src={logo} alt="Logo PPTM" />
+      <img src="/images/logo_pptm.png" alt="Logo PPTM" />
       <form onSubmit={handleLogin}>
         <input
           type="text"

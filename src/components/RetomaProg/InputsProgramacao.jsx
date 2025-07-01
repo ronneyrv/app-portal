@@ -26,7 +26,7 @@ export default function InputsProgramacao({ dias, semana }) {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3001/descarregamento/pilhas", {
+    fetch("http://172.20.229.55:3000/descarregamento/pilhas", {
       credentials: "include",
     })
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
@@ -79,7 +79,7 @@ export default function InputsProgramacao({ dias, semana }) {
     setLoading(true);
     const programacao = gerarProgramacaoCompleta();
 
-    fetch("http://localhost:3001/prog-retoma", {
+    fetch("http://172.20.229.55:3000/prog-retoma", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
