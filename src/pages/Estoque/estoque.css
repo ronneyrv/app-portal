@@ -1,8 +1,20 @@
 .main-estoque {
-  padding: 20px;
-  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
 }
 
-.main h3 {
+.main-estoque h3 {
   margin-top: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+}
+
+.linhas-container {
+  flex: 1;
+  min-width: 0;
 }
