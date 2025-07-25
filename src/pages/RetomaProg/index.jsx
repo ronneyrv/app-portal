@@ -56,7 +56,7 @@ export default function ProgramacaoRetoma() {
   }, [semana, ano]);
 
   return (
-    <div className="main">
+    <div className="main-retoma-prog">
       <h3>Programação de Retoma</h3>
 
       <div className="semana-container">
