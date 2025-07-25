@@ -13,8 +13,8 @@ function formatTon(value) {
 }
 
 export default function PizzaEstoque() {
-  const [estoque, setEstoque] = useState({});
-  const dados = estoque;
+  const [estoqueDia, setEstoqueDia] = useState({});
+  const dados = estoqueDia;
 
   useEffect(() => {
     fetch("http://172.20.229.55:3000/estoque/diario", {
@@ -28,7 +28,7 @@ export default function PizzaEstoque() {
       })
       .then((data) => {
         if (data.type === "success") {
-          setEstoque(data.data[0]);
+          setEstoqueDia(data.data[0]);
         } else {
           console.error("Erro ao buscar estoque");
         }
@@ -108,7 +108,7 @@ export default function PizzaEstoque() {
             data: volume,
             arcLabel: (item) => `${formatTon(item.value)} ton`,
             arcLabelMinAngle: 10,
-            paddingAngle: 3,
+            paddingAngle: 2,
           },
         ]}
         width={400}
