@@ -1,0 +1,13 @@
+.main-home {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container-home-1,
+.container-home-2 {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
