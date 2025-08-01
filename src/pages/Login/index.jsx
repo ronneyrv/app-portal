@@ -41,7 +41,7 @@ function Login() {
       return;
     }
 
-    fetch("http://172.20.229.55:3000/login", {
+    fetch("http://portalpptm.energiapecem.local:3000/login", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -88,11 +88,11 @@ function Login() {
           onChange={(e) => setSenha(e.target.value)}
         />
         <div className="password">
-          <Link to="/password">Esqueci a senha</Link>
+          <Link to="/password">Recuperar senha</Link>
         </div>
         <button type="submit">Entrar</button>
         <div className="signup">
-          <Link to="/signup">Cadastrar usuário</Link>
+          <Link to="/signup">Novo usuário</Link>
         </div>
       </form>
       <MessageAlert type={typeMessage} message={message} />

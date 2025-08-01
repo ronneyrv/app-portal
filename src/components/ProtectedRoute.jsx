@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(null);
 
   useEffect(() => {
-    fetch("http://172.20.229.55:3000/verificaLogin", {
+    fetch("http://portalpptm.energiapecem.local:3000/verificaLogin", {
       method: "POST",
       credentials: "include",
       headers: {
