@@ -1,4 +1,8 @@
 import React from "react";
+import { useUsuario } from "../contexts/useUsuario";
+import { Link, useLocation } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import {
   List,
   ListItem,
@@ -6,15 +10,45 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { Link, useLocation } from "react-router-dom";
-import { useUsuario } from "../contexts/useUsuario";
 
 const SidebarItems = ({ items, open, toggleDrawer }) => {
   const { usuario } = useUsuario();
   const location = useLocation();
   return (
     <List>
+      {usuario.nivel == 10 && (
+        <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? "initial" : "center",
+              px: 2,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : "auto",
+                justifyContent: "center",
+              }}
+            >
+              <InsertEmoticonIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    opacity: open ? 1 : 0,
+                  }}
+                >
+                  Bem vindo!
+                </Typography>
+              }
+            />
+          </ListItemButton>
+        </ListItem>
+      )}{" "}
       {items
         .filter((item) => usuario.nivel <= item.permissao)
         .map(({ title, icon, path }) => {

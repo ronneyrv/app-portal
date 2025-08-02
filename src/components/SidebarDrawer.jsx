@@ -35,31 +35,31 @@ const drawerItems = [
     title: "Retoma",
     icon: <CycloneOutlinedIcon />,
     path: "/pptm/retoma",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "Horímetro",
     icon: <AgricultureOutlinedIcon />,
     path: "/pptm/horimetro",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "Polímero",
     icon: <InvertColorsOutlinedIcon />,
     path: "/pptm/polimero",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "Autocombustão",
     icon: <LocalFireDepartmentOutlinedIcon />,
     path: "/pptm/combustao",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "Rondas",
     icon: <MobileFriendlyOutlinedIcon />,
     path: "/pptm/ronda",
-    permissao: 6,
+    permissao: 1,//7
   },
   {
     title: "Prog. de Retoma",
@@ -71,13 +71,13 @@ const drawerItems = [
     title: "Prog. de LOTO",
     icon: <LockResetOutlinedIcon />,
     path: "/pptm/programacao-loto",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "LOTO",
     icon: <LockPersonOutlinedIcon />,
     path: "/pptm/loto",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "ROT",
@@ -150,6 +150,7 @@ const SidebarDrawer = ({ open, toggleDrawer }) => {
           src="/images/logo_pptm.png" 
           alt="Logo PPTM"
           style={{ height: 40, objectFit: "contain" }}
+          onClick={toggleDrawer}
         />
 
         <IconButton onClick={toggleDrawer}>
