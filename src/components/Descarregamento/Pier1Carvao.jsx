@@ -1,5 +1,4 @@
 import { Paper, Grid } from "@mui/material";
-import LoadIfNot from "../LoadIfNot";
 import "./pier1.css";
 
 const arqueacaoFormat = (valor) => {
@@ -72,8 +71,6 @@ function PrevisaoReal(atracacao, saldo, taxa) {
 
 export default function Pier1Carvao({ dados }) {
   const infor = dados;
-
-  <LoadIfNot dados={dados} />;
 
   return (
     <div className="main-pier1">

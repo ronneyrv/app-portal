@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import PizzaEstoque from "../../components/Estoque/PizzaEstoque";
 import Pier1Carvao from "../../components/Descarregamento/Pier1Carvao";
 import GraficoPrevisaoReal from "../../components/Descarregamento/GraficoPrevisaoReal";
 import GraficoPrevisaoBase75 from "../../components/Descarregamento/GraficoPrevisaoBase75";
@@ -55,9 +54,7 @@ export default function Home() {
         <GraficoPrevisaoReal dados={pier} />
         <GraficoPrevisaoBase75 dados={pier} />
       </div>
-      <div className="container-home-2">
-        <PizzaEstoque />
-      </div>
+      <div className="container-home-2"></div>
     </div>
   );
 }
