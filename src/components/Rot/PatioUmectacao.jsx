@@ -23,12 +23,13 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
   const [disponivel, setDisponivel] = useState(0);
   const [statusSelecionado, setStatusSelecionado] = useState(null);
   const [open, setOpen] = useState(false);
-
   const [notify, setNotify] = useState({
     open: false,
     message: "",
     severity: "success",
   });
+
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
   const handleClose = () => setOpen(false);
 
@@ -53,7 +54,7 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
   };
 
   const fetchUmectacao = () => {
-    fetch("http://172.20.229.55:3000/canhao/sistema", {
+    fetch(`${API_URL}/canhao/sistema`, {
       credentials: "include",
     })
       .then((res) => {
@@ -76,7 +77,7 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
 
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
-    fetch(`http://172.20.229.55:3000/canhao/sistema`, {
+    fetch(`${API_URL}/canhao/sistema`, {
       credentials: "include",
       method: "PUT",
       headers: {

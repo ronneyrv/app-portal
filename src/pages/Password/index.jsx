@@ -12,6 +12,8 @@ function Password() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   function fildAlert(data) {
     switch (data.type) {
       case "info":
@@ -56,7 +58,7 @@ function Password() {
       return;
     }
 
-    fetch("http://172.20.229.55:3000/usuario", {
+    fetch(`${API_URL}/usuario`, {
       method: "PUT",
       credentials: "include",
       headers: {

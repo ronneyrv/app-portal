@@ -16,8 +16,10 @@ export default function PizzaEstoque() {
   const [estoqueDia, setEstoqueDia] = useState({});
   const dados = estoqueDia;
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   useEffect(() => {
-    fetch("http://172.20.229.55:3000/estoque/diario", {
+    fetch(`${API_URL}/estoque/diario`, {
       credentials: "include",
     })
       .then((res) => {

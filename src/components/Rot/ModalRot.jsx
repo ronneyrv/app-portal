@@ -22,6 +22,8 @@ export default function ModalRot({
   const [data, setData] = useState("");
   const [turno, setTurno] = useState("");
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const [notify, setNotify] = useState({
     open: false,
     message: "",
@@ -66,7 +68,7 @@ export default function ModalRot({
 
   const buscarJSON = async () => {
     try {
-      const res = await fetch("http://172.20.229.55:3000/arquivo/rot", {
+      const res = await fetch(`${API_URL}/arquivo/rot`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

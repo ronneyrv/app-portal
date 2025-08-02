@@ -11,6 +11,8 @@ export default function PatioPolimero({
   const [validade, setValidade] = useState([]);
   const [volume, setVolume] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const verificarPrazo = (dia) => {
     const dataItem = new Date(dia);
     const dataHoje = new Date();
@@ -37,7 +39,7 @@ export default function PatioPolimero({
 
   useEffect(() => {
     if (!rotJSON) {
-      fetch("http://172.20.229.55:3000/polimero", {
+      fetch(`${API_URL}/polimero`, {
         credentials: "include",
       })
         .then((res) => {
@@ -57,7 +59,7 @@ export default function PatioPolimero({
           console.error("Erro de rede:", error);
         });
 
-      fetch("http://172.20.229.55:3000/polimero/volume", {
+      fetch(`${API_URL}/polimero/volume`, {
         credentials: "include",
       })
         .then((res) => {

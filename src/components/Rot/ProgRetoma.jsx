@@ -9,6 +9,8 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
   const [hovered3, setHovered3Index] = useState(false);
   const [hovered4, setHovered4Index] = useState(false);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const dataFormatada = (d) => new Date(d).toLocaleDateString("pt-BR");
 
   const definirSemana = () => {
@@ -41,7 +43,7 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
   useEffect(() => {
     if (semana === 0) return;
 
-    fetch(`http://172.20.229.55:3000/prog-retoma/${semana}`, {
+    fetch(`${API_URL}/prog-retoma/${semana}`, {
       credentials: "include",
     })
       .then((res) => {

@@ -18,6 +18,8 @@ export default function HeaderRot({
   const [equipe, setEquipe] = useState("");
   const [elaborador, setElaborador] = useState("");
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const handleDataChange = (e) => {
     setDataSelecionada(e.target.value);
   };
@@ -44,7 +46,7 @@ export default function HeaderRot({
   };
 
   useEffect(() => {
-    fetch("http://172.20.229.55:3000/equipe", {
+    fetch(`${API_URL}/equipe`, {
       headers: {
         "Content-Type": "application/json",
       },

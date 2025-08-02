@@ -30,12 +30,14 @@ export default function Admin() {
     severity: "success",
   });
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   useEffect(() => {
     fetchUsuarios();
   }, []);
 
   const fetchUsuarios = async () => {
-    fetch("http://172.20.229.55:3000/usuarios", {
+    fetch(`${API_URL}/usuarios`, {
       credentials: "include",
     })
       .then((res) => {
@@ -73,7 +75,7 @@ export default function Admin() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    fetch("http://172.20.229.55:3000/usuario", {
+    fetch(`${API_URL}/usuario`, {
       method: "PUT",
       credentials: "include",
       headers: {

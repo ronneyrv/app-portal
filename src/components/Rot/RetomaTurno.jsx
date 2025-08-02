@@ -10,6 +10,8 @@ export default function RetomaTurno({
 }) {
   const [retomado, setRetomado] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const dataFormatada = (d) => {
     const data = new Date(d);
     const dataStr = data.toLocaleDateString("pt-BR");
@@ -33,7 +35,7 @@ export default function RetomaTurno({
     setRetomado([]);
 
     if (dataSelecionada && turnoSelecionado) {
-      fetch("http://172.20.229.55:3000/retoma", {
+      fetch(`${API_URL}/retoma`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

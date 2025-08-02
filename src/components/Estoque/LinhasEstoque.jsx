@@ -7,8 +7,10 @@ import "./linhasestoque.css";
 export default function LinhasEstoque() {
   const [estoqueLinhas, setEstoqueLinhas] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   useEffect(() => {
-    fetch("http://172.20.229.55:3000/estoque/realizado", {
+    fetch(`${API_URL}/estoque/realizado`, {
       credentials: "include",
     })
       .then((res) => res.json())

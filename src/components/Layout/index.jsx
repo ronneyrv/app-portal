@@ -53,23 +53,14 @@ const Layout = () => {
                         <Routes>
                           <Route path="/" element={<Home />} />
                           <Route path="/estoque" element={<Estoque />} />
-                          <Route
-                            path="/descarregamento"
-                            element={<Descarregamento />}
-                          />
+                          <Route path="/descarregamento" element={<Descarregamento />} />
                           <Route path="/retoma" element={<Retoma />} />
                           <Route path="/horimetro" element={<Horimetro />} />
                           <Route path="/polimero" element={<Polimero />} />
                           <Route path="/combustao" element={<Combustao />} />
                           <Route path="/ronda" element={<Ronda />} />
-                          <Route
-                            path="/programacao-retoma"
-                            element={<RetomaProg />}
-                          />
-                          <Route
-                            path="/programacao-loto"
-                            element={<ProgLoto />}
-                          />
+                          <Route path="/programacao-retoma" element={<RetomaProg />} />
+                          <Route path="/programacao-loto" element={<ProgLoto />} />
                           <Route path="/loto" element={<Loto />} />
                           <Route path="rot" element={<Rot />} />
                           <Route path="/gestao" element={<Gestao />} />

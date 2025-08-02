@@ -8,6 +8,9 @@ export default function EventosRot({
   deHoje,
 }) {
   const [eventoAndamento, setEventoAndamento] = useState([]);
+
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const equipamentos = [
     "CSU/MHC",
     "TCLD",
@@ -54,7 +57,7 @@ export default function EventosRot({
   }
 
   const fetchBuscarEvent = () => {
-    fetch("http://172.20.229.55:3000/eventos/andamento/rot", {
+    fetch(`${API_URL}/eventos/andamento/rot`, {
       credentials: "include",
     })
       .then((res) => {
@@ -76,7 +79,7 @@ export default function EventosRot({
   };
 
   const fetchAtualizarEvent = (text) => {
-    fetch("http://172.20.229.55:3000/eventos/andamento/rot", {
+    fetch(`${API_URL}/eventos/andamento/rot`, {
       credentials: "include",
       method: "PUT",
       headers: {

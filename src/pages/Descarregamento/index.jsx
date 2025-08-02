@@ -13,8 +13,10 @@ import "./descarregamento.css";
 export default function Descarregamento() {
   const [pier, setPier] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const fetchPier = () => {
-    fetch("http://172.20.229.55:3000/descarregamento", {
+    fetch(`${API_URL}/descarregamento`, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -29,7 +31,7 @@ export default function Descarregamento() {
       })
       .then((data) => {
         if (data.type === "success") {
-          fetch("http://172.20.229.55:3000/descarregamento/descarregando", {
+          fetch(`${API_URL}/descarregamento/descarregando`, {
             credentials: "include",
           })
             .then((res) => {

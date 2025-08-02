@@ -5,6 +5,8 @@ import NotifyBar from "../NotifyBar";
 export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   const [obs, setObs] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const [notify, setNotify] = useState({
     open: false,
     message: "",
@@ -27,7 +29,7 @@ export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   }, [obs]);
 
   const fetchBuscarObs = () => {
-    fetch("http://172.20.229.55:3000/observacoes/rot", {
+    fetch(`${API_URL}/observacoes/rot`, {
       credentials: "include",
     })
       .then((res) => {
@@ -49,7 +51,7 @@ export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
   };
 
   const fetchAtualizarObs = (text) => {
-    fetch("http://172.20.229.55:3000/observacoes/rot", {
+    fetch(`${API_URL}/observacoes/rot`, {
       credentials: "include",
       method: "PUT",
       headers: {

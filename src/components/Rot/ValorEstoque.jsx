@@ -4,6 +4,8 @@ import "./valorestoque.css";
 export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
   const [estoque, setEstoque] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const dados = useMemo(() => {
     if (deHoje) return estoque;
     return rotJSON?.valor_estoque ?? estoque;
@@ -15,7 +17,7 @@ export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
 
   useEffect(() => {
     if (!rotJSON) {
-      fetch("http://172.20.229.55:3000/estoque/diario", {
+      fetch(`${API_URL}/estoque/diario`, {
         credentials: "include",
       })
         .then((res) => {

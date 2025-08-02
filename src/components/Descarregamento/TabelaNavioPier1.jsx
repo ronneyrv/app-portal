@@ -67,6 +67,8 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
   const [idNavio, setIdNavio] = useState(false);
   const navio = dados.navio;
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const handleClickOpen = (id) => {
     setIdNavio(id);
     setAbrir(true);
@@ -82,7 +84,7 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
   };
 
   const fetchTabela = () => {
-    fetch(`http://172.20.229.55:3000/descarregamento/${navio}`, {
+    fetch(`${API_URL}/descarregamento/${navio}`, {
       credentials: "include",
     })
       .then((res) => res.json())

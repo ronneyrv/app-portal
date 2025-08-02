@@ -7,8 +7,10 @@ import "./home.css";
 export default function Home() {
   const [pier, setPier] = useState([]);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   useEffect(() => {
-    fetch("http://172.20.229.55:3000/descarregamento", {
+    fetch(`${API_URL}/descarregamento`, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -23,7 +25,7 @@ export default function Home() {
       })
       .then((data) => {
         if (data.type === "success") {
-          fetch("http://172.20.229.55:3000/descarregamento/descarregando", {
+          fetch(`${API_URL}/descarregamento/descarregando`, {
             credentials: "include",
           })
             .then((res) => {

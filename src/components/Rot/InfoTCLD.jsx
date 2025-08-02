@@ -5,6 +5,8 @@ import "./infotcld.css";
 export default function InfoTCLD({ setInfoTcldJson, rotJSON, deHoje }) {
   const [descarregamento, setDescarregamento] = useState({});
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const dataFormat = (data) => {
     if (!data) return " -";
     const date = new Date(data);
@@ -36,7 +38,7 @@ export default function InfoTCLD({ setInfoTcldJson, rotJSON, deHoje }) {
 
   useEffect(() => {
     if (!rotJSON) {
-      fetch("http://172.20.229.55:3000/descarregamento/descarregando", {
+      fetch(`${API_URL}/descarregamento/descarregando`, {
         credentials: "include",
       })
         .then((res) => {

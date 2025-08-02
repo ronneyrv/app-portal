@@ -5,8 +5,10 @@ import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 const ProtectedRoute = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(null);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   useEffect(() => {
-    fetch("http://portalpptm.energiapecem.local:3000/verificaLogin", {
+    fetch(`${API_URL}/verificaLogin`, {
       method: "POST",
       credentials: "include",
       headers: {

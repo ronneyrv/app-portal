@@ -7,10 +7,12 @@ export default function CorretivaPreventiva({ dados }) {
   const chartRef = useRef(null);
   const navio = dados.navio;
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   useEffect(() => {
     if (!navio) return;
     fetch(
-      `http://172.20.229.55:3000/descarregamento/corretiva/preventiva/${navio}`,
+      `${API_URL}/descarregamento/corretiva/preventiva/${navio}`,
       {
         credentials: "include",
       }

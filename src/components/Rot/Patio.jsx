@@ -31,6 +31,8 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
     severity: "success",
   });
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const dados = useMemo(() => {
     if (deHoje) return canhoes;
     return rotJSON?.patio ?? canhoes;
@@ -111,7 +113,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
   );
 
   const fetchCanhoes = () => {
-    fetch("http://172.20.229.55:3000/canhoes", {
+    fetch(`${API_URL}/canhoes`, {
       credentials: "include",
     })
       .then((res) => {
@@ -134,7 +136,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
 
   const handleUpdateCanhao = async (e) => {
     e.preventDefault();
-    fetch(`http://172.20.229.55:3000/canhao`, {
+    fetch(`${API_URL}/canhao`, {
       credentials: "include",
       method: "PUT",
       headers: {

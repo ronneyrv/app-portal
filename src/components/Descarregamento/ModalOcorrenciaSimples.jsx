@@ -36,6 +36,8 @@ export default function ModalOcorrenciaSimples({
     tipo_desligamento: "",
   });
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const handleClose = () => {
     setAbrir(false);
   };
@@ -50,7 +52,7 @@ export default function ModalOcorrenciaSimples({
     setLoading(true);
 
     fetch(
-      `http://172.20.229.55:3000/descarregamento/ocorrencia/simples/${idOcorrencia}`,
+      `${API_URL}/descarregamento/ocorrencia/simples/${idOcorrencia}`,
       {
         method: "PUT",
         headers: {
@@ -89,7 +91,7 @@ export default function ModalOcorrenciaSimples({
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    fetch(`http://172.20.229.55:3000/descarregamento/ocorrencia/${id}`, {
+    fetch(`${API_URL}/descarregamento/ocorrencia/${id}`, {
       credentials: "include",
     })
       .then((res) => res.json())

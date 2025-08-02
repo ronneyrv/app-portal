@@ -43,6 +43,8 @@ export default function Rot() {
   const [andamentoJson, setAndamentoJson] = useState(null);
   const [rotJSON, setRotJSON] = useState(null);
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const [notify, setNotify] = useState({
     open: false,
     message: "",
@@ -195,7 +197,7 @@ export default function Rot() {
 
   const salvarJSON = async () => {
     try {
-      const res = await fetch("http://172.20.229.55:3000/rot", {
+      const res = await fetch(`${API_URL}/rot`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -344,7 +346,7 @@ export default function Rot() {
     `;
 
     try {
-      const response = await fetch("http://172.20.229.55:3000/gerar-pdf", {
+      const response = await fetch(`${API_URL}/gerar-pdf`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

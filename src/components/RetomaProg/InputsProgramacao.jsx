@@ -13,6 +13,8 @@ export default function InputsProgramacao({ dias, semana }) {
   const [pilhas, setPilhas] = useState([]);
   const [textoManual, setTextoManual] = useState({});
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   const opcoesPilhaPadrao = ["1A", "1B", "2A", "2B", "2C", "2D", "3A", "3B"];
   const opcoesPilhaM1 = ["1A", "1B", "2A", "2B", "2C", "2D"];
   const opcoesPilhaM2 = ["2A", "2B", "2C", "2D", "3A", "3B"];
@@ -26,7 +28,7 @@ export default function InputsProgramacao({ dias, semana }) {
   });
 
   useEffect(() => {
-    fetch("http://172.20.229.55:3000/descarregamento/pilhas", {
+    fetch(`${API_URL}/descarregamento/pilhas`, {
       credentials: "include",
     })
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
@@ -79,7 +81,7 @@ export default function InputsProgramacao({ dias, semana }) {
     setLoading(true);
     const programacao = gerarProgramacaoCompleta();
 
-    fetch("http://172.20.229.55:3000/prog-retoma", {
+    fetch(`${API_URL}/prog-retoma`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

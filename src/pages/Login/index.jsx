@@ -11,6 +11,8 @@ function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
   function fildAlert(data) {
     switch (data.type) {
       case "success":
@@ -41,7 +43,7 @@ function Login() {
       return;
     }
 
-    fetch("http://portalpptm.energiapecem.local:3000/login", {
+    fetch(`${API_URL}/login`, {
       method: "POST",
       credentials: "include",
       headers: {

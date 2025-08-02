@@ -22,6 +22,8 @@ export default function MenuAppBar() {
   const [dadoInicial, setDadoInicial] = useState({});
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+  
   const [conta, setConta] = useState({
     usuario: "",
     email: "",
@@ -47,7 +49,7 @@ export default function MenuAppBar() {
   const handleModal = () => {
     setAnchorEl(null);
 
-    fetch("http://172.20.229.55:3000/verificaLogin", {
+    fetch(`${API_URL}/verificaLogin`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -81,7 +83,7 @@ export default function MenuAppBar() {
 
   const handleLogout = () => {
     setLoading(true);
-    fetch("http://172.20.229.55:3000/logout", {
+    fetch(`${API_URL}/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +134,7 @@ export default function MenuAppBar() {
       return;
     }
 
-    fetch("http://172.20.229.55:3000/usuario", {
+    fetch(`${API_URL}/usuario`, {
       method: "PUT",
       credentials: "include",
       headers: {
