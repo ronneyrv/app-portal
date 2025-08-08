@@ -15,9 +15,8 @@ import InvertColorsOutlinedIcon from "@mui/icons-material/InvertColorsOutlined";
 import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepartmentOutlined";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import MobileFriendlyOutlinedIcon from "@mui/icons-material/MobileFriendlyOutlined";
-import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
-import PlaylistAddCheckCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCheckCircleOutlined";
-
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 const drawerItems = [
   {
     title: "Estoque",
@@ -63,13 +62,13 @@ const drawerItems = [
   },
   {
     title: "Prog. de Retoma",
-    icon: <PlaylistAddCheckCircleOutlinedIcon />,
+    icon: <EventNoteIcon />,
     path: "/pptm/programacao-retoma",
     permissao: 6,
   },
   {
     title: "Prog. de LOTO",
-    icon: <LockResetOutlinedIcon />,
+    icon: <PendingActionsIcon />,
     path: "/pptm/programacao-loto",
     permissao: 1,//7
   },

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import InputsProgramacao from "../../components/RetomaProg/inputsProgramacao";
+import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import "./retomaprog.css";
 
 export default function ProgramacaoRetoma() {
   const [ano, setAno] = useState("");
   const [semana, setSemana] = useState("");
   const [dias, setDias] = useState([]);
+  const [programado, setProgramado] = useState(null);
+
+  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
   const definirSemana = () => {
     const hoje = new Date();
@@ -47,12 +51,36 @@ export default function ProgramacaoRetoma() {
     setDias(dias);
   };
 
+  const pesquisarProg = (ano, semana) => {
+    if (!semana || !ano) return;
+    setProgramado(null);
+    
+    fetch(`${API_URL}/prog-retoma/${ano}/${semana}`, {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("HTTP status:", res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.type === "success") {
+          setProgramado(data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro de rede:", error);
+      });
+  };
+
   useEffect(() => {
     definirSemana();
   }, []);
 
   useEffect(() => {
     definirDias();
+    pesquisarProg(ano, semana);
   }, [semana, ano]);
 
   return (
@@ -73,9 +101,16 @@ export default function ProgramacaoRetoma() {
           value={ano}
           onChange={(e) => setAno(e.target.value)}
         />
+        <PlagiarismIcon
+          sx={{
+            cursor: "pointer",
+            fontSize: "30px",
+          }}
+          onClick={() => console.log(programado)}
+        />
       </div>
 
-      <InputsProgramacao dias={dias} semana={semana} />
+      <InputsProgramacao dias={dias} semana={semana} ano={ano} programado={programado} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import NotifyBar from "../NotifyBar";
 import "./inputsProgramacao.css";
 
-export default function InputsProgramacao({ dias, semana }) {
+export default function InputsProgramacao({ dias, semana, ano, programado }) {
   const [loading, setLoading] = useState(false);
   const [comentarios, setComentarios] = useState({});
   const [selecaoMaquina, setSelecaoMaquina] = useState({});
@@ -26,6 +26,62 @@ export default function InputsProgramacao({ dias, semana }) {
     message: "",
     severity: "success",
   });
+
+  useEffect(() => {
+    if (programado) {
+      const novasMaquinas = {};
+      const novasPilhas = {};
+      const novosComentarios = {};
+      const novasEmpilhas = {};
+      const novosTextoManual = {};
+
+      programado.forEach((item, index) => {
+        if (item.maquina_ug1)
+          novasMaquinas[`maquina-UG1-${index}`] = item.maquina_ug1;
+        if (item.pilha_ug1)
+          novasPilhas[`pilhas-UG1-${index}`] = item.pilha_ug1.split(", ");
+        if (item.navio_ug1)
+          novosComentarios[`comentario-UG1-${index}`] = item.navio_ug1;
+
+        if (item.maquina_ug2)
+          novasMaquinas[`maquina-UG2-${index}`] = item.maquina_ug2;
+        if (item.pilha_ug2)
+          novasPilhas[`pilhas-UG2-${index}`] = item.pilha_ug2.split(", ");
+        if (item.navio_ug2)
+          novosComentarios[`comentario-UG2-${index}`] = item.navio_ug2;
+
+        if (item.maquina_ug3)
+          novasMaquinas[`maquina-UG3-${index}`] = item.maquina_ug3;
+        if (item.pilha_ug3)
+          novasPilhas[`pilhas-UG3-${index}`] = item.pilha_ug3.split(", ");
+        if (item.navio_ug3)
+          novosComentarios[`comentario-UG3-${index}`] = item.navio_ug3;
+
+        if (item.maquina_empilha)
+          novasEmpilhas[`empilha-Empilha-${index}`] = item.maquina_empilha;
+        if (item.pilha_empilha)
+          novasPilhas[`pilhas-Empilha-${index}`] =
+            item.pilha_empilha.split(", ");
+        if (item.navio_empilha)
+          novosTextoManual[`comentario-Empilha-${index}`] = item.navio_empilha;
+      });
+
+      setSelecaoMaquina(novasMaquinas);
+      setSelecaoPilha(novasPilhas);
+      setComentarios(novosComentarios);
+      setSelecaoEmpilha(novasEmpilhas);
+      setTextoManual(novosTextoManual);
+
+    } else {
+
+      setSelecaoMaquina({});
+      setSelecaoPilha({});
+      setComentarios({});
+      setSelecaoEmpilha({});
+      setTextoManual({});
+      
+    }
+  }, [programado]);
 
   useEffect(() => {
     fetch(`${API_URL}/descarregamento/pilhas`, {
@@ -385,6 +441,7 @@ export default function InputsProgramacao({ dias, semana }) {
     const programacoes = dias.map((dia, index) => ({
       dia: formatarData(dia),
       semana: semana,
+      ano: ano,
 
       maquina_ug1: selecaoMaquina[`maquina-UG1-${index}`] || "",
       pilha_ug1: (selecaoPilha[`pilhas-UG1-${index}`] || []).join(", "),
