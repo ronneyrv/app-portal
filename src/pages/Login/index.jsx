@@ -80,7 +80,10 @@ function Login() {
           type="text"
           placeholder="Usuário"
           value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
+          onChange={(e) => {
+            const valorSemEspaco = e.target.value.replace(/\s+/g, "");
+            setUsuario(valorSemEspaco);
+          }}
           onBlur={() => setUsuario(primeiraMaiuscula(usuario))}
         />
         <input
@@ -94,7 +97,7 @@ function Login() {
         </div>
         <button type="submit">Entrar</button>
         <div className="signup">
-          <Link to="/signup">Novo usuário</Link>
+          <Link to="/signup">Cadastrar</Link>
         </div>
       </form>
       <MessageAlert type={typeMessage} message={message} />

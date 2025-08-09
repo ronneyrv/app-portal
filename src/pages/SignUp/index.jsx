@@ -101,7 +101,10 @@ function Signup() {
           type="text"
           placeholder="Nome social"
           value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
+          onChange={(e) => {
+            const valorSemEspaco = e.target.value.replace(/\s+/g, "");
+            setUsuario(valorSemEspaco);
+          }}
           onBlur={() => setUsuario(primeiraMaiuscula(usuario))}
         />
         <input
