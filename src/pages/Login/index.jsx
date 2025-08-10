@@ -80,6 +80,7 @@ function Login() {
           type="text"
           placeholder="Usuário"
           value={usuario}
+          autocomplete="username"
           onChange={(e) => {
             const valorSemEspaco = e.target.value.replace(/\s+/g, "");
             setUsuario(valorSemEspaco);
@@ -91,6 +92,7 @@ function Login() {
           placeholder="Senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
+          autocomplete="current-password"
         />
         <div className="password">
           <Link to="/password">Recuperar senha</Link>
