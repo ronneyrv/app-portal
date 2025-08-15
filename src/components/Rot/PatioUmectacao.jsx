@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import SignalWifiStatusbar4BarIcon from "@mui/icons-material/SignalWifiStatusbar4Bar";
@@ -15,11 +15,10 @@ import {
   Typography,
 } from "@mui/material";
 
-
-import "./patioumectacao.css";
 import NotifyBar from "../NotifyBar";
+import "./patioumectacao.css";
 
-export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
+export default function PatioUmectacao({ setUmectacaoJson, dadosJSON }) {
   const [disponivel, setDisponivel] = useState(0);
   const [statusSelecionado, setStatusSelecionado] = useState(null);
   const [open, setOpen] = useState(false);
@@ -33,16 +32,19 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
 
   const handleClose = () => setOpen(false);
 
-  const dados = useMemo(() => {
-    if (deHoje) return disponivel;
-    return rotJSON?.patio_umectacao?.disponivel ?? disponivel;
-  }, [rotJSON, disponivel, deHoje]);
-
   useEffect(() => {
-    if (!rotJSON) {
+    let dadosParaSetar;
+    if (dadosJSON) {
+      try {
+        dadosParaSetar = JSON.parse(dadosJSON.patio_umectacao);
+        setDisponivel(dadosParaSetar.disponivel);
+      } catch (error) {
+        console.error("Erro ao fazer parse do JSON:", error);
+      }
+    } else {
       fetchUmectacao();
     }
-  }, [rotJSON]);
+  }, [dadosJSON]);
 
   useEffect(() => {
     setUmectacaoJson({ disponivel: disponivel });
@@ -159,8 +161,8 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
                   label="Status"
                   onChange={(e) => setStatusSelecionado(e.target.value)}
                 >
-                  <MenuItem value="1">DISPONÍVEL</MenuItem>
-                  <MenuItem value="0">INDISPONÍVEL</MenuItem>
+                  <MenuItem value="true">DISPONÍVEL</MenuItem>
+                  <MenuItem value="false">INDISPONÍVEL</MenuItem>
                 </Select>
               </FormControl>
               <Button type="submit" variant="contained" color="primary">
@@ -178,7 +180,7 @@ export default function PatioUmectacao({ setUmectacaoJson, rotJSON, deHoje }) {
             className="umectacao-status"
             onClick={() => handleStatus(disponivel)}
           >
-            {dados === 1 ? (
+            {disponivel === true ? (
               <>
                 <GppGoodIcon style={{ fontSize: 20, color: "#76ff03" }} />
                 <h4>Sistema Disponível</h4>

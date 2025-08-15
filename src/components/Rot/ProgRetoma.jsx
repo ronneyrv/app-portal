@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import "./progretoma.css";
 
-export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
+export default function Prog({ setProgramacaoJson, dadosJSON }) {
   const [progRetoma, setprogRetoma] = useState([]);
+  const [ano, setAno] = useState(0);
   const [semana, setSemana] = useState(0);
   const [hovered, setHoveredIndex] = useState(false);
   const [hovered2, setHovered2Index] = useState(false);
@@ -13,37 +14,46 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
 
   const dataFormatada = (d) => new Date(d).toLocaleDateString("pt-BR");
 
-  const definirSemana = () => {
+  const definirAnoSemana = () => {
     const hoje = new Date();
-    const primeiroDiaDoAno = new Date(hoje.getFullYear(), 0, 1);
+    const anoAtual = hoje.getFullYear();
+    setAno(anoAtual);
+
+    const primeiroDiaDoAno = new Date(anoAtual, 0, 1);
     const diaSemana = primeiroDiaDoAno.getDay();
-    const ajustePrimeiroDia = diaSemana === 0 ? 6 : diaSemana - 1; // Ajustar para começar a semana na segunda (segunda = 1, domingo = 7)
+    const ajustePrimeiroDia = diaSemana === 0 ? 6 : diaSemana - 1; // Segunda = 1, Domingo = 7
     const msPorDia = 24 * 60 * 60 * 1000;
     const diasDesdePrimeiro =
       Math.floor((hoje - primeiroDiaDoAno) / msPorDia) + ajustePrimeiroDia;
-    const semanaAtual = Math.ceil(diasDesdePrimeiro / 7) + 1;
+    const semanaAtual = Math.ceil(diasDesdePrimeiro / 7);
     setSemana(semanaAtual);
   };
 
-  const dados = useMemo(() => {
-    if (deHoje) return progRetoma;
-    return rotJSON?.programacao ?? progRetoma;
-  }, [rotJSON, progRetoma, deHoje]);
-
   useEffect(() => {
-    if (!rotJSON) {
-      definirSemana();
-    }
-  }, [rotJSON]);
+    definirAnoSemana();
+  }, []);
 
   useEffect(() => {
     setProgramacaoJson(progRetoma);
   }, [progRetoma]);
 
   useEffect(() => {
-    if (semana === 0) return;
+    let dadosParaSetar;
+    if (dadosJSON) {
+      try {
+        dadosParaSetar = JSON.parse(dadosJSON.programacao);
+        setprogRetoma(dadosParaSetar);
+      } catch (error) {
+        console.error("Erro ao fazer parse do JSON:", error);
+      }
+    } else {
+      fetchProgramacao();
+    }
+  }, [dadosJSON, semana]);
 
-    fetch(`${API_URL}/prog-retoma/${semana}`, {
+  const fetchProgramacao = () => {
+    if (semana === 0) return;
+    fetch(`${API_URL}/prog-retoma/${ano}/${semana}`, {
       credentials: "include",
     })
       .then((res) => {
@@ -63,7 +73,7 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
         console.error("Erro de rede:", error);
         setprogRetoma([]);
       });
-  }, [semana]);
+  };
 
   return (
     <table className="prog-tabela">
@@ -83,25 +93,25 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
         </tr>
         <tr>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[0].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[0].dia) : "?"}
           </th>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[1].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[1].dia) : "?"}
           </th>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[2].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[2].dia) : "?"}
           </th>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[3].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[3].dia) : "?"}
           </th>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[4].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[4].dia) : "?"}
           </th>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[5].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[5].dia) : "?"}
           </th>
           <th colSpan="2">
-            {dados.length > 0 ? dataFormatada(dados[6].dia) : "?"}
+            {progRetoma.length > 0 ? dataFormatada(progRetoma[6].dia) : "?"}
           </th>
         </tr>
       </thead>
@@ -117,23 +127,23 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           <td rowSpan="2" className="col-2">
             Retoma
           </td>
-          <td>{dados.length > 0 ? dados[0].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].maquina_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].maquina_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].maquina_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].maquina_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].maquina_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].pilha_ug1 : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].maquina_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_ug1 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].maquina_ug1 : "?"}</td>
           <td rowSpan="2" className="col-fix">
-            {dados.length > 0
-              ? dados[0].obs_ug1
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_ug1
               : `Programação Semana ${semana} não foi definida!`}
           </td>
         </tr>
@@ -143,25 +153,25 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           onMouseLeave={() => setHoveredIndex(false)}
         >
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[0].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[0].navio_ug1 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[1].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[1].navio_ug1 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[2].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[2].navio_ug1 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[3].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[3].navio_ug1 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[4].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[4].navio_ug1 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[5].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[5].navio_ug1 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[6].navio_ug1 : "?"}
+            {progRetoma.length > 0 ? progRetoma[6].navio_ug1 : "?"}
           </td>
         </tr>
 
@@ -178,23 +188,23 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           <td rowSpan="2" className="col-2">
             Retoma
           </td>
-          <td>{dados.length > 0 ? dados[0].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].maquina_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].maquina_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].maquina_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].maquina_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].maquina_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].pilha_ug2 : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].maquina_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_ug2 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].maquina_ug2 : "?"}</td>
           <td rowSpan="2" className="col-fix">
-            {dados.length > 0
-              ? dados[0].obs_ug2
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_ug2
               : `Programação Semana ${semana} não foi definida!`}
           </td>
         </tr>
@@ -206,25 +216,25 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           onMouseLeave={() => setHovered2Index(false)}
         >
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[0].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[0].navio_ug2 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[1].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[1].navio_ug2 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[2].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[2].navio_ug2 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[3].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[3].navio_ug2 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[4].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[4].navio_ug2 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[5].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[5].navio_ug2 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[6].navio_ug2 : "?"}
+            {progRetoma.length > 0 ? progRetoma[6].navio_ug2 : "?"}
           </td>
         </tr>
 
@@ -241,23 +251,23 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           <td rowSpan="2" className="col-2">
             Retoma
           </td>
-          <td>{dados.length > 0 ? dados[0].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].maquina_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].maquina_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].maquina_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].maquina_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].maquina_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].pilha_ug3 : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].maquina_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_ug3 : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].maquina_ug3 : "?"}</td>
           <td rowSpan="2" className="col-fix">
-            {dados.length > 0
-              ? dados[0].obs_ug3
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_ug3
               : `Programação Semana ${semana} não foi definida!`}
           </td>
         </tr>
@@ -269,25 +279,25 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           onMouseLeave={() => setHovered3Index(false)}
         >
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[0].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[0].navio_ug3 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[1].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[1].navio_ug3 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[2].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[2].navio_ug3 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[3].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[3].navio_ug3 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[4].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[4].navio_ug3 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[5].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[5].navio_ug3 : "?"}
           </td>
           <td colSpan="2" className="row-fix">
-            {dados.length > 0 ? dados[6].navio_ug3 : "?"}
+            {progRetoma.length > 0 ? progRetoma[6].navio_ug3 : "?"}
           </td>
         </tr>
         <tr
@@ -300,23 +310,23 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           <td rowSpan="2" colSpan="2" className="col-3">
             Empilha
           </td>
-          <td>{dados.length > 0 ? dados[0].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[1].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[2].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[3].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[4].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[5].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[6].pilha_empilha : "?"}</td>
-          <td>{dados.length > 0 ? dados[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[1].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[2].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[3].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[4].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[5].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[6].pilha_empilha : "?"}</td>
+          <td>{progRetoma.length > 0 ? progRetoma[0].maquina_empilha : "?"}</td>
           <td rowSpan="2" className="col-fix">
-            {dados.length > 0
-              ? dados[0].obs_empilha
+            {progRetoma.length > 0
+              ? progRetoma[0].obs_empilha
               : `Programação Semana ${semana} não foi definida!`}
           </td>
         </tr>
@@ -328,25 +338,25 @@ export default function Prog({ setProgramacaoJson, rotJSON, deHoje }) {
           onMouseLeave={() => setHovered4Index(false)}
         >
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[0].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[0].navio_empilha : "?"}
           </td>
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[1].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[1].navio_empilha : "?"}
           </td>
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[2].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[2].navio_empilha : "?"}
           </td>
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[3].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[3].navio_empilha : "?"}
           </td>
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[4].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[4].navio_empilha : "?"}
           </td>
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[5].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[5].navio_empilha : "?"}
           </td>
           <td colSpan="2" className="row-fix2">
-            {dados.length > 0 ? dados[6].navio_empilha : "?"}
+            {progRetoma.length > 0 ? progRetoma[6].navio_empilha : "?"}
           </td>
         </tr>
       </tbody>

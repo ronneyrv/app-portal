@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Button,
   Dialog,
@@ -14,9 +14,10 @@ import NotifyBar from "../NotifyBar";
 export default function ModalRot({
   confirmData,
   setConfirmData,
-  setRotJSON,
   setFuncaoPDF,
+  deHoje,
   setDeHoje,
+  setDadosJSON,
 }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState("");
@@ -84,7 +85,6 @@ export default function ModalRot({
       if (!res.ok || dados.type !== "success") {
         return { success: false, message: dados.message, severity: dados.type };
       }
-
       return { success: true, dados: dados };
     } catch (error) {
       console.error("Erro em buscar dados do ROT:", error);
@@ -99,7 +99,6 @@ export default function ModalRot({
   const Confirme = async () => {
     const rot = verificarTurno(data, turno);
     handleClose();
-    setDeHoje(false);
 
     if (rot === "atual") {
       setLoading(true);
@@ -115,8 +114,7 @@ export default function ModalRot({
         return;
       }
       setLoading(false);
-      setDeHoje(true);
-      return setRotJSON(busca.dados.data[0]);
+      return setDadosJSON(busca.dados.data[0]);
     } else {
       setLoading(true);
       const busca = await buscarJSON();
@@ -131,7 +129,7 @@ export default function ModalRot({
         return;
       }
       setLoading(false);
-      setRotJSON(busca.dados.data[0]);
+      setDadosJSON(busca.dados.data[0]);
       return setFuncaoPDF(true);
     }
   };
@@ -155,6 +153,7 @@ export default function ModalRot({
         <DialogTitle id="modal-rot-title">Buscar ROT</DialogTitle>
         <DialogContent dividers>
           <TextField
+            id="data"
             fullWidth
             margin="normal"
             type="date"
@@ -163,6 +162,7 @@ export default function ModalRot({
           />
           <TextField
             select
+            id="turno"
             fullWidth
             margin="normal"
             label="Turno"

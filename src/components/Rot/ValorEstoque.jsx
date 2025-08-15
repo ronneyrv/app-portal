@@ -1,22 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
 import "./valorestoque.css";
 
-export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
+export default function ValorEstoque({ setValorEstoqueJson, dadosJSON }) {
   const [estoque, setEstoque] = useState([]);
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
-
-  const dados = useMemo(() => {
-    if (deHoje) return estoque;
-    return rotJSON?.valor_estoque ?? estoque;
-  }, [rotJSON, estoque, deHoje]);
 
   useEffect(() => {
     setValorEstoqueJson(estoque);
   }, [estoque]);
 
   useEffect(() => {
-    if (!rotJSON) {
+    let dadosParaSetar;
+    if (dadosJSON) {
+      try {
+        dadosParaSetar = JSON.parse(dadosJSON.valor_estoque);
+        setEstoque(dadosParaSetar);
+      } catch (error) {
+        console.error("Erro ao fazer parse do JSON:", error);
+      }
+    } else {
       fetch(`${API_URL}/estoque/diario`, {
         credentials: "include",
       })
@@ -37,7 +40,7 @@ export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
           console.error("Erro de rede:", error);
         });
     }
-  }, [rotJSON]);
+  }, [dadosJSON, API_URL]);
 
   const formatarVolume = (valor) => {
     return Number(valor)
@@ -51,21 +54,21 @@ export default function ValorEstoque({ setValorEstoqueJson, rotJSON, deHoje }) {
       <div className="stq">
         <div className="content">
           <div className="colum">
-            {dados.map((item, index) => (
+            {estoque.map((item, index) => (
               <div key={index} className="client">
                 <h5>Energia Pecém</h5>
                 <span>{formatarVolume(item.volume_ep)} toneladas</span>
                 <span>{item.dia_ep} dias</span>
               </div>
             ))}
-            {dados.map((item, index) => (
+            {estoque.map((item, index) => (
               <div key={index} className="client">
                 <h5>Eneva</h5>
                 <span>{formatarVolume(item.volume_eneva)} toneladas</span>
                 <span>{item.dia_eneva} dias</span>
               </div>
             ))}
-            {dados.map((item, index) => (
+            {estoque.map((item, index) => (
               <div key={index} className="client">
                 <h5>Energia Pecém + Eneva</h5>
                 <span>{formatarVolume(item.volume_conjunto)} toneladas</span>

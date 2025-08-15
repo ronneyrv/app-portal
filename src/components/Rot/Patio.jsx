@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import SignalWifiStatusbar4BarIcon from "@mui/icons-material/SignalWifiStatusbar4Bar";
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import SignalWifiConnectedNoInternet4Icon from "@mui/icons-material/SignalWifiConnectedNoInternet4";
@@ -20,7 +20,7 @@ import alturas from "../../assets/config/DataAlturas";
 
 import "./patio.css";
 
-export default function Patio({ setPatioJson, rotJSON, deHoje }) {
+export default function Patio({ setPatioJson, dadosJSON }) {
   const [canhoes, setCanhoes] = useState([]);
   const [canhaoSelecionado, setCanhaoSelecionado] = useState(null);
   const [modoSelecionado, setModoSelecionado] = useState(null);
@@ -32,21 +32,24 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
   });
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
-
-  const dados = useMemo(() => {
-    if (deHoje) return canhoes;
-    return rotJSON?.patio ?? canhoes;
-  }, [rotJSON, canhoes, deHoje]);
-
-  useEffect(() => {
-    if (!rotJSON) {
-      fetchCanhoes();
-    }
-  }, [rotJSON]);
-
+  
   useEffect(() => {
     setPatioJson(canhoes);
   }, [canhoes]);
+  
+  useEffect(() => {
+    let dadosParaSetar;
+    if (dadosJSON) {
+      try {
+        dadosParaSetar = JSON.parse(dadosJSON.patio);
+        setCanhoes(dadosParaSetar);
+      } catch (error) {
+        console.error("Erro ao fazer parse do JSON:", error);
+      }
+    } else {
+      fetchCanhoes();
+    }
+  }, [dadosJSON]);
 
   const iconMap = {
     disponivel: (
@@ -235,7 +238,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
         <div className="patio">
           <div className="patio-3">
             <div className="can-linha-6">
-              {[...dados.slice(45, 54).reverse()].map((item, index) => {
+              {[...canhoes.slice(45, 54).reverse()].map((item, index) => {
                 const IconComponent = iconMap[item.modo];
                 const rotation = rotationMap[item.posicao] || "0deg";
                 return (
@@ -244,6 +247,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
                       style={{
                         display: "inline-block",
                         transform: `rotate(${rotation})`,
+                        cursor: "pointer",
                       }}
                       onClick={() => configCanhao(item.can, item.modo)}
                     >
@@ -258,7 +262,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
               <div className="pilha-3A">{renderPilha("3A")}</div>
             </div>
             <div className="can-linha-5">
-              {[...dados.slice(36, 45).reverse()].map((item, index) => {
+              {[...canhoes.slice(36, 45).reverse()].map((item, index) => {
                 const IconComponent = iconMap[item.modo];
                 const rotation = rotationMap[item.posicao] || "0deg";
                 return (
@@ -267,6 +271,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
                       style={{
                         display: "inline-block",
                         transform: `rotate(${rotation})`,
+                        cursor: "pointer",
                       }}
                       onClick={() => configCanhao(item.can, item.modo)}
                     >
@@ -280,7 +285,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
           <Divider />
           <div className="patio-2">
             <div className="can-linha-4">
-              {[...dados.slice(27, 36).reverse()].map((item, index) => {
+              {[...canhoes.slice(27, 36).reverse()].map((item, index) => {
                 const IconComponent = iconMap[item.modo];
                 const rotation = rotationMap[item.posicao] || "0deg";
                 return (
@@ -289,6 +294,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
                       style={{
                         display: "inline-block",
                         transform: `rotate(${rotation})`,
+                        cursor: "pointer",
                       }}
                       onClick={() => configCanhao(item.can, item.modo)}
                     >
@@ -305,7 +311,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
               <div className="pilha-2A">{renderPilha("2A")}</div>
             </div>
             <div className="can-linha-3">
-              {[...dados.slice(18, 27).reverse()].map((item, index) => {
+              {[...canhoes.slice(18, 27).reverse()].map((item, index) => {
                 const IconComponent = iconMap[item.modo];
                 const rotation = rotationMap[item.posicao] || "0deg";
                 return (
@@ -314,6 +320,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
                       style={{
                         display: "inline-block",
                         transform: `rotate(${rotation})`,
+                        cursor: "pointer",
                       }}
                       onClick={() => configCanhao(item.can, item.modo)}
                     >
@@ -327,7 +334,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
           <Divider />
           <div className="patio-1">
             <div className="can-linha-2">
-              {[...dados.slice(9, 18).reverse()].map((item, index) => {
+              {[...canhoes.slice(9, 18).reverse()].map((item, index) => {
                 const IconComponent = iconMap[item.modo];
                 const rotation = rotationMap[item.posicao] || "0deg";
                 return (
@@ -336,6 +343,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
                       style={{
                         display: "inline-block",
                         transform: `rotate(${rotation})`,
+                        cursor: "pointer",
                       }}
                       onClick={() => configCanhao(item.can, item.modo)}
                     >
@@ -352,7 +360,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
             </div>
 
             <div className="can-linha-1">
-              {[...dados.slice(0, 9).reverse()].map((item, index) => {
+              {[...canhoes.slice(0, 9).reverse()].map((item, index) => {
                 const IconComponent = iconMap[item.modo];
                 const rotation = rotationMap[item.posicao] || "0deg";
                 return (
@@ -361,6 +369,7 @@ export default function Patio({ setPatioJson, rotJSON, deHoje }) {
                       style={{
                         display: "inline-block",
                         transform: `rotate(${rotation})`,
+                        cursor: "pointer",
                       }}
                       onClick={() => configCanhao(item.can, item.modo)}
                     >

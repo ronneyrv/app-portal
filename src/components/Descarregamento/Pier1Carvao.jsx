@@ -41,7 +41,7 @@ function PrevisaoTermino(atracacao, meta) {
 }
 
 function PrevisaoReal(atracacao, saldo, taxa) {
-  if (!atracacao || saldo == null || !taxa) return null;
+  if (!atracacao || saldo == null || !taxa) return " -";
 
   const dataAtracacao = new Date(atracacao);
   const agora = new Date();

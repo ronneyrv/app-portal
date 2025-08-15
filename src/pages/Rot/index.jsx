@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Paper } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
@@ -28,7 +28,7 @@ export default function Rot() {
   const [loading, setLoading] = useState(false);
   const [confirmData, setConfirmData] = useState(false);
   const [funcaoPDF, setFuncaoPDF] = useState(false);
-  const [deHoje, setDeHoje] = useState(false);
+  const [deHoje, setDeHoje] = useState(true);
 
   const [infoTcldJson, setInfoTcldJson] = useState(null);
   const [patioJson, setPatioJson] = useState(null);
@@ -41,7 +41,7 @@ export default function Rot() {
   const [retomaJson, setRetomaJson] = useState(null);
   const [eventosJson, setEventosJson] = useState(null);
   const [andamentoJson, setAndamentoJson] = useState(null);
-  const [rotJSON, setRotJSON] = useState(null);
+  const [dadosJSON, setDadosJSON] = useState(null);
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -66,7 +66,7 @@ export default function Rot() {
       await gerarPDF();
       setFuncaoPDF(false);
       setLoading(false);
-      setRotJSON(null);
+      setDadosJSON(null);
     };
 
     executar();
@@ -153,13 +153,19 @@ export default function Rot() {
           severity: resultado.severity,
         });
         return;
+      } else {
+        setLoading(false);
+        setNotify({
+          open: true,
+          message: salva.message,
+          severity: salva.severity,
+        });
       }
-      return setLoading(false);
     } else {
       setNotify({
         open: true,
-        message: "Verifique a Data e Turno do ROT",
-        severity: "error",
+        message: "Verifique a Data e o Turno do ROT",
+        severity: "info",
       });
       return;
     }
@@ -228,7 +234,7 @@ export default function Rot() {
         return { success: false, message: data.message, severity: data.type };
       }
 
-      return { success: true };
+      return { success: true, message: data.message, severity: data.type };
     } catch (error) {
       console.error("Erro em salvar os dados ROT:", error);
       return {
@@ -390,11 +396,11 @@ export default function Rot() {
       <ModalRot
         confirmData={confirmData}
         setConfirmData={setConfirmData}
-        rotJSON={rotJSON}
-        setRotJSON={setRotJSON}
         funcaoPDF={funcaoPDF}
         setFuncaoPDF={setFuncaoPDF}
+        deHoje={deHoje}
         setDeHoje={setDeHoje}
+        setDadosJSON={setDadosJSON}
       />
       <div className="buttons-rot">
         <Button variant="outlined" onClick={salvarROT}>
@@ -443,76 +449,51 @@ export default function Rot() {
             setElaboradorSelecionado={setElaboradorSelecionado}
             supervisor={supervisor}
             setSupervisor={setSupervisor}
-            rotJSON={rotJSON}
+            dadosJSON={dadosJSON}
           />
           <div className="section-tcld">
             <h2>Operação TCLD</h2>
-            <InfoTCLD
-              infoTcldJson={infoTcldJson}
-              setInfoTcldJson={setInfoTcldJson}
-              rotJSON={rotJSON}
-              deHoje={deHoje}
-            />
+            <InfoTCLD setInfoTcldJson={setInfoTcldJson} dadosJSON={dadosJSON} />
           </div>
-
           <div className="section-patio">
             <h2>Pátio de carvão</h2>
             <div className="area-patio">
               <div className="area-patio-pilha">
-                <Patio
-                  patioJson={patioJson}
-                  setPatioJson={setPatioJson}
-                  rotJSON={rotJSON}
-                  deHoje={deHoje}
-                />
+                <Patio setPatioJson={setPatioJson} dadosJSON={dadosJSON} />
               </div>
               <div className="area-patio-controle">
                 <div className="area-patio-umectacao">
                   <PatioUmectacao
-                    umectacaoJson={umectacaoJson}
                     setUmectacaoJson={setUmectacaoJson}
-                    rotJSON={rotJSON}
-                    deHoje={deHoje}
+                    dadosJSON={dadosJSON}
                   />
                 </div>
                 <Divider />
                 <div className="area-patio-polimero">
                   <PatioPolimero
-                    polimeroJson={polimeroJson}
                     setPolimeroJson={setPolimeroJson}
-                    polimeroVolJson={polimeroVolJson}
                     setPolimeroVolJson={setPolimeroVolJson}
-                    rotJSON={rotJSON}
-                    deHoje={deHoje}
+                    dadosJSON={dadosJSON}
                   />
                 </div>
                 <Divider />
                 <div className="area-patio-obs">
-                  <PatioObs
-                    obsJson={obsJson}
-                    setObsJson={setObsJson}
-                    rotJSON={rotJSON}
-                    deHoje={deHoje}
-                  />
+                  <PatioObs setObsJson={setObsJson} dadosJSON={dadosJSON} />
                 </div>
               </div>
             </div>
             <div className="section-estoque">
               <ValorEstoque
-                valorEstoqueJson={valorEstoqueJson}
                 setValorEstoqueJson={setValorEstoqueJson}
-                rotJSON={rotJSON}
-                deHoje={deHoje}
+                dadosJSON={dadosJSON}
               />
             </div>
           </div>
           <div className="section-programacao">
             <h2>Programação de Retoma</h2>
             <Prog
-              programacaoJson={programacaoJson}
               setProgramacaoJson={setProgramacaoJson}
-              rotJSON={rotJSON}
-              deHoje={deHoje}
+              dadosJSON={dadosJSON}
             />
           </div>
           <div className="section-retoma">
@@ -520,21 +501,16 @@ export default function Rot() {
             <RetomaTurno
               dataSelecionada={dataSelecionada}
               turnoSelecionado={turnoSelecionado}
-              retomaJson={retomaJson}
               setRetomaJson={setRetomaJson}
-              rotJSON={rotJSON}
-              deHoje={deHoje}
+              dadosJSON={dadosJSON}
             />
           </div>
           <div className="section-evento">
             <h2>Eventos</h2>
             <EventosRot
-              eventosJson={eventosJson}
               setEventosJson={setEventosJson}
-              andamentoJson={andamentoJson}
               setAndamentoJson={setAndamentoJson}
-              rotJSON={rotJSON}
-              deHoje={deHoje}
+              dadosJSON={dadosJSON}
             />
           </div>
         </div>

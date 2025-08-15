@@ -5,8 +5,7 @@ export default function RetomaTurno({
   dataSelecionada,
   turnoSelecionado,
   setRetomaJson,
-  rotJSON,
-  deHoje,
+  dadosJSON,
 }) {
   const [retomado, setRetomado] = useState([]);
 
@@ -22,18 +21,26 @@ export default function RetomaTurno({
     return `${dataStr} ${horaStr}`;
   };
 
-  const dados = useMemo(() => {
-    if (deHoje) return retomado;
-    return rotJSON?.retoma_turno ?? retomado;
-  }, [rotJSON, retomado, deHoje]);
-  
   useEffect(() => {
     setRetomaJson(retomado);
   }, [retomado]);
 
   useEffect(() => {
-    setRetomado([]);
+    let dadosParaSetar;
+    if (dadosJSON) {
+      try {
+        dadosParaSetar = JSON.parse(dadosJSON.retoma_turno);
+        setRetomado(dadosParaSetar);
+      } catch (error) {
+        console.error("Erro ao fazer parse do JSON:", error);
+      }
+    } else {
+      fetchProgramacao();
+    }
+  }, [dadosJSON]);
 
+  const fetchProgramacao = () => {
+    if (!dataSelecionada || !turnoSelecionado) return;
     if (dataSelecionada && turnoSelecionado) {
       fetch(`${API_URL}/retoma`, {
         method: "POST",
@@ -61,7 +68,7 @@ export default function RetomaTurno({
           console.error("Erro ao buscar o retomado:", err);
         });
     }
-  }, [dataSelecionada, turnoSelecionado]);
+  };
 
   return (
     <div className="tabela-container">
@@ -77,12 +84,12 @@ export default function RetomaTurno({
           </tr>
         </thead>
         <tbody>
-          {dados.length === 0 ? (
+          {retomado.length === 0 ? (
             <tr>
               <td colSpan="6">Sem retoma no turno</td>
             </tr>
           ) : (
-            dados.map((item, index) => (
+            retomado.map((item, index) => (
               <tr key={index}>
                 <td>{item.ug}</td>
                 <td>{item.maquina}</td>

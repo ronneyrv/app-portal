@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import "./patioobservacao.css";
 import NotifyBar from "../NotifyBar";
 
-export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
+export default function PatioObs({ setObsJson, dadosJSON }) {
   const [obs, setObs] = useState([]);
 
+  const rotJSON = null;
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
   const [notify, setNotify] = useState({
@@ -13,16 +14,17 @@ export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
     severity: "success",
   });
 
-  const dados = useMemo(() => {
-    if (deHoje) return obs;
-    return rotJSON?.patio_obs ?? obs;
-  }, [rotJSON, obs, deHoje]);
-
   useEffect(() => {
-    if (!rotJSON) {
+    if (dadosJSON) {
+      try {
+        setObs(dadosJSON.patio_obs);
+      } catch (error) {
+        console.error("Erro ao fazer parse do JSON:", error);
+      }
+    } else {
       fetchBuscarObs();
     }
-  }, [rotJSON]);
+  }, [dadosJSON]);
 
   useEffect(() => {
     setObsJson(obs);
@@ -88,7 +90,7 @@ export default function PatioObs({ setObsJson, rotJSON, deHoje }) {
         <h3>Observações:</h3>
         <textarea
           rows={6}
-          value={dados}
+          value={obs}
           onChange={(e) => setObs(e.target.value)}
           onBlur={(e) => fetchAtualizarObs(e.target.value)}
         />

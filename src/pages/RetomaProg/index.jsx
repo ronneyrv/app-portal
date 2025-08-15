@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InputsProgramacao from "../../components/RetomaProg/inputsProgramacao";
-import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import PlagiarismIcon from "@mui/icons-material/Plagiarism";
 import "./retomaprog.css";
 
 export default function ProgramacaoRetoma() {
@@ -54,7 +54,7 @@ export default function ProgramacaoRetoma() {
   const pesquisarProg = (ano, semana) => {
     if (!semana || !ano) return;
     setProgramado(null);
-    
+
     fetch(`${API_URL}/prog-retoma/${ano}/${semana}`, {
       credentials: "include",
     })
@@ -88,15 +88,17 @@ export default function ProgramacaoRetoma() {
       <h3>Programação de Retoma</h3>
 
       <div className="semana-container">
-        <label>SEMANA</label>
+        <label htmlFor="semana">SEMANA</label>
         <input
+          id="semana"
           type="number"
           value={semana}
           onChange={(e) => setSemana(e.target.value)}
         />
 
-        <label>ANO</label>
+        <label htmlFor="ano">ANO</label>
         <input
+          id="ano"
           type="number"
           value={ano}
           onChange={(e) => setAno(e.target.value)}
@@ -110,7 +112,12 @@ export default function ProgramacaoRetoma() {
         />
       </div>
 
-      <InputsProgramacao dias={dias} semana={semana} ano={ano} programado={programado} />
+      <InputsProgramacao
+        dias={dias}
+        semana={semana}
+        ano={ano}
+        programado={programado}
+      />
     </div>
   );
 }

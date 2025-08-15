@@ -11,7 +11,7 @@ export default function HeaderRot({
   setElaboradorSelecionado,
   setSupervisor,
   supervisor,
-  rotJSON,
+  dadosJSON,
 }) {
   const [operacao, setOperacao] = useState([]);
   const [elaboradores, setElaboradores] = useState([]);
@@ -33,16 +33,24 @@ export default function HeaderRot({
     setEquipe(equipe);
     setEquipeSelecionada(equipe);
 
-    const filtrados = operacao.filter((op) => op.equipe === equipe);
+    const filtrados = operacao.filter((dado) => dado.equipe === equipe);
     setElaboradores(filtrados);
-    const gestor = filtrados.length > 0 ? filtrados[0].gestor : "";
-    setSupervisor(gestor);
   };
 
   const handleElaboradorChange = (e) => {
     const nome = e.target.value;
     setElaborador(nome);
     setElaboradorSelecionado(nome);
+
+    const objeto = operacao.filter((dado) => dado.nome === elaborador);
+    setSupervisor(objeto);
+    handleGestor(nome);
+  };
+
+  const handleGestor = (e) => {
+    const objetoEncontrado = operacao.find((dado) => dado.nome === e);
+    const valor = objetoEncontrado ? objetoEncontrado.gestor : null;
+    setSupervisor(valor);
   };
 
   useEffect(() => {
@@ -67,8 +75,8 @@ export default function HeaderRot({
   }, []);
 
   useEffect(() => {
-    if (rotJSON) {
-      const dados = rotJSON;
+    if (dadosJSON) {
+      const dados = dadosJSON;
       const equipeROT = dados.equipe || "";
       const elaboradorROT = dados.elaborador || "";
 
@@ -79,12 +87,9 @@ export default function HeaderRot({
 
       const filtrados = operacao.filter((op) => op.equipe === equipeROT);
       setElaboradores(filtrados);
-
       setElaboradorSelecionado(elaboradorROT);
       setElaborador(elaboradorROT);
-
-      const gestor = filtrados.length > 0 ? filtrados[0].gestor : "";
-      setSupervisor(dados.supervisor || gestor);
+      setSupervisor(dados.supervisao);
     } else {
       setDataSelecionada("");
       setTurnoSelecionado("");
@@ -95,21 +100,23 @@ export default function HeaderRot({
       setElaborador("");
       setSupervisor("");
     }
-  }, [rotJSON, operacao]);
+  }, [dadosJSON, operacao]);
 
   return (
     <div className="header">
       <div>
-        <label>Data:</label>
+        <label htmlFor="data">Data:</label>
         <input
+          id="data"
           type="date"
           value={dataSelecionada}
           onChange={handleDataChange}
         />
       </div>
       <div>
-        <label>Turno:</label>
+        <label htmlFor="turno">Turno:</label>
         <select
+          id="turno"
           style={{ display: dataSelecionada ? "block" : "none" }}
           value={turnoSelecionado}
           onChange={handleTurnoChange}
@@ -120,9 +127,10 @@ export default function HeaderRot({
         </select>
       </div>
       <div>
-        <label>Equipe:</label>
+        <label htmlFor="equipe">Equipe:</label>
         {turnoSelecionado && (
           <select
+            id="equipe"
             value={equipe}
             onChange={handleEquipeChange}
             style={{ display: dataSelecionada ? "block" : "none" }}
@@ -132,12 +140,14 @@ export default function HeaderRot({
             <option value="B">Equipe B</option>
             <option value="C">Equipe C</option>
             <option value="D">Equipe D</option>
+            <option value="ADM">Equipe ADM</option>
           </select>
         )}
       </div>
       <div>
-        <label>Elaborador:</label>
+        <label htmlFor="elaborador">Elaborador:</label>
         <select
+          id="elaborador"
           style={{ display: equipe ? "block" : "none" }}
           value={elaborador}
           onChange={handleElaboradorChange}
@@ -151,8 +161,9 @@ export default function HeaderRot({
         </select>
       </div>
       <div>
-        <label>Supervisão:</label>
+        <label htmlFor="getor">Gestor:</label>
         <input
+          id="getor"
           type="text"
           value={supervisor}
           readOnly

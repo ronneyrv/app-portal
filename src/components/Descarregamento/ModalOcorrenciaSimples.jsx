@@ -138,6 +138,7 @@ export default function ModalOcorrenciaSimples({
                 required
                 select
                 margin="dense"
+                id="resumo"
                 name="resumo"
                 label="Resumo"
                 fullWidth
@@ -223,6 +224,7 @@ export default function ModalOcorrenciaSimples({
                 required
                 select
                 margin="dense"
+                id="tipo_desligamento"
                 name="tipo_desligamento"
                 label="Tipo"
                 fullWidth
@@ -240,6 +242,7 @@ export default function ModalOcorrenciaSimples({
                 required
                 select
                 margin="dense"
+                id="sistema"
                 name="sistema"
                 label="Sistema"
                 fullWidth
@@ -265,6 +268,7 @@ export default function ModalOcorrenciaSimples({
                 required
                 select
                 margin="dense"
+                id="subsistema"
                 name="subsistema"
                 label="Subsistema"
                 fullWidth
@@ -335,6 +339,7 @@ export default function ModalOcorrenciaSimples({
                 required
                 select
                 margin="dense"
+                id="classificacao"
                 name="classificacao"
                 label="Classificação"
                 fullWidth
@@ -364,6 +369,7 @@ export default function ModalOcorrenciaSimples({
                 required
                 select
                 margin="dense"
+                id="especialidade"
                 name="especialidade"
                 label="Especialidade"
                 fullWidth
