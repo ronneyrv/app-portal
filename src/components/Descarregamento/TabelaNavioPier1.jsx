@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CircularProgress, Box } from "@mui/material";
+import { CircularProgress, Box, Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,17 +9,20 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import ModalOcorrenciaSimples from "./ModalOcorrenciaSimples";
+import ModalOcorrenciaCompleta from "./ModalOcorrenciaCompleta";
 import "./tabelanaviopier1.css";
 
 const dataFormat = (data) => {
   if (!data) return null;
   const date = new Date(data);
   const pad = (num) => String(num).padStart(2, "0");
-  const dia = pad(date.getDate());
-  const mes = pad(date.getMonth() + 1);
-  const ano = date.getFullYear();
-  const horas = pad(date.getHours());
-  const minutos = pad(date.getMinutes());
+
+  const dia = pad(date.getUTCDate());
+  const mes = pad(date.getUTCMonth() + 1);
+  const ano = date.getUTCFullYear();
+  const horas = pad(date.getUTCHours());
+  const minutos = pad(date.getUTCMinutes());
+
   return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
 };
 
@@ -65,7 +68,9 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
   const [rows, setRows] = useState([]);
   const [abrir, setAbrir] = useState(false);
   const [idNavio, setIdNavio] = useState(false);
+  const [abrirModal, setAbrirModal] = useState(false);
   const navio = dados.navio;
+  const cliente = dados.cliente;
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -144,6 +149,34 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
         fetchTabela={fetchTabela}
         fetchPier={fetchPier}
       />
+      <ModalOcorrenciaCompleta
+        navio={navio}
+        abrirModal={abrirModal}
+        setAbrirModal={setAbrirModal}
+        fetchPier={fetchPier}
+      />
+      <Button
+        variant="contained"
+        size="small"
+        sx={{
+          margin: "4px",
+        }}
+        onClick={() => setAbrirModal(true)}
+      >
+        add ocorrência
+      </Button>
+      <Button
+        variant="contained"
+        size="small"
+        disabled
+        sx={{
+          margin: "4px",
+        }}
+        onClick={() => console.log("navios")}
+      >
+        Navios
+      </Button>
+
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 450 }}>
           <Table stickyHeader aria-label="sticky table">

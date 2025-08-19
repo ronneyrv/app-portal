@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InputsProgramacao from "../../components/RetomaProg/inputsProgramacao";
 import PlagiarismIcon from "@mui/icons-material/Plagiarism";
+import { Box, CircularProgress } from "@mui/material";
 import "./retomaprog.css";
 
 export default function ProgramacaoRetoma() {
@@ -8,6 +9,7 @@ export default function ProgramacaoRetoma() {
   const [semana, setSemana] = useState("");
   const [dias, setDias] = useState([]);
   const [programado, setProgramado] = useState(null);
+  const [carregando, setCarregando] = useState(true);
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -68,6 +70,7 @@ export default function ProgramacaoRetoma() {
         if (data.type === "success") {
           setProgramado(data.data);
         }
+        setCarregando(false);
       })
       .catch((error) => {
         console.error("Erro de rede:", error);
@@ -82,6 +85,21 @@ export default function ProgramacaoRetoma() {
     definirDias();
     pesquisarProg(ano, semana);
   }, [semana, ano]);
+
+  if (carregando) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: 350,
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div className="main-retoma-prog">

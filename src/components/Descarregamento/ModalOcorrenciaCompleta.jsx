@@ -12,11 +12,10 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-export default function ModalOcorrenciaSimples({
-  id,
-  abrir,
-  setAbrir,
-  fetchTabela,
+export default function ModalOcorrenciaCompleta({
+  navio,
+  abrirModal,
+  setAbrirModal,
   fetchPier,
 }) {
   const [loading, setLoading] = useState(false);
@@ -27,7 +26,10 @@ export default function ModalOcorrenciaSimples({
     severity: "success",
   });
   const [form, setForm] = useState({
-    id: 0,
+    navio: "",
+    cliente: "",
+    inicio: "",
+    fim: "",
     ocorrencia: "",
     resumo: "",
     sistema: "",
@@ -79,13 +81,22 @@ export default function ModalOcorrenciaSimples({
     "EMERGÊNCIA ACIONADA",
   ];
 
-  const handleClose = () => {
-    setAbrir(false);
+  const initialState = {
+    inicio: "",
+    fim: "",
+    ocorrencia: "",
+    resumo: "",
+    sistema: "",
+    subsistema: "",
+    classificacao: "",
+    especialidade: "",
+    tipo_desligamento: "",
   };
 
-  // const handleChange = (e) => {
-  //   setForm({ ...form, [e.target.name]: e.target.value });
-  // };
+  const handleClose = () => {
+    setAbrirModal(false);
+  };
+
   const handleChange = (e, selectName) => {
     const { value } = e.target;
     let newForm = { ...form, [selectName]: value };
@@ -123,13 +134,24 @@ export default function ModalOcorrenciaSimples({
     setForm(newForm);
   };
 
+  function formatarDataParaInput(dataString) {
+    const data = new Date(dataString);
+
+    const ano = data.getUTCFullYear().toString();
+    const mes = (data.getUTCMonth() + 1).toString().padStart(2, "0");
+    const dia = data.getUTCDate().toString().padStart(2, "0");
+    const horas = data.getUTCHours().toString().padStart(2, "0");
+    const minutos = data.getUTCMinutes().toString().padStart(2, "0");
+
+    return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const idOcorrencia = form.id;
     setLoading(true);
 
-    fetch(`${API_URL}/descarregamento/ocorrencia/simples/${idOcorrencia}`, {
-      method: "PUT",
+    fetch(`${API_URL}/descarregamento/adicionar/ocorrencia`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -140,17 +162,15 @@ export default function ModalOcorrenciaSimples({
       .then((data) => {
         if (data.type === "success") {
           setLoading(false);
-          fetchTabela();
           fetchPier();
-
           setNotify({
             open: true,
             message: data.message,
             severity: data.type,
           });
           handleClose();
+          setForm(initialState);
         } else {
-          console.error("Erro ao buscar navio atracado");
           setLoading(false);
           setNotify({
             open: true,
@@ -180,25 +200,40 @@ export default function ModalOcorrenciaSimples({
       .catch((err) => console.error("Erro de rede:", err));
   };
 
-  useEffect(() => {
-    if (!id) return;
-    fetchLista();
-    setLoading(true);
-    fetch(`${API_URL}/descarregamento/ocorrencia/${id}`, {
+  const fetchOcorrencia = () => {
+    fetch(`${API_URL}/descarregamento/ultima/ocorrencia/${navio}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.type === "success") {
-          console.log(data.data[0]);
-          setForm(data.data[0]);
-          setLoading(false);
+          const dataInicio = formatarDataParaInput(data.data.fim);
+          setForm((prevForm) => ({
+            ...prevForm,
+            navio: data.data.navio,
+            cliente: data.data.cliente,
+            inicio: dataInicio,
+          }));
         } else {
-          console.error("Erro ao buscar navio atracado");
+          console.error("Erro ao buscar lista");
         }
       })
       .catch((err) => console.error("Erro de rede:", err));
-  }, [id]);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchLista();
+    fetchOcorrencia();
+  }, []);
+
+  useEffect(() => {
+    fetchOcorrencia();
+  }, [abrirModal]);
 
   if (loading) {
     return (
@@ -223,10 +258,39 @@ export default function ModalOcorrenciaSimples({
         severity={notify.severity}
         onClose={() => setNotify({ ...notify, open: false })}
       />
-      <Dialog open={abrir} onClose={handleClose} fullWidth>
-        <DialogTitle>Editar Ocorrência</DialogTitle>
+      <Dialog open={abrirModal} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          {form.navio} - {form.cliente}
+        </DialogTitle>
         <DialogContent sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
+            <Box display="flex" gap={2} mt={2}>
+              <TextField
+                required
+                margin="dense"
+                id="inicio"
+                name="inicio"
+                label="Início"
+                type="datetime-local"
+                fullWidth
+                variant="outlined"
+                value={form.inicio}
+                disabled
+              />
+              <TextField
+                required
+                margin="dense"
+                id="fim"
+                name="fim"
+                label="Fim"
+                type="datetime-local"
+                fullWidth
+                variant="outlined"
+                value={form.fim}
+                onChange={(e) => handleChange(e, "fim")}
+                autoFocus
+              />
+            </Box>
             <TextField
               required
               margin="dense"

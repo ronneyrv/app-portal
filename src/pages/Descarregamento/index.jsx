@@ -12,7 +12,7 @@ import "./descarregamento.css";
 
 export default function Descarregamento() {
   const [pier, setPier] = useState([]);
-
+  
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
   const fetchPier = () => {
@@ -60,7 +60,7 @@ export default function Descarregamento() {
   }, []);
 
   return (
-    <div className="main-descarregamento">
+    <div className="main-descarregamento">   
       <div className="container-infor">
         <Pier1Carvao dados={pier} />
         <GraficoTempoAtracado dados={pier} />
