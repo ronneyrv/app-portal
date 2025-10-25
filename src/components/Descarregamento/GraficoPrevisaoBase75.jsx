@@ -2,32 +2,35 @@ import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 import "./graficoprevisaobase75.css";
 
-function DiasPonderados75k(atracacao, arqueacao, saldo, taxa) {
-  if (!atracacao || saldo == null || !taxa || !arqueacao) return null;
-
-  const dataAtracacao = new Date(atracacao);
+function DiasPonderados75k(inicioOP, saldo, taxa, arqueacao) {
+  if (!inicioOP || saldo == null || !taxa) return null;
+  const data = new Date(inicioOP);
+  const ano = data.getUTCFullYear().toString();
+  const mes = (data.getUTCMonth() + 1).toString().padStart(2, "0");
+  const dia = data.getUTCDate().toString().padStart(2, "0");
+  const horas = data.getUTCHours().toString().padStart(2, "0");
+  const minutos = data.getUTCMinutes().toString().padStart(2, "0");
+  const inicioFormatado = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+  const dataInicio = new Date(inicioFormatado);
   const agora = new Date();
 
-  let diferenca = agora - dataAtracacao;
-  if (diferenca < 0) diferenca = 0;
+  let diferenca = agora - dataInicio;
 
   const diasCorridos = diferenca / (1000 * 60 * 60 * 24);
   const diasRestantes = saldo / (taxa * 24);
-  const diasPrevisaoReal = diasCorridos + diasRestantes;
-  const arqueacaoReal = arqueacao - saldo;
-  if (arqueacaoReal <= 0) return null;
+  const totalDias = diasCorridos + diasRestantes;
+  const base75 = (75000 * totalDias) / arqueacao;
 
-  const diasPonderados = (diasPrevisaoReal / arqueacaoReal) * 75000;
-
-  return parseFloat(diasPonderados.toFixed(2));
+  return parseFloat(base75);
 };
 
 export default function GraficoPrevisaoBase75({ dados }) {
   const chartRef = useRef(null);
   const meta = dados.meta;
-  const medio = meta / 10;
-  const bom = (meta - 1) / 10;
-  const dias = DiasPonderados75k(dados.atracacao, dados.arqueacao_inicial, dados.saldo, dados.taxa);
+  const total = meta * 2;
+  const medio = (meta + (total * 0.1)) / 10;
+  const bom = meta / 10;
+  const dias = DiasPonderados75k(dados.inicio_op, dados.saldo, dados.taxa, dados.arqueacao_inicial);
 
   useEffect(() => {
     const chart = echarts.init(chartRef.current);
@@ -57,7 +60,7 @@ export default function GraficoPrevisaoBase75({ dados }) {
               color: [
                 [bom || 0.4, "#7CFFB2"],
                 [medio || 0.5, "#FDDD60"],
-                [1, "#FF6E76"],
+                [total || 1, "#FF6E76"],
               ],
             },
           },
@@ -84,7 +87,7 @@ export default function GraficoPrevisaoBase75({ dados }) {
             offsetCenter: [0, 0],
             valueAnimation: true,
             formatter: function (value) {
-              return value.toFixed(1).toString().replace(".", ",") + "d";
+              return value.toFixed(2).toString().replace(".", ",") + "d";
             },
             color: "#333",
           },

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import "./paretomanutencao.css";
 
-export default function ParetoManutencao({ dados }) {
+export default function ParetoManutencao({ dados, temOcorrencia }) {
   const [paretoCategoria, setParetoCategoria] = useState([]);
   const [paretoTempo, setParetoTempo] = useState([]);
   const chartRef = useRef(null);
@@ -12,12 +12,11 @@ export default function ParetoManutencao({ dados }) {
 
   useEffect(() => {
     if (!navio) return;
-    fetch(
-      `${API_URL}/descarregamento/pareto/manutencao/${navio}`,
-      {
-        credentials: "include",
-      }
-    )
+    if (!temOcorrencia) return;
+
+    fetch(`${API_URL}/descarregamento/pareto/manutencao/${navio}`, {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.type === "success") {
@@ -28,7 +27,7 @@ export default function ParetoManutencao({ dados }) {
         }
       })
       .catch((err) => console.error("Erro de rede:", err));
-  }, [dados]);
+  }, [dados, temOcorrencia]);
 
   useEffect(() => {
     if (!chartRef.current) return;

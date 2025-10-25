@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import "./paretooperacao.css";
 
-export default function ParetoOperacao({ dados }) {
+export default function ParetoOperacao({ dados, temOcorrencia }) {
   const [paretoCategoria, setParetoCategoria] = useState([]);
   const [paretoTempo, setParetoTempo] = useState([]);
   const chartRef = useRef(null);
@@ -12,6 +12,8 @@ export default function ParetoOperacao({ dados }) {
 
   useEffect(() => {
     if (!navio) return;
+    if (!temOcorrencia) return;
+    
     fetch(`${API_URL}/descarregamento/pareto/operacao/${navio}`, {
       credentials: "include",
     })
@@ -25,7 +27,7 @@ export default function ParetoOperacao({ dados }) {
         }
       })
       .catch((err) => console.error("Erro de rede:", err));
-  }, [dados]);
+  }, [dados,temOcorrencia]);
 
   useEffect(() => {
     if (!chartRef.current) return;

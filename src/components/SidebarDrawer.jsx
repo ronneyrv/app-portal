@@ -22,7 +22,7 @@ const drawerItems = [
     title: "Estoque",
     icon: <FilterHdrOutlinedIcon />,
     path: "/pptm/estoque",
-    permissao: 7,
+    permissao: 1,//7
   },
   {
     title: "Descarregamento",

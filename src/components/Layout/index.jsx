@@ -15,6 +15,8 @@ const Password = lazy(() => import("../../pages/Password"));
 const Home = lazy(() => import("../../pages/Home"));
 const Estoque = lazy(() => import("../../pages/Estoque"));
 const Descarregamento = lazy(() => import("../../pages/Descarregamento"));
+const Navios = lazy(() => import("../../pages/Descarregamento/Navios"));
+const Consolidado = lazy(() => import("../../pages/Descarregamento/Navios/Consolidados"));
 const Horimetro = lazy(() => import("../../pages/Horimetro"));
 const Retoma = lazy(() => import("../../pages/Retoma"));
 const Polimero = lazy(() => import("../../pages/Polimero"));
@@ -54,6 +56,8 @@ const Layout = () => {
                           <Route path="/" element={<Home />} />
                           <Route path="/estoque" element={<Estoque />} />
                           <Route path="/descarregamento" element={<Descarregamento />} />
+                          <Route path="/descarregamento/navios" element={<Navios />} />
+                          <Route path="/descarregamento/navios/consolidado" element={<Consolidado />} />
                           <Route path="/retoma" element={<Retoma />} />
                           <Route path="/horimetro" element={<Horimetro />} />
                           <Route path="/polimero" element={<Polimero />} />

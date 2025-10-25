@@ -13,29 +13,32 @@ const dataFormat = (data) => {
   if (!data) return null;
   const date = new Date(data);
   const pad = (num) => String(num).padStart(2, "0");
-  const dia = pad(date.getDate());
-  const mes = pad(date.getMonth() + 1);
-  const ano = date.getFullYear();
-  const horas = pad(date.getHours());
-  const minutos = pad(date.getMinutes());
+
+  const dia = pad(date.getUTCDate());
+  const mes = pad(date.getUTCMonth() + 1);
+  const ano = date.getUTCFullYear();
+  const horas = pad(date.getUTCHours());
+  const minutos = pad(date.getUTCMinutes());
+
   return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
 };
 
 function PrevisaoTermino(atracacao, meta) {
   if (!atracacao || !meta) return null;
-
   const dataAtracacao = new Date(atracacao);
   const dias = Math.floor(meta);
   const horas = (meta - dias) * 24;
 
-  dataAtracacao.setDate(dataAtracacao.getDate() + dias);
-  dataAtracacao.setHours(dataAtracacao.getHours() + horas);
+  dataAtracacao.setUTCDate(dataAtracacao.getUTCDate() + dias);
+  dataAtracacao.setUTCHours(dataAtracacao.getUTCHours() + horas);
 
-  const dia = String(dataAtracacao.getDate()).padStart(2, "0");
-  const mes = String(dataAtracacao.getMonth() + 1).padStart(2, "0");
-  const ano = dataAtracacao.getFullYear();
-  const hora = String(dataAtracacao.getHours()).padStart(2, "0");
-  const minuto = String(dataAtracacao.getMinutes()).padStart(2, "0");
+  const pad = (num) => String(num).padStart(2, "0");
+  
+  const dia = pad(dataAtracacao.getUTCDate());
+  const mes = pad(dataAtracacao.getUTCMonth() + 1);
+  const ano = dataAtracacao.getUTCFullYear();
+  const hora = pad(dataAtracacao.getUTCHours());
+  const minuto = pad(dataAtracacao.getUTCMinutes());
 
   return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
 }
@@ -71,7 +74,6 @@ function PrevisaoReal(atracacao, saldo, taxa) {
 
 export default function Pier1Carvao({ dados }) {
   const infor = dados;
-
   return (
     <div className="main-pier1">
       <Grid container spacing={2} className="grid">
@@ -86,36 +88,36 @@ export default function Pier1Carvao({ dados }) {
         </Grid>
 
         <Grid size={3}>
-          <span>Arqueação Inicial:</span>
+          <span>Arqueação:</span>
           <Paper className="item">
             {arqueacaoFormat(infor.arqueacao_inicial) || "-"}
           </Paper>
         </Grid>
 
-        <Grid size={5}>
+        <Grid size={4.5}>
           <span>Atracação:</span>
           <Paper className="item">{dataFormat(infor.atracacao) || "-"}</Paper>
         </Grid>
 
-        <Grid size={5}>
+        <Grid size={4.5}>
           <span>Início da Operação:</span>
           <Paper className="item">{dataFormat(infor.inicio_op) || "-"}</Paper>
         </Grid>
 
-        <Grid size={2}>
-          <span>Meta (dias):</span>
+        <Grid size={3}>
+          <span>Meta (dia):</span>
           <Paper className="item">{infor.meta || "-"}</Paper>
         </Grid>
 
-        <Grid size={6}>
-          <span>Previsão de Término pela Meta:</span>
+        <Grid size={4.5}>
+          <span>Término pela Meta:</span>
           <Paper className="item">
             {PrevisaoTermino(infor.atracacao, infor.meta) || "-"}
           </Paper>
         </Grid>
 
-        <Grid size={6}>
-          <span>Previsão de Término Real:</span>
+        <Grid size={4.5}>
+          <span>Término Real:</span>
           <Paper className="item">
             {PrevisaoReal(
               infor.atracacao,
@@ -124,6 +126,12 @@ export default function Pier1Carvao({ dados }) {
             ) || "-"}
           </Paper>
         </Grid>
+
+        <Grid size={3}>
+          <span>Saldo:</span>
+          <Paper className="item">{arqueacaoFormat(infor.saldo) || "-"}</Paper>
+        </Grid>
+
       </Grid>
     </div>
   );

@@ -12,12 +12,11 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-export default function ModalOcorrenciaSimples({
-  row,
-  abrir,
-  setAbrir,
-  fetchTabela,
-  fetchPier,
+export default function ModalOcorrenciaCompletaGeral({
+  rowEdit,
+  fetchTabelaGeral,
+  abrirModalGeral,
+  setAbrirModalGeral,
 }) {
   const [loading, setLoading] = useState(false);
   const [listaDados, setListaDados] = useState({});
@@ -26,8 +25,13 @@ export default function ModalOcorrenciaSimples({
     message: "",
     severity: "success",
   });
+
   const [form, setForm] = useState({
     id: 0,
+    navio: "",
+    cliente: "",
+    inicio: "",
+    fim: "",
     ocorrencia: "",
     resumo: "",
     sistema: "",
@@ -36,22 +40,6 @@ export default function ModalOcorrenciaSimples({
     especialidade: "",
     tipo_desligamento: "",
   });
-
-  useEffect(() => {
-    fetchLista();
-    if (row) {
-      setForm({
-        id: row.id,
-        ocorrencia: row.ocorrencia,
-        resumo: row.resumo,
-        sistema: row.sistema,
-        subsistema: row.subsistema,
-        classificacao: row.classificacao,
-        especialidade: row.especialidade,
-        tipo_desligamento: row.tipo_desligamento,
-      });
-    }
-  }, [row]);
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -95,8 +83,21 @@ export default function ModalOcorrenciaSimples({
     "EMERGÊNCIA ACIONADA",
   ];
 
+  const initialState = {
+    id: 0,
+    inicio: "",
+    fim: "",
+    ocorrencia: "",
+    resumo: "",
+    sistema: "",
+    subsistema: "",
+    classificacao: "",
+    especialidade: "",
+    tipo_desligamento: "",
+  };
+
   const handleClose = () => {
-    setAbrir(false);
+    setAbrirModalGeral(false);
   };
 
   const handleChange = (e, selectName) => {
@@ -132,16 +133,13 @@ export default function ModalOcorrenciaSimples({
     } else if (selectName === "especialidade") {
       newForm = { ...newForm, tipo_desligamento: "" };
     }
-
     setForm(newForm);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const idOcorrencia = form.id;
     setLoading(true);
-
-    fetch(`${API_URL}/descarregamento/ocorrencia/simples/${idOcorrencia}`, {
+    fetch(`${API_URL}/descarregamento/atualizar/ocorrencia`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -152,16 +150,15 @@ export default function ModalOcorrenciaSimples({
       .then((res) => res.json())
       .then((data) => {
         if (data.type === "success") {
-          fetchTabela();
-          fetchPier();
           setNotify({
             open: true,
             message: data.message,
             severity: data.type,
           });
+          fetchTabelaGeral();
           handleClose();
+          setForm(initialState);
         } else {
-          console.error("Erro ao buscar navio atracado");
           setNotify({
             open: true,
             message: data.message,
@@ -191,6 +188,29 @@ export default function ModalOcorrenciaSimples({
       .catch((err) => console.error("Erro de rede:", err));
   };
 
+  useEffect(() => {
+    if (rowEdit) {
+      setForm({
+        id: rowEdit.id,
+        navio: rowEdit.navio,
+        cliente: rowEdit.cliente,
+        inicio: rowEdit.inicio,
+        fim: rowEdit.fim,
+        ocorrencia: rowEdit.ocorrencia,
+        resumo: rowEdit.resumo,
+        sistema: rowEdit.sistema,
+        subsistema: rowEdit.subsistema,
+        classificacao: rowEdit.classificacao,
+        especialidade: rowEdit.especialidade,
+        tipo_desligamento: rowEdit.tipo_desligamento,
+      });
+    }
+  }, [rowEdit]);
+
+  useEffect(() => {
+    fetchLista();
+  }, []);
+
   return (
     <div>
       <NotifyBar
@@ -199,10 +219,39 @@ export default function ModalOcorrenciaSimples({
         severity={notify.severity}
         onClose={() => setNotify({ ...notify, open: false })}
       />
-      <Dialog open={abrir} onClose={handleClose} fullWidth>
-        <DialogTitle>Editar Ocorrência</DialogTitle>
+      <Dialog open={abrirModalGeral} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          {form.navio} - {form.cliente}
+        </DialogTitle>
         <DialogContent sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
+            <Box display="flex" gap={2} mt={2}>
+              <TextField
+                required
+                margin="dense"
+                id="inicio"
+                name="inicio"
+                label="Início"
+                type="datetime-local"
+                fullWidth
+                variant="outlined"
+                value={form.inicio}
+                disabled
+              />
+              <TextField
+                required
+                margin="dense"
+                id="fim"
+                name="fim"
+                label="Fim"
+                type="datetime-local"
+                fullWidth
+                variant="outlined"
+                value={form.fim}
+                onChange={(e) => handleChange(e, "fim")}
+                disabled
+              />
+            </Box>
             <TextField
               required
               margin="dense"

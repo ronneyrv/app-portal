@@ -1,12 +1,20 @@
 .main-descarregamento {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.print-tempo-real {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+  padding: 10px;
 }
 
 .container-infor,
 .container-infor2,
-.container-infor3 {
+.container-infor3,
+.container-infor6 {
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -14,6 +22,19 @@
 }
 
 .container-infor2 > div,
-.container-infor3 > div {
+.container-infor3 > div,
+.container-infor6 > div {
   flex: 1;
+}
+
+.container-infor4 {
+  padding: 0 10px;
+}
+
+.container-infor5 {
+  text-align: center;
+}
+
+.container-infor5 h1 {
+margin: 0;
 }

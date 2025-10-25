@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { CircularProgress, Box, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useUsuario } from "../../contexts/useUsuario";
+import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,6 +12,10 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import ModalOcorrenciaSimples from "./ModalOcorrenciaSimples";
 import ModalOcorrenciaCompleta from "./ModalOcorrenciaCompleta";
+import ModalAddNavio from "./ModalAddNavio";
+import ModalAddPlano from "./ModalAddPlano";
+import NotifyBar from "../NotifyBar";
+import ModalAddArqueacao from "./ModalAddArqueacao";
 import "./tabelanaviopier1.css";
 
 const dataFormat = (data) => {
@@ -27,12 +33,12 @@ const dataFormat = (data) => {
 };
 
 const columns = [
-  { id: "fim", label: "HORA FIM", minWidth: 80 },
+  { id: "fim", label: "HORA FIM", minWidth: 100 },
   { id: "ocorrencia", label: "OCORRÊNCIA", minWidth: 80 },
   { id: "resumo", label: "RESUMO", minWidth: 80 },
   { id: "sistema", label: "SISTEMA", minWidth: 80 },
-  { id: "subsistema", label: "SUBSISTEMA", minWidth: 80 },
-  { id: "classificacao", label: "CLASSIFICAÇÃO", minWidth: 80 },
+  { id: "subsistema", label: "SUBSISTEMA", minWidth: 170 },
+  { id: "classificacao", label: "CLASSIFICAÇÃO", minWidth: 170 },
   { id: "especialidade", label: "ESPECIALIDADE", minWidth: 80 },
   { id: "tipo_desligamento", label: "TIPO", minWidth: 80 },
 ];
@@ -61,21 +67,40 @@ function createDados(
   };
 }
 
-export default function TabelaNavioPier1({ dados, fetchPier }) {
+export default function TabelaNavioPier1({
+  handlePrint,
+  temPlano,
+  setTemPlano,
+  dados,
+  fetchPier,
+  dataHora,
+  ocioso,
+  setOcioso,
+}) {
+  const { usuario } = useUsuario();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [navioPier1, setNavioPier1] = useState([]);
   const [rows, setRows] = useState([]);
+  const [rowNavio, setRowNavio] = useState([]);
   const [abrir, setAbrir] = useState(false);
-  const [idNavio, setIdNavio] = useState(false);
   const [abrirModal, setAbrirModal] = useState(false);
+  const [abrirModalAdd, setAbrirModalAdd] = useState(false);
+  const [abrirModalPlano, setAbrirModalPlano] = useState(false);
+  const [abrirModalArqueacao, setAbrirModalArqueacao] = useState(false);
+  const [notify, setNotify] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
   const navio = dados.navio;
   const cliente = dados.cliente;
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
-  const handleClickOpen = (id) => {
-    setIdNavio(id);
+  const handleClickOpen = (row) => {
+    setRowNavio(row);
     setAbrir(true);
   };
 
@@ -89,22 +114,49 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
   };
 
   const fetchTabela = () => {
-    fetch(`${API_URL}/descarregamento/${navio}`, {
+    setOcioso(false);
+    if (!navio) return;
+
+    fetch(`${API_URL}/descarregamento/ocorrencia/atracado/${navio}`, {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.type === "success") {
           setNavioPier1(data.data);
-        } else {
-          console.error("Erro ao buscar navio atracado");
         }
       })
       .catch((err) => console.error("Erro de rede:", err));
   };
 
+  const fetchOcioso = () => {
+    setOcioso(true);
+    fetch(`${API_URL}/descarregamento/ocioso`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.type === "success") {
+          setNavioPier1(data.data);
+        }
+      })
+      .catch((err) => console.error("Erro de rede:", err));
+  };
+
+  const openPlan = () => {
+    if (ocioso) {
+      setNotify({
+        open: true,
+        message: "Não há navio atracado!",
+        severity: "info",
+      });
+    } else {
+      setAbrirModalPlano(true);
+    }
+  };
+
   useEffect(() => {
-    if (!navio) return;
+    if (!navio) return fetchOcioso();
     fetchTabela();
   }, [dados]);
 
@@ -125,25 +177,16 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
     setRows(mappedRows);
   }, [navioPier1]);
 
-  if (!rows.length) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: 350,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <div className="main-tabela-navio-pier1">
+      <NotifyBar
+        open={notify.open}
+        message={notify.message}
+        severity={notify.severity}
+        onClose={() => setNotify({ ...notify, open: false })}
+      />
       <ModalOcorrenciaSimples
-        id={idNavio}
+        row={rowNavio}
         abrir={abrir}
         setAbrir={setAbrir}
         fetchTabela={fetchTabela}
@@ -151,9 +194,31 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
       />
       <ModalOcorrenciaCompleta
         navio={navio}
+        cliente={cliente}
+        ocioso={ocioso}
         abrirModal={abrirModal}
         setAbrirModal={setAbrirModal}
         fetchPier={fetchPier}
+        fetchOcioso={fetchOcioso}
+        fetchTabela={fetchTabela}
+      />
+      <ModalAddNavio
+        abrirModalAdd={abrirModalAdd}
+        setAbrirModalAdd={setAbrirModalAdd}
+        fetchPier={fetchPier}
+      />
+      <ModalAddPlano
+        abrirModalPlano={abrirModalPlano}
+        setAbrirModalPlano={setAbrirModalPlano}
+        fetchPier={fetchPier}
+        setTemPlano={setTemPlano}
+        dados={dados}
+      />
+      <ModalAddArqueacao
+        abrirModalArqueacao={abrirModalArqueacao}
+        setAbrirModalArqueacao={setAbrirModalArqueacao}
+        fetchPier={fetchPier}
+        dados={dados}
       />
       <Button
         variant="contained"
@@ -168,15 +233,75 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
       <Button
         variant="contained"
         size="small"
-        disabled
+        disabled={temPlano ? false : true}
         sx={{
           margin: "4px",
         }}
-        onClick={() => console.log("navios")}
+        onClick={() => setAbrirModalArqueacao(true)}
+      >
+        add arqueação
+      </Button>
+      <Button
+        variant="contained"
+        size="small"
+        disabled={ocioso ? false : true}
+        sx={{
+          margin: "4px",
+        }}
+        onClick={() => setAbrirModalAdd(true)}
+      >
+        Add Navio
+      </Button>
+      <Button
+        variant="contained"
+        size="small"
+        disabled={temPlano ? true : false}
+        sx={{
+          margin: "4px",
+        }}
+        onClick={() => openPlan()}
+      >
+        Plano de Descarga
+      </Button>
+      <Button
+        variant="contained"
+        size="small"
+        disabled={usuario.nivel <= 6 ? false : true}
+        sx={{
+          margin: "4px",
+        }}
+        component={Link}
+        to="/pptm/descarregamento/navios"
       >
         Navios
       </Button>
-
+      <Button
+        variant="contained"
+        size="small"
+        sx={{
+          margin: "4px",
+        }}
+        onClick={() => {
+          dataHora();
+          setTimeout(() => {
+            handlePrint();
+          }, 500);
+        }}
+      >
+        Print
+      </Button>
+      <Button
+        variant="contained"
+        size="small"
+        sx={{
+          margin: "4px",
+        }}
+        onClick={() => {
+          alert('Relatório final')
+        }}
+      >
+        Relatório final
+      </Button>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 450 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -206,7 +331,7 @@ export default function TabelaNavioPier1({ dados, fetchPier }) {
                     hover
                     sx={{ cursor: "pointer" }}
                     key={row.id}
-                    onClick={() => handleClickOpen(row.id)}
+                    onClick={() => handleClickOpen(row)}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];

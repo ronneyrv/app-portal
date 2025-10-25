@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import "./graficocascata.css";
 
-export default function GraficoCascata({ dados }) {
+export default function GraficoCascata({ dados, temOcorrencia }) {
   const [eventos, setEventos] = useState([]);
   const chartRef = useRef(null);
   const navio = dados.navio;
@@ -11,12 +11,11 @@ export default function GraficoCascata({ dados }) {
 
   useEffect(() => {
     if (!navio) return;
-    fetch(
-      `${API_URL}/descarregamento/cascata/eventos/${navio}`,
-      {
-        credentials: "include",
-      }
-    )
+    if (!temOcorrencia) return;
+
+    fetch(`${API_URL}/descarregamento/cascata/eventos/${navio}`, {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.type === "success") {
@@ -26,7 +25,7 @@ export default function GraficoCascata({ dados }) {
         }
       })
       .catch((err) => console.error("Erro de rede:", err));
-  }, [dados]);
+  }, [dados, temOcorrencia]);
 
   useEffect(() => {
     if (!chartRef.current) return;

@@ -4,21 +4,29 @@ import "./graficotempoatracado.css";
 
 function tempoAtracado(atracacao) {
   if (!atracacao) return null;
+  const data = new Date(atracacao);
+  const ano = data.getUTCFullYear().toString();
+  const mes = (data.getUTCMonth() + 1).toString().padStart(2, "0");
+  const dia = data.getUTCDate().toString().padStart(2, "0");
+  const horas = data.getUTCHours().toString().padStart(2, "0");
+  const minutos = data.getUTCMinutes().toString().padStart(2, "0");
+  const atracacaoFormatado = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
 
-  const dataAtracacao = new Date(atracacao);
+  const dataAtracacao = new Date(atracacaoFormatado);
   const agora = new Date();
   const diferenca = agora - dataAtracacao;
   if (diferenca < 0) return 0;
   const diferencaDias = diferenca / (1000 * 60 * 60 * 24);
 
-  return parseFloat(diferencaDias.toFixed(2));
-};
+  return parseFloat(diferencaDias);
+}
 
 export default function GraficoTempoAtracado({ dados }) {
   const chartRef = useRef(null);
   const meta = dados.meta;
-  const medio = meta / 10;
-  const bom = (meta - 1) / 10;
+  const total = meta * 2;
+  const medio = (meta + total * 0.1) / 10;
+  const bom = meta / 10;
   const dias = tempoAtracado(dados.atracacao);
 
   useEffect(() => {
@@ -49,7 +57,7 @@ export default function GraficoTempoAtracado({ dados }) {
               color: [
                 [bom || 0.4, "#7CFFB2"],
                 [medio || 0.5, "#FDDD60"],
-                [1, "#FF6E76"],
+                [total || 1, "#FF6E76"],
               ],
             },
           },
@@ -76,7 +84,7 @@ export default function GraficoTempoAtracado({ dados }) {
             offsetCenter: [0, 0],
             valueAnimation: true,
             formatter: function (value) {
-              return value.toFixed(1).toString().replace(".", ",") + "d";
+              return value.toFixed(2).toString().replace(".", ",") + "d";
             },
             color: "#333",
           },

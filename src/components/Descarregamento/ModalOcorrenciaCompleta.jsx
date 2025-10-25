@@ -14,9 +14,13 @@ import {
 
 export default function ModalOcorrenciaCompleta({
   navio,
+  cliente,
+  ocioso,
   abrirModal,
   setAbrirModal,
   fetchPier,
+  fetchOcioso,
+  fetchTabela,
 }) {
   const [loading, setLoading] = useState(false);
   const [listaDados, setListaDados] = useState({});
@@ -41,45 +45,45 @@ export default function ModalOcorrenciaCompleta({
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
-  const dadosSelects = [
-    "DESCARREGAMENTO",
-    "CHUVA",
-    "ARQUEAÇÃO",
-    "ATRACAÇÃO/DESATRACAÇÃO",
-    "MUDANÇA DE PORÃO",
-    "RECHEGO",
-    "TROCA DE TURNO",
-    "MOVIMENTAÇÃO NO PORÃO",
-    "ABASTECIMENTO",
-    "AG. ABERTURA DE PORÃO",
-    "AG. PRATICAGEM",
-    "AJUSTE ELÉTRICO",
-    "AJUSTE MECÂNICO",
-    "ATUAÇÃO DETECTOR DE METAIS",
-    "MANUTENÇÃO EM OCIOSIDADE",
-    "FALHA DE COMUNICAÇÃO",
-    "FALHA ELÉTRICA",
-    "FALHA MECÂNICA",
-    "FALHA NA CORREIA",
-    "FALHA NA TEMPERATURA",
-    "FALHA NO SENSOR",
-    "FALHA NO SISTEMA DE LUBRIFICAÇÃO",
-    "FALHA NO SISTEMA HIDRÁULICO",
-    "FALTA DE ENERGIA",
-    "INSPEÇÃO",
-    "INTERFERÊNCIA EM POSICIONAMENTO",
-    "INVENTÁRIO PÁTIO DE CARVÃO",
-    "LIMPEZA DO SISTEMA",
-    "OCIOSIDADE",
-    "OUTROS",
-    "PARADA PARA RETOMA",
-    "PROCEDIMENTOS OPERACIONAIS",
-    "RETIRADA DE CONTAMINANTE",
-    "SENSOR ATUADO",
-    "SERVIÇOS DE REVITALIZAÇÃO",
-    "INVERSÃO DE PÁTIO",
-    "EMERGÊNCIA ACIONADA",
-  ];
+  const dadosSelects = ocioso
+    ? ["OCIOSIDADE", "MANUTENÇÃO EM OCIOSIDADE"]
+    : [
+        "DESCARREGAMENTO",
+        "CHUVA",
+        "ARQUEAÇÃO",
+        "ATRACAÇÃO/DESATRACAÇÃO",
+        "MUDANÇA DE PORÃO",
+        "RECHEGO",
+        "TROCA DE TURNO",
+        "MOVIMENTAÇÃO NO PORÃO",
+        "ABASTECIMENTO",
+        "AG. ABERTURA DE PORÃO",
+        "AG. PRATICAGEM",
+        "AJUSTE ELÉTRICO",
+        "AJUSTE MECÂNICO",
+        "ATUAÇÃO DETECTOR DE METAIS",
+        "FALHA DE COMUNICAÇÃO",
+        "FALHA ELÉTRICA",
+        "FALHA MECÂNICA",
+        "FALHA NA CORREIA",
+        "FALHA NA TEMPERATURA",
+        "FALHA NO SENSOR",
+        "FALHA NO SISTEMA DE LUBRIFICAÇÃO",
+        "FALHA NO SISTEMA HIDRÁULICO",
+        "FALTA DE ENERGIA",
+        "INSPEÇÃO",
+        "INTERFERÊNCIA EM POSICIONAMENTO",
+        "INVENTÁRIO PÁTIO DE CARVÃO",
+        "LIMPEZA DO SISTEMA",
+        "OUTROS",
+        "PARADA PARA RETOMA",
+        "PROCEDIMENTOS OPERACIONAIS",
+        "RETIRADA DE CONTAMINANTE",
+        "SENSOR ATUADO",
+        "SERVIÇOS DE REVITALIZAÇÃO",
+        "INVERSÃO DE PÁTIO",
+        "EMERGÊNCIA ACIONADA",
+      ];
 
   const initialState = {
     inicio: "",
@@ -134,7 +138,7 @@ export default function ModalOcorrenciaCompleta({
     setForm(newForm);
   };
 
-  function formatarDataParaInput(dataString) {
+  const formatarDataParaInput = (dataString) => {
     const data = new Date(dataString);
 
     const ano = data.getUTCFullYear().toString();
@@ -144,7 +148,7 @@ export default function ModalOcorrenciaCompleta({
     const minutos = data.getUTCMinutes().toString().padStart(2, "0");
 
     return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -161,23 +165,24 @@ export default function ModalOcorrenciaCompleta({
       .then((res) => res.json())
       .then((data) => {
         if (data.type === "success") {
-          setLoading(false);
-          fetchPier();
           setNotify({
             open: true,
             message: data.message,
             severity: data.type,
           });
           handleClose();
+          fetchPier();
+          fetchTabela();
           setForm(initialState);
         } else {
-          setLoading(false);
           setNotify({
             open: true,
             message: data.message,
             severity: data.type,
           });
         }
+        setLoading(false);
+        if (ocioso) return fetchOcioso();
       })
       .catch((err) => console.error("Erro de rede:", err));
   };
@@ -201,7 +206,7 @@ export default function ModalOcorrenciaCompleta({
   };
 
   const fetchOcorrencia = () => {
-    fetch(`${API_URL}/descarregamento/ultima/ocorrencia/${navio}`, {
+    fetch(`${API_URL}/descarregamento/ultima/ocorrencia`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -213,8 +218,8 @@ export default function ModalOcorrenciaCompleta({
           const dataInicio = formatarDataParaInput(data.data.fim);
           setForm((prevForm) => ({
             ...prevForm,
-            navio: data.data.navio,
-            cliente: data.data.cliente,
+            navio: ocioso ? "OCIOSIDADE" : navio,
+            cliente: ocioso ? "N/A" : cliente,
             inicio: dataInicio,
           }));
         } else {
@@ -222,11 +227,9 @@ export default function ModalOcorrenciaCompleta({
         }
       })
       .catch((err) => console.error("Erro de rede:", err));
-    setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchLista();
     fetchOcorrencia();
   }, []);
@@ -234,21 +237,6 @@ export default function ModalOcorrenciaCompleta({
   useEffect(() => {
     fetchOcorrencia();
   }, [abrirModal]);
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: 350,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
 
   return (
     <div>
@@ -288,6 +276,11 @@ export default function ModalOcorrenciaCompleta({
                 variant="outlined"
                 value={form.fim}
                 onChange={(e) => handleChange(e, "fim")}
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
                 autoFocus
               />
             </Box>
@@ -431,9 +424,23 @@ export default function ModalOcorrenciaCompleta({
               <Button onClick={handleClose} variant="outlined">
                 Cancelar
               </Button>
-              <Button type="submit" variant="contained">
-                Salvar
-              </Button>
+              <Box sx={{ m: 1, position: "relative" }}>
+                <Button type="submit" variant="contained" disabled={loading}>
+                  Salvar
+                </Button>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      marginTop: "-12px",
+                      marginLeft: "-12px",
+                    }}
+                  />
+                )}
+              </Box>
             </DialogActions>
           </form>
         </DialogContent>
