@@ -1,0 +1,19 @@
+.main-tabela-stacker1 {
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.main-tabela-stacker1 h3 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.MuiTableCell-root {
+  font-size: 11px !important;
+  padding: 2px 6px !important;
+}

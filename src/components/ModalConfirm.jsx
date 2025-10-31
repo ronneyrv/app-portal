@@ -4,33 +4,38 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import { DialogTitle } from "@mui/material";
 
-export default function ModalConfirm({ open, message, onConfirm, onClose }) {
+export default function ModalConfirm({ abrirModalConfirm, textConfirm, confirmOK, confirmNO }) {
   const handleConfirm = () => {
-    onConfirm();
+    confirmOK();
+  };
+
+  const handleClose = () => {
+    confirmNO();
   };
 
   return (
     <React.Fragment>
       <Dialog
-        open={open}
-        onClose={onClose}
+        open={abrirModalConfirm}
+        onClose={confirmNO}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent style={{ padding: "30px" }}>
+        <DialogTitle id="alert-dialog-title">
+          {"CONFIRMAR"}
+        </DialogTitle>
+        <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {message.split("\n").map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
+            {textConfirm}
           </DialogContentText>
         </DialogContent>
-        <DialogActions style={{ background: "#f0f0f0", height: "30px" }}>
-          <Button onClick={onClose}>Concelar</Button>
-          <Button onClick={handleConfirm}>OK</Button>
+        <DialogActions>
+          <Button variant="outlined" onClick={handleClose}>Cancela</Button>
+          <Button variant="contained" onClick={handleConfirm}>
+            OK
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

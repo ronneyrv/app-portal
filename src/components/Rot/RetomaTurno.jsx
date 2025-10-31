@@ -37,12 +37,12 @@ export default function RetomaTurno({
     } else {
       fetchProgramacao();
     }
-  }, [dadosJSON]);
+  }, [dadosJSON,dataSelecionada,turnoSelecionado]);
 
   const fetchProgramacao = () => {
     if (!dataSelecionada || !turnoSelecionado) return;
     if (dataSelecionada && turnoSelecionado) {
-      fetch(`${API_URL}/retoma`, {
+      fetch(`${API_URL}/retoma/listar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

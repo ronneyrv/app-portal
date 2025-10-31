@@ -22,7 +22,7 @@ const drawerItems = [
     title: "Estoque",
     icon: <FilterHdrOutlinedIcon />,
     path: "/pptm/estoque",
-    permissao: 1,//7
+    permissao: 7,
   },
   {
     title: "Descarregamento",
@@ -34,7 +34,7 @@ const drawerItems = [
     title: "Retoma",
     icon: <CycloneOutlinedIcon />,
     path: "/pptm/retoma",
-    permissao: 1,//7
+    permissao: 7,
   },
   {
     title: "Horímetro",
@@ -46,7 +46,7 @@ const drawerItems = [
     title: "Polímero",
     icon: <InvertColorsOutlinedIcon />,
     path: "/pptm/polimero",
-    permissao: 1,//7
+    permissao: 7,
   },
   {
     title: "Autocombustão",

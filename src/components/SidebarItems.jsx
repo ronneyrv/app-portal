@@ -1,13 +1,14 @@
 import { useUsuario } from "../contexts/useUsuario";
 import { Link, useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import {
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 
 const SidebarItems = ({ items, open, toggleDrawer }) => {
@@ -54,6 +55,12 @@ const SidebarItems = ({ items, open, toggleDrawer }) => {
           const isActive = location.pathname === path;
           return (
             <ListItem key={title} disablePadding sx={{ display: "block" }}>
+              <Tooltip
+                title={title} 
+                placement="right"
+                disableHoverListener={open}
+                arrow // ⬅️ Adiciona uma seta ao Tooltip
+              >
               <ListItemButton
                 component={Link}
                 to={path}
@@ -89,6 +96,7 @@ const SidebarItems = ({ items, open, toggleDrawer }) => {
                   }
                 />
               </ListItemButton>
+              </Tooltip>
             </ListItem>
           );
         })}

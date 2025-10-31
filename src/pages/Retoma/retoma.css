@@ -1,0 +1,24 @@
+.main-retoma {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.main-tables-retoma {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.main-tables-retoma div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
+  flex-grow: 1;
+}
+
+.main-tables-retoma h3 {
+margin: 0;
+}
