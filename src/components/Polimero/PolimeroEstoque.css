@@ -1,0 +1,23 @@
+.main-estoque-polimero {
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+}
+
+.grid {
+  width: 400px;
+}
+
+.grid span {
+  font-size: 20px;
+  color: #2c2c2c;
+}
+
+.item {
+  background-color: #fff;
+  text-align: center;
+  padding: 5px;
+}
