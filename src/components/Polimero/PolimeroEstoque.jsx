@@ -32,7 +32,6 @@ export default function PolimeroEstoque({
           <span>Energia Pecém:</span>
           <Paper className="item">{volumeFormat(EP)}</Paper>
         </Grid>
-
         <Grid size={6}>
           <span>Eneva:</span>
           <Paper className="item">{volumeFormat(ENEVA)}</Paper>

@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { CircularProgress, Box } from "@mui/material";
+import { useUsuario } from "../../contexts/useUsuario";
+import NotifyBar from "../NotifyBar";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,7 +13,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { CircularProgress, Box } from "@mui/material";
 import "./tabelaestoque.css";
 
 function formatTon(value) {
@@ -75,27 +77,24 @@ function createDados(
   };
 }
 
-export default function TabelaEstoque() {
+export default function TabelaEstoque({
+  estoqueGeralDias,
+  fetchEstoque,
+  setRowConsumo,
+  setAbrirModalEditarConsumo,
+}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [estoqueGeralDias, setEstoqueGeralDias] = useState([]);
   const [rows, setRows] = useState([]);
-
-  const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+  const { usuario } = useUsuario();
+  const [notify, setNotify] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   useEffect(() => {
-    fetch(`${API_URL}/estoque`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.type === "success") {
-          setEstoqueGeralDias(data.data);
-        } else {
-          console.error("Erro ao buscar estoque");
-        }
-      })
-      .catch((err) => console.error("Erro de rede:", err));
+    fetchEstoque();
   }, []);
 
   useEffect(() => {
@@ -129,6 +128,18 @@ export default function TabelaEstoque() {
     setPage(0);
   };
 
+  const abrirModal = (row) => {
+    if (usuario.nivel > 6) {
+      return setNotify({
+        open: true,
+        message: "Você não tem permissao para alterar!",
+        severity: "info",
+      });
+    }
+    setRowConsumo(row);
+    setAbrirModalEditarConsumo(true);
+  };
+
   if (!rows.length) {
     return (
       <Box
@@ -146,6 +157,12 @@ export default function TabelaEstoque() {
 
   return (
     <div className="main-tabela-estoque">
+      <NotifyBar
+        open={notify.open}
+        message={notify.message}
+        severity={notify.severity}
+        onClose={() => setNotify({ ...notify, open: false })}
+      />
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 350 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -160,6 +177,8 @@ export default function TabelaEstoque() {
                       backgroundColor: index < 7 ? "#00bcd4" : "#ff6d00",
                       color: "#fff",
                       fontWeight: "bold",
+                      fontSize: "10px",
+                      padding: "2px 6px",
                     }}
                   >
                     {column.label}
@@ -175,12 +194,20 @@ export default function TabelaEstoque() {
                     hover
                     sx={{ cursor: "pointer" }}
                     key={row.id}
-                    onClick={() => console.log("ID:", row.id)}
+                    title={row.data}
+                    onClick={() => abrirModal(row)}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align="center">
+                        <TableCell
+                          key={column.id}
+                          align="center"
+                          style={{
+                            fontSize: "10px",
+                            padding: "2px 6px",
+                          }}
+                        >
                           {typeof value === "number" ? formatTon(value) : value}
                         </TableCell>
                       );

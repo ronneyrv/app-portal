@@ -1,0 +1,19 @@
+.main-pilhas-estoque {
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-pilhas-estoque h3 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.table-estoque {
+  height: 380px;
+}

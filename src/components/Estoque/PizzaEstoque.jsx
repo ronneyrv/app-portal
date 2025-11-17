@@ -12,7 +12,7 @@ function formatTon(value) {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-export default function PizzaEstoque() {
+export default function PizzaEstoque({estoqueGeralDias}) {
   const [estoqueDia, setEstoqueDia] = useState({});
   const dados = estoqueDia;
 
@@ -38,7 +38,7 @@ export default function PizzaEstoque() {
       .catch((error) => {
         console.error("Erro de rede:", error);
       });
-  }, []);
+  }, [estoqueGeralDias]);
 
   if (!dados) {
     return (

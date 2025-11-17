@@ -1,0 +1,17 @@
+.main-polimero {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.main-table-polimero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.main-table-polimero h3 {
+margin: 0;
+}

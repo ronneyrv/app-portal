@@ -164,7 +164,7 @@ export default function ModalConsolidado({
   };
 
   useEffect(() => {
-    console.log(consolidado);
+
     setForm({
       navio: consolidado.navio,
       cliente: consolidado.cliente,
@@ -198,7 +198,6 @@ export default function ModalConsolidado({
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.type === "success") {
             setConsolidado(data.data[0]);
           }
