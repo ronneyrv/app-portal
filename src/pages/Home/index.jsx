@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import Pier1Carvao from "../../components/Descarregamento/Pier1Carvao";
 import GraficoPrevisaoReal from "../../components/Descarregamento/GraficoPrevisaoReal";
 import GraficoPrevisaoBase75 from "../../components/Descarregamento/GraficoPrevisaoBase75";
+import PizzaEstoque from "../../components/Estoque/PizzaEstoque";
+import EstoquePorpPlha from "../../components/Estoque/EstoquePorPilha";
+import EstoqueResumo from "../../components/Estoque/EstoqueResumo";
+import IndidadorAno from "../../components/Home/IndicadorAno";
+import TaxaRetoma from "../../components/Home/TaxaRetoma";
 import "./home.css";
 
 export default function Home() {
+  const [age, setAge] = useState(new Date().getFullYear().toString());
   const [pier, setPier] = useState([]);
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
@@ -51,12 +57,28 @@ export default function Home() {
 
   return (
     <div className="main-home">
-      <div className="container-home-1">
-        <Pier1Carvao dados={pier} />
-        <GraficoPrevisaoReal dados={pier} />
-        <GraficoPrevisaoBase75 dados={pier} />
+      <div className="container-home-left">
+        <div className="container-home-ano">
+          <IndidadorAno age={age} setAge={setAge} />
+        </div>
+        <div className="container-home-1">
+          <TaxaRetoma age={age} />
+        </div>
+        <div className="container-home-2">
+          <Pier1Carvao dados={pier} />
+          <GraficoPrevisaoReal dados={pier} />
+          <GraficoPrevisaoBase75 dados={pier} />
+        </div>
       </div>
-      <div className="container-home-2"></div>
+      <div className="container-home-right">
+        <div className="container-home-lt1">
+          <PizzaEstoque />
+        </div>
+        <div className="container-home-lt2">
+          <EstoqueResumo />
+        </div>
+        <div className="container-home-lt3">contratos</div>
+      </div>
     </div>
   );
 }

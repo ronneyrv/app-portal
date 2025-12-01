@@ -1,5 +1,22 @@
 .main-home {
   display: flex;
+  flex-direction: row; 
+  gap: 20px;
+  width: 100%;
+}
+
+.container-home-right {
+  width: 390px;
+  flex-shrink: 0; 
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+}
+
+.container-home-left {
+  flex-grow: 1; 
+  min-width: 0; 
+  display: flex;
   flex-direction: column;
   gap: 20px;
 }
@@ -7,7 +24,24 @@
 .container-home-1,
 .container-home-2 {
   display: flex;
-  flex-direction: row;
   gap: 20px;
+  width: 100%;
+  min-width: 0; 
+}
+
+.container-home-ano {
+  display: flex;
+  width: 100%; 
+  gap: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  min-width: 0;
+}
+
+.container-home-lt1,
+.container-home-lt2,
+.container-home-lt3 {
+  flex-grow: 1; 
   width: 100%;
 }
