@@ -1,10 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import NotifyBar from "../NotifyBar";
 import "./inputsProgramacao.css";
 
-export default function InputsProgramacao({ dias, semana, ano, programado, handleGeneratePDF }) {
+export default function InputsProgramacao({
+  dias,
+  semana,
+  ano,
+  programado,
+  handleGeneratePDF,
+}) {
   const [loading, setLoading] = useState(false);
   const [comentarios, setComentarios] = useState({});
   const [selecaoMaquina, setSelecaoMaquina] = useState({});
@@ -102,15 +108,32 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
     return (
       <div
         className="inputs-programacao-dropdown"
-        style={{ padding: isCheckbox ? 0 : "5px" }}
+        style={{
+          padding: isCheckbox ? "5px 0" : "5px",
+          display: "flex",
+          flexDirection: "column",
+          maxHeight: "400px",
+        }}
       >
         {opcoes.map((item, i) =>
           isCheckbox ? (
-            <label key={i} className="inputs-programacao-dropdown-checkbox">
+            <label
+              key={i}
+              className="inputs-programacao-dropdown-checkbox"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "4px 8px",
+                cursor: "pointer",
+                width: "100%",
+                boxSizing: "border-box",
+              }}
+            >
               <input
                 type="checkbox"
                 checked={(selecionado || []).includes(item)}
                 onChange={() => onSelect(bloco, index, item)}
+                style={{ marginRight: "10px" }}
               />{" "}
               {item}
             </label>
@@ -284,6 +307,13 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
           const chavePilha = `pilhas-${bloco}-${index}`;
           const comentarioKey = `comentario-${bloco}-${index}`;
 
+          const isMaquinaDropdownOpen =
+            selecaoMaquina[`dropdownAberto-maquina-${bloco}-${index}`];
+          const isEmpilhaDropdownOpen =
+            selecaoEmpilha[`dropdownAberto-empilha-${bloco}-${index}`];
+          const isPilhaDropdownOpen =
+            selecaoPilha[`dropdownAberto-pilhas-${bloco}-${index}`];
+
           const maquinaSelecionada =
             selecaoMaquina[chaveMaquina] || selecaoEmpilha[chaveEmpilha];
           let opcoesPilhaDinamica = opcoesPilhaPadrao;
@@ -310,13 +340,12 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
                       handleDoubleClickInput(bloco, index, "maquina")
                     }
                   />
-                  <AddBoxIcon
+                  <EditNoteIcon
                     className="button-add"
                     onClick={() => toggleDropdown("maquina", bloco, index)}
+                    style={{ color: isMaquinaDropdownOpen ? "red" : "inherit" }}
                   />
-                  {selecaoMaquina[
-                    `dropdownAberto-maquina-${bloco}-${index}`
-                  ] && (
+                  {isMaquinaDropdownOpen && (
                     <Dropdown
                       bloco={bloco}
                       index={index}
@@ -341,13 +370,12 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
                       handleDoubleClickInput(bloco, index, "empilha")
                     }
                   />
-                  <AddBoxIcon
+                  <EditNoteIcon
                     className="button-add"
                     onClick={() => toggleDropdown("empilha", bloco, index)}
+                    style={{ color: isEmpilhaDropdownOpen ? "red" : "inherit" }}
                   />
-                  {selecaoEmpilha[
-                    `dropdownAberto-empilha-${bloco}-${index}`
-                  ] && (
+                  {isEmpilhaDropdownOpen && (
                     <Dropdown
                       bloco={bloco}
                       index={index}
@@ -360,7 +388,6 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
                 </div>
               )}
 
-              {/* PILHA */}
               <div className="inputs-programacao-input-container">
                 <input
                   type="text"
@@ -376,11 +403,12 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
                     handleDoubleClickInput(bloco, index, "pilhas")
                   }
                 />
-                <AddBoxIcon
+                <EditNoteIcon
                   className="button-add"
                   onClick={() => toggleDropdown("pilhas", bloco, index)}
+                  style={{ color: isPilhaDropdownOpen ? "red" : "inherit" }}
                 />
-                {selecaoPilha[`dropdownAberto-pilhas-${bloco}-${index}`] && (
+                {isPilhaDropdownOpen && (
                   <Dropdown
                     bloco={bloco}
                     index={index}
@@ -397,7 +425,6 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
                 )}
               </div>
 
-              {/* TEXTAREA */}
               <textarea
                 rows={usarEmpilha ? 2 : 4}
                 placeholder={usarEmpilha ? "Nome do navio?" : "Navios"}
@@ -489,7 +516,7 @@ export default function InputsProgramacao({ dias, semana, ano, programado, handl
           Gerar PDF
         </button>
       </div>
-      
+
       {["UG1", "UG2", "UG3"].map((item) => (
         <div key={item}>{renderBloco(item, true, false)}</div>
       ))}
