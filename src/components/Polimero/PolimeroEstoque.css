@@ -1,4 +1,4 @@
-.main-estoque-polimero {
+.main-polimero-estoque {
   align-items: center;
   padding: 20px;
   background-color: #f9f9f9;
@@ -7,16 +7,16 @@
   width: fit-content;
 }
 
-.grid {
+.grid-polimero-estoque {
   width: 400px;
 }
 
-.grid span {
+.grid-polimero-estoque span {
   font-size: 20px;
   color: #2c2c2c;
 }
 
-.item {
+.item-polimero-estoque {
   background-color: #fff;
   text-align: center;
   padding: 5px;

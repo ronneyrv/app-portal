@@ -26,15 +26,15 @@ export default function PolimeroEstoque({
   }, [estoquePolimero]);
 
   return (
-    <div className="main-estoque-polimero">
-      <Grid container spacing={2} className="grid">
+    <div className="main-polimero-estoque">
+      <Grid container spacing={2} className="grid-polimero-estoque">
         <Grid size={6}>
           <span>Energia Pecém:</span>
-          <Paper className="item">{volumeFormat(EP)}</Paper>
+          <Paper className="item-polimero-estoque">{volumeFormat(EP)}</Paper>
         </Grid>
         <Grid size={6}>
           <span>Eneva:</span>
-          <Paper className="item">{volumeFormat(ENEVA)}</Paper>
+          <Paper className="item-polimero-estoque">{volumeFormat(ENEVA)}</Paper>
         </Grid>
       </Grid>
     </div>
