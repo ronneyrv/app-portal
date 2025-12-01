@@ -29,7 +29,7 @@
 }
 
 .inputs-programacao-coluna {
-  width: 117px;
+  width: 130px;
   position: relative;
 }
 
@@ -48,8 +48,8 @@
 }
 
 .inputs-programacao-input {
-  width: 90px;
-  padding: 5px;
+  width: 100px;
+  padding: 3px;
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 11px;
@@ -66,7 +66,7 @@
 }
 
 .inputs-programacao-textarea-final {
-  width: 117px;
+  width: 120px;
   font-size: 10px;
   resize: none;
   border-radius: 4px;
@@ -75,11 +75,11 @@
 }
 
 .inputs-programacao-textarea-final-empilha {
-  height: 111px;
+  height: 136px;
 }
 
 .inputs-programacao-textarea-final-ug {
-  height: 146px;
+  height: 160px;
 }
 
 .inputs-programacao-dropdown {
@@ -111,7 +111,8 @@
   padding: 4px 6px;
 }
 
-.button-save {
+.button-save,
+.button-pdf {
   background-color: #1976d2;
   color: white;
   padding: 10px 20px;
@@ -123,14 +124,23 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.button-save:hover {
+.button-save:hover,
+.button-pdf:hover {
   background-color: #175fa7;
   transform: scale(1.03);
 }
 
-.button-save:active {
+.button-save:active, 
+.button-pdf:active {
   background-color: #1976d2;
   transform: scale(0.98);
+}
+
+.buttons-programacao-retoma {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 .button-add {

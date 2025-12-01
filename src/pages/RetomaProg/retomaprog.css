@@ -9,11 +9,12 @@
 .main-retoma-prog h3 {
   margin-top: 0;
 }
+
 .semana-container {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .semana-container label {
@@ -25,4 +26,70 @@
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.container-logo-clientes {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  width: 500px;
+  height: 30px;
+  justify-content: space-evenly; 
+  align-items: center;
+}
+
+#logo-pptm {
+  width: 90px;
+}
+
+#logo-ep {
+  width: 60px;
+}
+
+#logo-eneva {
+  width: 30px;
+}
+
+.footer-retoma-prog {
+  display: flex; 
+  justify-content: center;
+  gap: 50px; 
+  margin-top: 50px;  
+}
+
+.signature-box {
+  display: flex;
+  flex-direction: column;  
+  align-items: center;   
+  width: 350px;   
+  border-top: 1px solid #333; 
+  padding-top: 3px; 
+}
+
+.signature-box span {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.main-retoma-prog input,
+.main-retoma-prog textarea {
+  box-sizing: border-box; 
+  border: 1px solid #ccc; 
+  background-color: #ffffff; 
+}
+
+.main-retoma-prog input {
+  height: 30px; 
+  line-height: 30px; 
+  padding: 0 5px; 
+}
+
+.main-retoma-prog textarea {
+  line-height: 1.2; 
+  padding: 5px; 
+  overflow: hidden; 
+  resize: none; 
+  vertical-align: top; 
 }

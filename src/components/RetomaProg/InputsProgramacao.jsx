@@ -4,7 +4,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import NotifyBar from "../NotifyBar";
 import "./inputsProgramacao.css";
 
-export default function InputsProgramacao({ dias, semana, ano, programado }) {
+export default function InputsProgramacao({ dias, semana, ano, programado, handleGeneratePDF }) {
   const [loading, setLoading] = useState(false);
   const [comentarios, setComentarios] = useState({});
   const [selecaoMaquina, setSelecaoMaquina] = useState({});
@@ -71,15 +71,12 @@ export default function InputsProgramacao({ dias, semana, ano, programado }) {
       setComentarios(novosComentarios);
       setSelecaoEmpilha(novasEmpilhas);
       setTextoManual(novosTextoManual);
-
     } else {
-
       setSelecaoMaquina({});
       setSelecaoPilha({});
       setComentarios({});
       setSelecaoEmpilha({});
       setTextoManual({});
-      
     }
   }, [programado]);
 
@@ -402,7 +399,7 @@ export default function InputsProgramacao({ dias, semana, ano, programado }) {
 
               {/* TEXTAREA */}
               <textarea
-                rows={usarEmpilha ? 1 : 4}
+                rows={usarEmpilha ? 2 : 4}
                 placeholder={usarEmpilha ? "Nome do navio?" : "Navios"}
                 className="inputs-programacao-textarea"
                 readOnly={!usarEmpilha ? true : false}
@@ -484,15 +481,19 @@ export default function InputsProgramacao({ dias, semana, ano, programado }) {
         onClose={() => setNotify({ ...notify, open: false })}
       />
       {loading ? <LoadingSpinner /> : null}
+      <div className="buttons-programacao-retoma">
+        <button onClick={handleSalvar} className="button-save">
+          Salvar Programação de Retoma
+        </button>
+        <button onClick={handleGeneratePDF} className="button-pdf">
+          Gerar PDF
+        </button>
+      </div>
+      
       {["UG1", "UG2", "UG3"].map((item) => (
         <div key={item}>{renderBloco(item, true, false)}</div>
       ))}
       {renderBloco("Empilha", false, true)}
-      {
-        <button onClick={handleSalvar} className="button-save">
-          Salvar Programação de Retoma
-        </button>
-      }
     </div>
   );
 }

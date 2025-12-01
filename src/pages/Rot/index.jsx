@@ -17,6 +17,9 @@ import ValorEstoque from "../../components/Rot/ValorEstoque";
 import NotifyBar from "../../components/NotifyBar";
 import PatioUmectacao from "../../components/Rot/PatioUmectacao";
 import PatioObs from "../../components/Rot/PatioObservacao";
+import logoEP from "../../../public/images/logo_ep.png";
+import logoEneva from "../../../public/images/logo_eneva.png";
+import logoPPTM from "../../../public/images/logo_pptm.png";
 import "./rot.css";
 
 export default function Rot() {
@@ -422,18 +425,18 @@ export default function Rot() {
           <div className="rot-header">
             <div className="rot-title">
               <img
-                src="http://172.20.229.55/images/logo_pptm.png"
+                src={logoPPTM}
                 alt="Logo PPTM"
                 id="pptm"
               />
               <h1>RELATÓRIO OPERACIONAL DE TURNO</h1>
               <img
-                src="http://172.20.229.55/images/logo_ep.png"
+                src={logoEP}
                 alt="Logo EP"
                 id="ep"
               />
               <img
-                src="http://172.20.229.55/images/logo_eneva.png"
+                src={logoEneva}
                 alt="Logo Eneva"
                 id="eneva"
               />

@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import InputsProgramacao from "../../components/RetomaProg/inputsProgramacao";
-import PlagiarismIcon from "@mui/icons-material/Plagiarism";
 import { Box, CircularProgress } from "@mui/material";
+import InputsProgramacao from "../../components/RetomaProg/inputsProgramacao";
+import logoPPTM from "../../../public/images/logo_pptm.png";
+import logoEneva from "../../../public/images/logo_eneva.png";
+import logoEP from "../../../public/images/logo_ep.png";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import "./retomaprog.css";
 
 export default function ProgramacaoRetoma() {
@@ -12,6 +16,123 @@ export default function ProgramacaoRetoma() {
   const [carregando, setCarregando] = useState(true);
 
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
+
+  const handleGeneratePDF = async () => {
+    const element = document.querySelector(".main-retoma-prog");
+
+    if (!element) return;
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      scrollY: -window.scrollY,
+
+      onclone: (clonedDoc) => {
+        const clonedMain = clonedDoc.querySelector(".main-retoma-prog");
+        if (clonedMain) {
+          clonedMain.style.marginTop = "0px";
+          clonedMain.style.paddingTop = "0px";
+          clonedMain.style.backgroundColor = "#ffffff";
+        }
+
+        const buttonsAdd = clonedDoc.querySelectorAll(".button-add");
+        buttonsAdd.forEach((btn) => {
+          const inputSibling = btn.previousElementSibling;
+          btn.style.display = "none";
+
+          if (inputSibling) {
+            inputSibling.style.width = "100%";
+            inputSibling.style.maxWidth = "none";
+            inputSibling.dataset.expanded = "true";
+          }
+        });
+
+        const botoesGerais = clonedDoc.querySelector(
+          ".buttons-programacao-retoma"
+        );
+        if (botoesGerais) botoesGerais.style.display = "none";
+
+        const textareas = clonedDoc.querySelectorAll("textarea");
+        textareas.forEach((ta) => {
+          const div = clonedDoc.createElement("div");
+          const style = window.getComputedStyle(ta);
+          const rect = ta.getBoundingClientRect();
+
+          if (!ta.value && ta.placeholder) {
+            div.innerText = ta.placeholder;
+            div.style.color = "#999999";
+          } else {
+            div.innerText = ta.value || " ";
+            div.style.color = "#000000";
+          }
+
+          div.style.border = style.border;
+          div.style.borderRadius = style.borderRadius;
+          div.style.backgroundColor = style.backgroundColor;
+          div.style.padding = style.padding;
+          div.style.margin = style.margin;
+          div.style.boxSizing = "border-box";
+          div.style.fontFamily = style.fontFamily;
+          div.style.fontSize = style.fontSize;
+          div.style.fontWeight = style.fontWeight;
+          div.style.lineHeight = style.lineHeight;
+          div.style.textAlign = style.textAlign;
+
+          const isFinalTextarea =
+            ta.classList.contains(
+              "inputs-programacao-textarea-final-empilha"
+            ) || ta.classList.contains("inputs-programacao-textarea-final-ug");
+
+          if (isFinalTextarea) {
+            div.style.width = `${rect.width}px`;
+            div.style.display =
+              style.display === "inline" ? "inline-block" : style.display;
+          } else if (ta.dataset.expanded === "true") {
+            div.style.width = "100%";
+          } else {
+            div.style.width = `${rect.width}px`;
+          }
+
+          div.style.height = "auto";
+          if (ta.offsetHeight) {
+            div.style.minHeight = `${ta.offsetHeight}px`;
+          } else {
+            div.style.minHeight = style.height;
+          }
+
+          div.style.whiteSpace = "pre-wrap";
+          div.style.wordWrap = "break-word";
+          div.style.overflow = "hidden";
+
+          if (ta.parentNode) {
+            ta.parentNode.replaceChild(div, ta);
+          }
+        });
+      },
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("l", "mm", "a4");
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+
+    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+
+    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+    const imgY = 5;
+
+    pdf.addImage(
+      imgData,
+      "PNG",
+      imgX,
+      imgY,
+      imgWidth * ratio,
+      imgHeight * ratio
+    );
+    pdf.save(`Programacao-semana-${semana}-${ano}.pdf`);
+  };
 
   const definirSemana = () => {
     const hoje = new Date();
@@ -52,6 +173,12 @@ export default function ProgramacaoRetoma() {
 
     setDias(dias);
   };
+
+  const dataHojeFormatada = new Intl.DateTimeFormat('pt-BR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(new Date());
 
   const pesquisarProg = (ano, semana) => {
     if (!semana || !ano) return;
@@ -103,17 +230,14 @@ export default function ProgramacaoRetoma() {
 
   return (
     <div className="main-retoma-prog">
-      <h3>Programação de Retoma</h3>
-
       <div className="semana-container">
-        <label htmlFor="semana">SEMANA</label>
+        <label htmlFor="semana">PROGRAMAÇÂO DE RETOMA - SEMANA</label>
         <input
           id="semana"
           type="number"
           value={semana}
           onChange={(e) => setSemana(e.target.value)}
         />
-
         <label htmlFor="ano">ANO</label>
         <input
           id="ano"
@@ -121,13 +245,12 @@ export default function ProgramacaoRetoma() {
           value={ano}
           onChange={(e) => setAno(e.target.value)}
         />
-        <PlagiarismIcon
-          sx={{
-            cursor: "pointer",
-            fontSize: "30px",
-          }}
-          onClick={() => console.log(programado)}
-        />
+        <div className="container-logo-clientes">
+          <img src={logoEP} alt="Logo EP" id="logo-ep" />
+          <img src={logoEneva} alt="Logo Eneva" id="logo-eneva" />
+          <img src={logoPPTM} alt="Logo PPTM" id="logo-pptm" />
+          <span>{dataHojeFormatada}</span>
+        </div>
       </div>
 
       <InputsProgramacao
@@ -135,7 +258,22 @@ export default function ProgramacaoRetoma() {
         semana={semana}
         ano={ano}
         programado={programado}
+        handleGeneratePDF={handleGeneratePDF}
       />
+
+      <div className="footer-retoma-prog">
+        <div className="signature-box">
+          <span>ENERGIA PECÉM</span>
+        </div>
+
+        <div className="signature-box">
+          <span>ENEVA</span>
+        </div>
+
+        <div className="signature-box">
+          <span>PPTM</span>
+        </div>
+      </div>
     </div>
   );
 }
