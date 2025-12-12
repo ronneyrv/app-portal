@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-//import ModalOcorrenciaCompletaGeral from "../../../components/Descarregamento/ModalOcorrenciaCompletaGeral";
 import {
   Box,
   Button,
@@ -13,8 +12,8 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import "./descarregamentoconsolidado.css";
 import ModalConsolidado from "../../../../components/Descarregamento/ModalConsolidado";
+import "./descarregamentoconsolidado.css";
 
 export default function Consolidado() {
   const [dados, setDados] = useState([]);
@@ -29,8 +28,6 @@ export default function Consolidado() {
     setAbrirModalConsolidado(true);
     const rowAjustada = {
       ...row,
-      // inicio: formatarDataParaInput(row.inicio),
-      // fim: formatarDataParaInput(row.fim),
     };
     setRowEdit3(rowAjustada);
   };

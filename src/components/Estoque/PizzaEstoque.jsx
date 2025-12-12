@@ -105,16 +105,16 @@ export default function PizzaEstoque({estoqueGeralDias}) {
             paddingAngle: 3,
           },
           {
-            innerRadius: 120,
-            outerRadius: 170,
+            innerRadius: 100,
+            outerRadius: 150,
             data: volume,
             arcLabel: (item) => `${formatTon(item.value)} ton`,
             arcLabelMinAngle: 10,
             paddingAngle: 2,
           },
         ]}
-        width={400}
-        height={350}
+        width={350}
+        height={300}
         hideLegend
       />
       <div className="legenda">
