@@ -16,6 +16,7 @@ import {
   Radio,
   FormLabel,
   MenuItem,
+  Switch,
 } from "@mui/material";
 
 export default function ModalAddRetoma({
@@ -41,6 +42,7 @@ export default function ModalAddRetoma({
       maquina: "",
       ug: "",
       pilha: "",
+      emprestimo: false,
       volume: null,
       navio: "",
       inicio: "",
@@ -116,9 +118,12 @@ export default function ModalAddRetoma({
   };
 
   const pilhaDisabled = (pilha, formData) => {
-    const { classificacao, maquina, ug } = formData;
-
+    const { classificacao, maquina, ug, emprestimo } = formData;
     if (classificacao !== "RETOMA") {
+      return false;
+    }
+
+    if (emprestimo || maquina === "ESCAVADEIRA") {
       return false;
     }
 
@@ -138,10 +143,6 @@ export default function ModalAddRetoma({
       if (ug === "UG3") {
         return !["2A"].includes(pilha);
       }
-    }
-
-    if (maquina === "ESCAVADEIRA") {
-      return false;
     }
 
     return true;
@@ -230,6 +231,23 @@ export default function ModalAddRetoma({
                     />
                   </RadioGroup>
                 </FormControl>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      color="warning"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          emprestimo: e.target.checked,
+                        })
+                      }
+                      checked={formData.emprestimo}
+                      name="emprestimo"
+                      />
+                    }
+                    label="Empréstimo"
+                    sx={{marginTop: '22px'}}
+                />
               </Box>
             )}
             {formData.classificacao == "EMPILHA" && (

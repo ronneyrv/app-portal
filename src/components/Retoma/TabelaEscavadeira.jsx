@@ -10,24 +10,18 @@ import {
 } from "@mui/material";
 import "./tabelaEscavadeira.css";
 
-function formatData(dataISO) {
-  if (!dataISO) return "";
+const dataFormat = (data) => {
+  if (!data) return null;
+  const date = new Date(data);
+  const pad = (num) => String(num).padStart(2, "0");
+  const dia = pad(date.getUTCDate());
+  const mes = pad(date.getUTCMonth() + 1);
+  const ano = date.getUTCFullYear();
+  const horas = pad(date.getUTCHours());
+  const minutos = pad(date.getUTCMinutes());
 
-  const data = new Date(dataISO);
-  if (isNaN(data.getTime())) {
-    return "Data Inválida";
-  }
-  const opcoes = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
-
-  return data.toLocaleString("pt-BR", opcoes).replace(",", "");
-}
+  return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+};
 
 const columns = [
   { id: "classificacao", label: "OCORRÊNCIA", minWidth: 50 },
@@ -66,8 +60,8 @@ export default function TabelaEscavadeira({ retomado }) {
         d.classificacao,
         d.ug,
         d.pilha,
-        formatData(d.inicio),
-        formatData(d.fim),
+        dataFormat(d.inicio),
+        dataFormat(d.fim),
         d.volume
       )
     );
