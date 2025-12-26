@@ -3,7 +3,6 @@ import Pier1Carvao from "../../components/Descarregamento/Pier1Carvao";
 import GraficoPrevisaoReal from "../../components/Descarregamento/GraficoPrevisaoReal";
 import GraficoPrevisaoBase75 from "../../components/Descarregamento/GraficoPrevisaoBase75";
 import PizzaEstoque from "../../components/Estoque/PizzaEstoque";
-import EstoquePorpPlha from "../../components/Estoque/EstoquePorPilha";
 import EstoqueResumo from "../../components/Estoque/EstoqueResumo";
 import IndidadorAno from "../../components/Home/IndicadorAno";
 import TaxaRetoma from "../../components/Home/TaxaRetoma";
@@ -61,23 +60,23 @@ export default function Home() {
         <div className="container-home-ano">
           <IndidadorAno age={age} setAge={setAge} />
         </div>
-        <div className="container-home-1">
+        <div className="container-home-lt1">
           <TaxaRetoma age={age} />
         </div>
-        <div className="container-home-2">
+        <div className="container-home-lt2">
           <Pier1Carvao dados={pier} />
           <GraficoPrevisaoReal dados={pier} />
           <GraficoPrevisaoBase75 dados={pier} />
         </div>
       </div>
       <div className="container-home-right">
-        <div className="container-home-lt1">
+        <div className="container-home-rt1">
           <PizzaEstoque />
         </div>
-        <div className="container-home-lt2">
+        <div className="container-home-rt2">
           <EstoqueResumo />
         </div>
-        <div className="container-home-lt3">contratos</div>
+        <div className="container-home-rt3">contratos</div>
       </div>
     </div>
   );

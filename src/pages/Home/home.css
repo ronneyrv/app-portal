@@ -21,8 +21,8 @@
   gap: 20px;
 }
 
-.container-home-1,
-.container-home-2 {
+.container-home-lt1,
+.container-home-lt2 {
   display: flex;
   gap: 20px;
   width: 100%;
@@ -39,9 +39,9 @@
   min-width: 0;
 }
 
-.container-home-lt1,
-.container-home-lt2,
-.container-home-lt3 {
+.container-home-rt1,
+.container-home-rt2,
+.container-home-rt3 {
   flex-grow: 1; 
   width: 100%;
 }
