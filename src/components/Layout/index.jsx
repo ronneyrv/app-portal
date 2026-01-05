@@ -26,7 +26,9 @@ const RetomaProg = lazy(() => import("../../pages/RetomaProg"));
 const ProgLoto = lazy(() => import("../../pages/ProgLoto"));
 const Loto = lazy(() => import("../../pages/Loto"));
 const Rot = lazy(() => import("../../pages/Rot"));
-const Gestao = lazy(() => import("../../pages/Gestao"));
+const Contrato = lazy(() => import("../../pages/Contrato"));
+const Medicoes = lazy(() => import("../../pages/Contrato/Medicoes"));
+const Orcamentos = lazy(() => import("../../pages/Contrato/Orcamentos")); 
 const Admin = lazy(() => import("../../pages/Admin"));
 
 const Layout = () => {
@@ -67,7 +69,9 @@ const Layout = () => {
                           <Route path="/programacao-loto" element={<ProgLoto />} />
                           <Route path="/loto" element={<Loto />} />
                           <Route path="rot" element={<Rot />} />
-                          <Route path="/gestao" element={<Gestao />} />
+                          <Route path="/contratos" element={<Contrato />} />
+                          <Route path="/contratos/medicoes" element={<Medicoes />} />
+                          <Route path="/contratos/orcamentos" element={<Orcamentos />} />
                           <Route path="/admin" element={<Admin />} />
                         </Routes>
                       </Main>

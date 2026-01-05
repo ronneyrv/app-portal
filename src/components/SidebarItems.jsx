@@ -59,7 +59,7 @@ const SidebarItems = ({ items, open, toggleDrawer }) => {
                 title={title} 
                 placement="right"
                 disableHoverListener={open}
-                arrow // ⬅️ Adiciona uma seta ao Tooltip
+                arrow // Adiciona uma seta ao Tooltip
               >
               <ListItemButton
                 component={Link}

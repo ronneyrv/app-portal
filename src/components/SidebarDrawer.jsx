@@ -10,7 +10,7 @@ import AgricultureOutlinedIcon from "@mui/icons-material/AgricultureOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import CycloneOutlinedIcon from "@mui/icons-material/CycloneOutlined";
 import FilterHdrOutlinedIcon from "@mui/icons-material/FilterHdrOutlined";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import HandshakeIcon from '@mui/icons-material/Handshake';
 import InvertColorsOutlinedIcon from "@mui/icons-material/InvertColorsOutlined";
 import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepartmentOutlined";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
@@ -85,9 +85,9 @@ const drawerItems = [
     permissao: 7,
   },
   {
-    title: "Gestão",
-    icon: <GroupsOutlinedIcon />,
-    path: "/pptm/gestao",
+    title: "Contratos",
+    icon: <HandshakeIcon />,
+    path: "/pptm/contratos",
     permissao: 5,
   },
 ];
