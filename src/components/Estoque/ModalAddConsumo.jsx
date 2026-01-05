@@ -40,19 +40,21 @@ const prepararNumero = (value) => {
     }
     return isNegative ? value : cleanedValue;
   }
-
   const numericValue = parseFloat(cleanedValue.replace(",", "."));
 
   if (isNaN(numericValue)) {
     return isNegative ? "-" + cleanedValue : cleanedValue;
   }
 
+  const decimalPart = cleanedValue.split(",")[1];
+  const decimalLength = decimalPart ? decimalPart.length : 0;
+  const maxDigits = 3; 
+
   const options = {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 3,
+    minimumFractionDigits: Math.min(decimalLength, maxDigits),
+    maximumFractionDigits: maxDigits,
     useGrouping: true,
   };
-
   const formatter = new Intl.NumberFormat("pt-BR", options);
   let formatted = formatter.format(numericValue * (isNegative ? -1 : 1));
 
