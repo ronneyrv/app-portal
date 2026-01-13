@@ -39,8 +39,11 @@ export default function ModalEncerrarContrato({
     setRowContrato([]);
   };
 
-  const formatarDataParaInput = (dataBR) => {
+    const formatarDataParaInput = (dataBR) => {
     if (!dataBR) return "";
+    if (dataBR === "SEM REAJUSTE") {
+      return dataBR;
+    }
     const partes = dataBR.split("/");
     if (partes.length !== 3) {
       console.error("Formato de data inválido:", dataBR);
@@ -106,7 +109,12 @@ export default function ModalEncerrarContrato({
         severity={notify.severity}
         onClose={() => setNotify({ ...notify, open: false })}
       />
-      <Dialog open={abrirModalEncerrarContrato} onClose={handleClose} disableRestoreFocus fullWidth>
+      <Dialog
+        open={abrirModalEncerrarContrato}
+        onClose={handleClose}
+        disableRestoreFocus
+        fullWidth
+      >
         <DialogContent sx={{ p: 3 }}>
           <DialogTitle>Encerrar Contrato</DialogTitle>
           <form onSubmit={handleSubmit}>
@@ -137,7 +145,7 @@ export default function ModalEncerrarContrato({
                 margin="dense"
                 name="reajuste"
                 label="Reajuste"
-                type="date"
+                type={formRowEncerra.reajuste === "SEM REAJUSTE" ? "text" : "date"}
                 variant="outlined"
                 value={formRowEncerra.reajuste}
               />

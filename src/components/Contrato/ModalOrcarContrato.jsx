@@ -11,6 +11,7 @@ import {
   CircularProgress,
   Typography,
   Divider,
+  DialogTitle,
 } from "@mui/material";
 
 const formatarValorParaInput = (valor) => {
@@ -60,7 +61,7 @@ const prepararNumero = (value) => {
 
   const decimalPart = cleanedValue.split(",")[1];
   const decimalLength = decimalPart ? decimalPart.length : 0;
-  const maxDigits = 3; 
+  const maxDigits = 3;
 
   const options = {
     minimumFractionDigits: Math.min(decimalLength, maxDigits),
@@ -85,14 +86,16 @@ export default function ModalOrcarContrato({
   fetchContratos,
 }) {
   const chartRef = useRef(null);
+  const anoAtual = new Date().getFullYear();
   const [projecao, setProjecao] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formRowData, setFormRowData] = useState({
     ano: "",
-    plano_orcamentario: "",
     contrato: "",
     fornecedor: "",
     vigencia: "",
+    custo_previsto_mensal: "",
+    plano_orcamentario: "",
     valor_contrato: "",
     valor_realizado: "",
     valor_saldo: "",
@@ -111,7 +114,7 @@ export default function ModalOrcarContrato({
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name.startsWith("previsto_")) {
+    if (name.startsWith("orcado_")) {
       setFormRowData((prevData) => ({
         ...prevData,
         [name]: prepararNumero(value),
@@ -178,23 +181,26 @@ export default function ModalOrcarContrato({
           setFormRowData((prevData) => ({
             ...prevData,
             plano_orcamentario: provisao.plano_orcamentario,
+            custo_previsto_mensal: formatarValorParaInput(
+              provisao.custo_previsto_mensal
+            ),
             valor_contrato: formatarValorParaInput(provisao.valor_contrato),
             valor_realizado: formatarValorParaInput(
               provisao.valor_medido_contrato
             ),
             valor_saldo: formatarValorParaInput(provisao.valor_saldo),
-            previsto_1: formatarValorParaInput(provisao.previsto_1),
-            previsto_2: formatarValorParaInput(provisao.previsto_2),
-            previsto_3: formatarValorParaInput(provisao.previsto_3),
-            previsto_4: formatarValorParaInput(provisao.previsto_4),
-            previsto_5: formatarValorParaInput(provisao.previsto_5),
-            previsto_6: formatarValorParaInput(provisao.previsto_6),
-            previsto_7: formatarValorParaInput(provisao.previsto_7),
-            previsto_8: formatarValorParaInput(provisao.previsto_8),
-            previsto_9: formatarValorParaInput(provisao.previsto_9),
-            previsto_10: formatarValorParaInput(provisao.previsto_10),
-            previsto_11: formatarValorParaInput(provisao.previsto_11),
-            previsto_12: formatarValorParaInput(provisao.previsto_12),
+            orcado_1: formatarValorParaInput(provisao.orcado_1),
+            orcado_2: formatarValorParaInput(provisao.orcado_2),
+            orcado_3: formatarValorParaInput(provisao.orcado_3),
+            orcado_4: formatarValorParaInput(provisao.orcado_4),
+            orcado_5: formatarValorParaInput(provisao.orcado_5),
+            orcado_6: formatarValorParaInput(provisao.orcado_6),
+            orcado_7: formatarValorParaInput(provisao.orcado_7),
+            orcado_8: formatarValorParaInput(provisao.orcado_8),
+            orcado_9: formatarValorParaInput(provisao.orcado_9),
+            orcado_10: formatarValorParaInput(provisao.orcado_10),
+            orcado_11: formatarValorParaInput(provisao.orcado_11),
+            orcado_12: formatarValorParaInput(provisao.orcado_12),
             realizado_1: formatarValorParaInput(provisao.realizado_1),
             realizado_2: formatarValorParaInput(provisao.realizado_2),
             realizado_3: formatarValorParaInput(provisao.realizado_3),
@@ -214,19 +220,21 @@ export default function ModalOrcarContrato({
   };
 
   useEffect(() => {
-    if (!formRowData.ano || formRowData.ano.length < 4) return;
-    fetchProvisoes();
-  }, [formRowData.ano]);
-
-  useEffect(() => {
     if (!rowContrato || rowContrato.length === 0) return;
     setLoading(false);
-    setFormRowData({
+    setFormRowData((prevData) => ({
+      ...prevData,
       contrato: rowContrato.contrato,
       fornecedor: rowContrato.fornecedor,
       vigencia: rowContrato.vigencia,
-    });
+      ano: anoAtual,
+    }));
   }, [rowContrato]);
+
+  useEffect(() => {
+    if (!formRowData.ano || !formRowData.contrato) return;
+    fetchProvisoes();
+  }, [formRowData.ano, formRowData.contrato]);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -287,6 +295,13 @@ export default function ModalOrcarContrato({
     };
   }, [projecao]);
 
+  useEffect(() => {
+    if (!abrirModalOrcarContrato) return;
+    setTimeout(() => {
+      fetchProvisoes();
+    }, 500);
+  }, [abrirModalOrcarContrato]);
+
   return (
     <div>
       <NotifyBar
@@ -302,6 +317,7 @@ export default function ModalOrcarContrato({
         maxWidth="md"
       >
         <DialogContent sx={{ p: 3 }}>
+          <DialogTitle>Orçamento</DialogTitle>
           <form onSubmit={handleSubmit}>
             <Box sx={{ display: "flex", flexDirection: "row", gap: "10px" }}>
               <Box
@@ -314,12 +330,13 @@ export default function ModalOrcarContrato({
                       size="small"
                       margin="dense"
                       name="ano"
-                      label="Ano da Previsão"
+                      label="Ano do orçamento"
                       variant="outlined"
+                      type="number"
                       value={formRowData.ano}
                       onChange={handleChange}
                       sx={{
-                        width: "150px",
+                        width: "140px",
                         "& .MuiInputBase-input": {
                           padding: "4px 14px",
                           fontSize: "1rem",
@@ -332,6 +349,29 @@ export default function ModalOrcarContrato({
                       }}
                     />
                     <TextField
+                      disabled
+                      size="small"
+                      margin="dense"
+                      name="vigencia"
+                      label="Vigência"
+                      variant="outlined"
+                      value={formRowData.vigencia}
+                      onChange={handleChange}
+                      sx={{
+                        width: "110px",
+                        "& .MuiInputBase-input": {
+                          padding: "4px 14px",
+                          fontSize: "1rem",
+                        },
+                      }}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+                    />
+                    <TextField
+                      focused
                       size="small"
                       margin="dense"
                       name="plano_orcamentario"
@@ -340,7 +380,7 @@ export default function ModalOrcarContrato({
                       value={formRowData.plano_orcamentario}
                       onChange={handleChange}
                       sx={{
-                        width: "300px",
+                        width: "270px",
                         "& .MuiInputBase-input": {
                           padding: "4px 14px",
                           fontSize: "1rem",
@@ -353,10 +393,9 @@ export default function ModalOrcarContrato({
                       }}
                     />
                   </Box>
-                  <Box display="flex" gap={1} alignItems="center" mt={1}>
+                  <Box display="flex" gap={1}>
                     <TextField
                       disabled
-                      fullWidth
                       size="small"
                       margin="dense"
                       name="contrato"
@@ -365,6 +404,7 @@ export default function ModalOrcarContrato({
                       value={formRowData.contrato}
                       onChange={handleChange}
                       sx={{
+                        width: "330px",
                         "& .MuiInputBase-input": {
                           padding: "4px 14px",
                           fontSize: "1rem",
@@ -385,28 +425,6 @@ export default function ModalOrcarContrato({
                       label="Fornecedor"
                       variant="outlined"
                       value={formRowData.fornecedor}
-                      onChange={handleChange}
-                      sx={{
-                        "& .MuiInputBase-input": {
-                          padding: "4px 14px",
-                          fontSize: "1rem",
-                        },
-                      }}
-                      slotProps={{
-                        inputLabel: {
-                          shrink: true,
-                        },
-                      }}
-                    />
-                    <TextField
-                      disabled
-                      fullWidth
-                      size="small"
-                      margin="dense"
-                      name="vigencia"
-                      label="Vigência"
-                      variant="outlined"
-                      value={formRowData.vigencia}
                       onChange={handleChange}
                       sx={{
                         "& .MuiInputBase-input": {
@@ -530,10 +548,10 @@ export default function ModalOrcarContrato({
                       fullWidth
                       size="small"
                       margin="dense"
-                      name={`previsto_${index + 1}`}
-                      label="Previsto"
+                      name={`orcado_${index + 1}`}
+                      label="Orçado"
                       variant="outlined"
-                      value={formRowData[`previsto_${index + 1}`]}
+                      value={formRowData[`orcado_${index + 1}`]}
                       onChange={handleChange}
                       sx={{
                         "& .MuiInputBase-input": {

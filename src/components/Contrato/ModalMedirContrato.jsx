@@ -14,6 +14,9 @@ import {
 
 const formatarDataParaInput = (dataBR) => {
   if (!dataBR) return "";
+  if (dataBR === "SEM REAJUSTE") {
+    return dataBR;
+  }
   const partes = dataBR.split("/");
   if (partes.length !== 3) {
     console.error("Formato de data inválido:", dataBR);
@@ -262,7 +265,7 @@ export default function ModalMedirContrato({
                 fullWidth
                 margin="dense"
                 name="frs_migo"
-                label="FRS/MIGO"
+                label="FRS/MIGO/NF"
                 variant="outlined"
                 value={formRowData.frs_migo}
                 onChange={handleChange}

@@ -9,20 +9,13 @@ import {
   Button,
   Box,
   CircularProgress,
-  MenuItem,
 } from "@mui/material";
 
-const formatarDataParaInput = (dataBR) => {
-  if (!dataBR) return "";
-  if (dataBR === "SEM REAJUSTE") {
-    return dataBR;
-  }
-  const partes = dataBR.split("/");
-  if (partes.length !== 3) {
-    console.error("Formato de data inválido:", dataBR);
-    return "";
-  }
-  return `${partes[2]}-${partes[1]}-${partes[0]}`;
+const formatarValor = (value) => {
+  return new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 };
 
 const prepararNumero = (value) => {
@@ -78,24 +71,16 @@ const prepararNumero = (value) => {
   return formatted;
 };
 
-export default function ModalEditarContrato({
-  abrirModalEditarContrato,
-  setAbrirModalEditarContrato,
-  rowContrato,
-  setRowContrato,
-  fetchContratos,
+export default function ModalCustoAnual({
+  abrirModalCustoAnual,
+  setAbrirModalCustoAnual,
 }) {
   const [loading, setLoading] = useState(false);
   const [formRowData, setFormRowData] = useState({
-    id: "",
-    contrato: "",
-    fornecedor: "",
-    valor_contrato: "",
-    tipo: "",
-    inicio: "",
-    vigencia: "",
-    reajuste: "",
-    tarifa: "",
+    id: 1,
+    ano: "",
+    orcado: "",
+    realizado: "",
   });
   const [notify, setNotify] = useState({
     open: false,
@@ -105,46 +90,28 @@ export default function ModalEditarContrato({
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
   const handleClose = () => {
-    setAbrirModalEditarContrato(false);
-    setRowContrato([]);
+    setAbrirModalCustoAnual(false);
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === "valor_contrato") {
+    if (name === "ano") {
       setFormRowData((prevData) => ({
         ...prevData,
-        [name]: prepararNumero(value),
+        [name]: value,
       }));
     } else {
       setFormRowData((prevData) => ({
         ...prevData,
-        [name]: value,
+        [name]: prepararNumero(value),
       }));
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let id = formRowData.id;
 
-    if (!id) {
-      setNotify({
-        open: true,
-        message: "Contrato não localizado",
-        severity: "info",
-      });
-      return;
-    }
-
-    if (
-      !formRowData.contrato ||
-      !formRowData.fornecedor ||
-      !formRowData.valor_contrato ||
-      !formRowData.tipo ||
-      !formRowData.inicio ||
-      !formRowData.vigencia
-    ) {
+    if (!formRowData.orcado || !formRowData.realizado || !formRowData.ano) {
       setNotify({
         open: true,
         message: "Dados obrigatórios",
@@ -154,7 +121,7 @@ export default function ModalEditarContrato({
     }
 
     setLoading(true);
-    fetch(`${API_URL}/contratos`, {
+    fetch(`${API_URL}/contratos/orcamento/anual`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -170,7 +137,6 @@ export default function ModalEditarContrato({
             message: data.message,
             severity: data.type,
           });
-          fetchContratos();
           handleClose();
         } else {
           setNotify({
@@ -185,20 +151,26 @@ export default function ModalEditarContrato({
   };
 
   useEffect(() => {
-    if (!rowContrato || rowContrato.length === 0) return;
+    if (!abrirModalCustoAnual) return;
     setLoading(false);
-    setFormRowData({
-      id: rowContrato.id,
-      contrato: rowContrato.contrato,
-      fornecedor: rowContrato.fornecedor,
-      valor_contrato: rowContrato.valor_contrato.replace("R$", "").trim(),
-      tipo: rowContrato.tipo,
-      inicio: formatarDataParaInput(rowContrato.inicio),
-      vigencia: formatarDataParaInput(rowContrato.vigencia),
-      reajuste: formatarDataParaInput(rowContrato.reajuste),
-      tarifa: rowContrato.tarifa,
-    });
-  }, [rowContrato]);
+
+    fetch(`${API_URL}/contratos/orcamento/anual`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.type === "success") {
+          const valor = data.data[0];
+          setFormRowData({
+            id: 1,
+            ano: valor.ano,
+            orcado: formatarValor(valor.orcado),
+            realizado: formatarValor(valor.realizado),
+          });
+        }
+      })
+      .catch((err) => console.error("Erro de rede:", err));
+  }, [abrirModalCustoAnual]);
 
   return (
     <div>
@@ -209,79 +181,40 @@ export default function ModalEditarContrato({
         onClose={() => setNotify({ ...notify, open: false })}
       />
       <Dialog
-        open={abrirModalEditarContrato}
+        open={abrirModalCustoAnual}
         onClose={handleClose}
         disableRestoreFocus
         fullWidth
       >
         <DialogContent sx={{ p: 3 }}>
-          <DialogTitle>Editar Contrato</DialogTitle>
+          <DialogTitle>Orçamento Anual PPTM</DialogTitle>
           <form onSubmit={handleSubmit}>
-            <Box display="flex" gap={1} alignItems="center" mt={1}>
-              <TextField
-                required
-                size="small"
-                margin="dense"
-                name="contrato"
-                label="Nº Contrato"
-                variant="outlined"
-                value={formRowData.contrato}
-                onChange={handleChange}
-                sx={{ width: "300px" }}
-              />
-              <TextField
-                autoFocus
-                required
-                fullWidth
-                size="small"
-                margin="dense"
-                name="fornecedor"
-                label="Fornecedor"
-                variant="outlined"
-                value={formRowData.fornecedor}
-                onChange={handleChange}
-              />
-            </Box>
             <Box display="flex" gap={1}>
               <TextField
                 required
-                fullWidth
-                size="small"
+                type="number"
                 margin="dense"
-                name="valor_contrato"
-                label="Valor do Contrato"
+                name="ano"
+                label="Ano do Orçamento"
                 variant="outlined"
-                value={formRowData.valor_contrato}
+                value={formRowData.ano}
                 onChange={handleChange}
+                sx={{
+                  width: "380px",
+                }}
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
               />
               <TextField
-                required
-                select
-                size="small"
-                margin="dense"
-                name="tipo"
-                label="Tipo de Contrato"
-                variant="outlined"
-                value={formRowData.tipo}
-                onChange={handleChange}
-                sx={{ width: "270px" }}
-              >
-                <MenuItem value="PPTM">PPTM</MenuItem>
-                <MenuItem value="GTPC">GTPC</MenuItem>
-              </TextField>
-            </Box>
-            <Box display="flex" gap={1}>
-              <TextField
                 fullWidth
-                required
-                size="small"
                 margin="dense"
-                id="inicio"
-                name="inicio"
-                label="Início do Contrato"
-                type="date"
+                name="orcado"
+                label="Valor Orçado"
                 variant="outlined"
-                value={formRowData.inicio}
+                value={formRowData.orcado}
                 onChange={handleChange}
                 slotProps={{
                   inputLabel: {
@@ -290,54 +223,18 @@ export default function ModalEditarContrato({
                 }}
               />
               <TextField
-                required
                 fullWidth
-                size="small"
                 margin="dense"
-                id="vigencia"
-                name="vigencia"
-                label="Vigência"
-                type="date"
+                name="realizado"
+                label="Valor Realizado"
                 variant="outlined"
-                value={formRowData.vigencia}
+                value={formRowData.realizado}
                 onChange={handleChange}
                 slotProps={{
                   inputLabel: {
                     shrink: true,
                   },
                 }}
-              />
-              <TextField
-                disabled
-                fullWidth
-                size="small"
-                margin="dense"
-                id="reajuste"
-                name="reajuste"
-                label="Reajuste"
-                type={formRowData.reajuste === "SEM REAJUSTE" ? "text" : "date"}
-                variant="outlined"
-                value={formRowData.reajuste}
-                onChange={handleChange}
-                slotProps={{
-                  inputLabel: {
-                    shrink: true,
-                  },
-                }}
-              />
-            </Box>
-            <Box display="flex" gap={1}>
-              <TextField
-                multiline
-                fullWidth
-                size="small"
-                minRows={3}
-                margin="dense"
-                name="tarifa"
-                label="Tarifa"
-                variant="outlined"
-                value={formRowData.tarifa}
-                onChange={handleChange}
               />
             </Box>
             <DialogActions>
@@ -345,7 +242,7 @@ export default function ModalEditarContrato({
                 Cancelar
               </Button>
               <Box sx={{ m: 1, position: "relative" }}>
-                <Button type="submit" variant="contained" disabled={loading}>
+                <Button type="submit" variant="contained">
                   Salvar
                 </Button>
                 {loading && (

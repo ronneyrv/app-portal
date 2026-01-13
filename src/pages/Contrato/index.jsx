@@ -38,7 +38,6 @@ const columns = [
   { id: "valor_contrato", label: "VALOR", width: 180 },
   { id: "vigencia", label: "VIGÊNCIA", width: 120 },
   { id: "reajuste", label: "REAJUSTE", width: 120 },
-  { id: "tarifa", label: "TARIFA", width: 180 },
   { id: "status_vigencia", label: "STATUS VIGÊNCIA", width: 180 },
   { id: "status_reajuste", label: "STATUS REAJUSTE", width: 180 },
 ];
@@ -109,6 +108,7 @@ export default function Contrato() {
   const [rows, setRows] = useState([]);
   const [contratos, setContratos] = useState([]);
   const [rowContrato, setRowContrato] = useState([]);
+  const [filtroTipo, setFiltroTipo] = useState("TODOS");
   const [busca, setBusca] = useState("");
   const [abrirModalAddContrato, setAbrirModalAddContrato] = useState(false);
   const [abrirModalEditarContrato, setAbrirModalEditarContrato] =
@@ -165,12 +165,14 @@ export default function Contrato() {
   }, []);
 
   const rowsFiltradas = rows.filter((row) => {
-    if (!busca) return true;
     const termo = busca.toLowerCase();
-    return (
+    const atendeBusca =
+      !busca ||
       row.contrato?.toString().toLowerCase().includes(termo) ||
-      row.fornecedor?.toString().toLowerCase().includes(termo)
-    );
+      row.fornecedor?.toString().toLowerCase().includes(termo);
+    const atendeTipo = filtroTipo === "TODOS" || row.tipo === filtroTipo;
+
+    return atendeBusca && atendeTipo;
   });
 
   return (
@@ -232,103 +234,125 @@ export default function Contrato() {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <ButtonGroup size="small" aria-label="Small button group">
-          <Button
-            startIcon={<AddIcon />}
-            onClick={() => setAbrirModalAddContrato(true)}
-          >
-            Adicionar
-          </Button>
-          <Button
-            startIcon={<ModeEditIcon />}
-            onClick={() => {
-              if (rowContrato.length === 0) {
-                setNotify({
-                  open: true,
-                  message: "Selecione um contrato para editar.",
-                  severity: "info",
-                });
-              } else {
-                setAbrirModalEditarContrato(true);
-              }
-            }}
-          >
-            Editar
-          </Button>
-          <Button
-            startIcon={<StraightenIcon />}
-            onClick={() => {
-              if (rowContrato.length === 0) {
-                setNotify({
-                  open: true,
-                  message: "Selecione um contrato para medir.",
-                  severity: "info",
-                });
-              } else {
-                setAbrirModalMedirContrato(true);
-              }
-            }}
-          >
-            Medir
-          </Button>
-          <Button
-            startIcon={<HourglassTopIcon />}
-            onClick={() => {
-              if (rowContrato.length === 0) {
-                setNotify({
-                  open: true,
-                  message: "Selecione um contrato para reajustar.",
-                  severity: "info",
-                });
-              } else {
-                setAbrirModalReajusteContrato(true);
-              }
-            }}
-          >
-            Reajustar
-          </Button>
-          <Button
-            startIcon={<CurrencyExchangeIcon />}
-            onClick={() => {
-              if (rowContrato.length === 0) {
-                setNotify({
-                  open: true,
-                  message: "Selecione um contrato para orçar.",
-                  severity: "info",
-                });
-              } else {
-                setAbrirModalOrcarContrato(true);
-              }
-            }}
-          >
-            Orçar
-          </Button>
-          <Button
-            startIcon={<AttachMoneyIcon />}
-            onClick={() => {
-              setAbrirModalCustoAnual(true);
-            }}
-          >
-            CUSTO ANUAL
-          </Button>
-          <Button
-            color="error"
-            startIcon={<HighlightOffIcon />}
-            onClick={() => {
-              if (rowContrato.length === 0) {
-                setNotify({
-                  open: true,
-                  message: "Selecione um contrato para encerrar.",
-                  severity: "info",
-                });
-              } else {
-                setAbrirModalEncerrarContrato(true);
-              }
-            }}
-          >
-            Encerrar
-          </Button>
-        </ButtonGroup>
+        <Box display="flex" gap={1}>
+          <ButtonGroup size="small" aria-label="Small button group">
+            <Button
+              startIcon={<AddIcon />}
+              onClick={() => setAbrirModalAddContrato(true)}
+            >
+              Adicionar
+            </Button>
+            <Button
+              startIcon={<ModeEditIcon />}
+              onClick={() => {
+                if (rowContrato.length === 0) {
+                  setNotify({
+                    open: true,
+                    message: "Selecione um contrato para editar.",
+                    severity: "info",
+                  });
+                } else {
+                  setAbrirModalEditarContrato(true);
+                }
+              }}
+            >
+              Editar
+            </Button>
+            <Button
+              startIcon={<StraightenIcon />}
+              onClick={() => {
+                if (rowContrato.length === 0) {
+                  setNotify({
+                    open: true,
+                    message: "Selecione um contrato para medir.",
+                    severity: "info",
+                  });
+                } else {
+                  setAbrirModalMedirContrato(true);
+                }
+              }}
+            >
+              Medir
+            </Button>
+            <Button
+              startIcon={<HourglassTopIcon />}
+              onClick={() => {
+                if (rowContrato.length === 0) {
+                  setNotify({
+                    open: true,
+                    message: "Selecione um contrato para reajustar.",
+                    severity: "info",
+                  });
+                } else {
+                  setAbrirModalReajusteContrato(true);
+                }
+              }}
+            >
+              Reajustar
+            </Button>
+            <Button
+              startIcon={<CurrencyExchangeIcon />}
+              onClick={() => {
+                if (rowContrato.length === 0) {
+                  setNotify({
+                    open: true,
+                    message: "Selecione um contrato para orçar.",
+                    severity: "info",
+                  });
+                } else {
+                  setAbrirModalOrcarContrato(true);
+                }
+              }}
+            >
+              Orçar
+            </Button>
+            <Button
+              startIcon={<AttachMoneyIcon />}
+              onClick={() => {
+                setAbrirModalCustoAnual(true);
+              }}
+            >
+              CUSTO ANUAL
+            </Button>
+            <Button
+              color="error"
+              startIcon={<HighlightOffIcon />}
+              onClick={() => {
+                if (rowContrato.length === 0) {
+                  setNotify({
+                    open: true,
+                    message: "Selecione um contrato para encerrar.",
+                    severity: "info",
+                  });
+                } else {
+                  setAbrirModalEncerrarContrato(true);
+                }
+              }}
+            >
+              Encerrar
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup size="small" aria-label="Small button group">
+            <Button
+              onClick={() => setFiltroTipo("PPTM")}
+              variant={filtroTipo === "PPTM" ? "contained" : "outlined"}
+            >
+              PPTM
+            </Button>
+            <Button
+              onClick={() => setFiltroTipo("GTPC")}
+              variant={filtroTipo === "GTPC" ? "contained" : "outlined"}
+            >
+              GTPC
+            </Button>
+            <Button
+              onClick={() => setFiltroTipo("TODOS")}
+              variant={filtroTipo === "TODOS" ? "contained" : "outlined"}
+            >
+              TODOS
+            </Button>
+          </ButtonGroup>
+        </Box>
         <Paper
           component="form"
           size="small"
@@ -361,22 +385,20 @@ export default function Contrato() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  {columns
-                    .filter((column) => column.label !== "TARIFA")
-                    .map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align="center"
-                        style={{
-                          minWidth: column.minWidth,
-                          width: column.width,
-                          backgroundColor: "#eaeaecff",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center"
+                      style={{
+                        minWidth: column.minWidth,
+                        width: column.width,
+                        backgroundColor: "#eaeaecff",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>

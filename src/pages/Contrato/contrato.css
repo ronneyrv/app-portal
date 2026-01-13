@@ -36,7 +36,7 @@
   padding: 5px;
   gap: 5px;
   width: calc(100% - 10px);
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border: 1px solid #ed6c02;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@
   gap: 5px;
   width: calc(100% - 10px);
   min-width: 0;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border: 1px solid #ed6c02;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -120,6 +120,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.buttons-ano {
+  max-height: 152px;
+  margin-left: 10px;
+  padding: 0px 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.buttons-ano::-webkit-scrollbar {
+  width: 8px;
+}
+
+.buttons-ano::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.buttons-ano::-webkit-scrollbar-thumb {
+  background: #ed6c02;
+  border-radius: 4px;
+}
+
+.buttons-ano::-webkit-scrollbar-thumb:hover {
+  background: #e65100;
 }
 
 .content-acumulado {
@@ -172,7 +198,12 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
+.orcamentos-fornecedor {
+  height: 408px;
+}
+
 .buttons-fornecedor {
+  width: 175px;
   max-height: 330px;
   overflow-y: auto;
   overflow-x: hidden;

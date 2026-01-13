@@ -16,6 +16,9 @@ import {
 
 const formatarDataParaInput = (dataBR) => {
   if (!dataBR) return "";
+  if (dataBR === "SEM REAJUSTE") {
+    return dataBR;
+  }
   const partes = dataBR.split("/");
   if (partes.length !== 3) {
     console.error("Formato de data inválido:", dataBR);
