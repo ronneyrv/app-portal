@@ -290,7 +290,6 @@ export default function ModalEditarMedicao({
                 onChange={handleChange}
               />
               <TextField
-                required
                 fullWidth
                 size="small"
                 margin="dense"
