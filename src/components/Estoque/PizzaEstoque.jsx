@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { CircularProgress, Box } from "@mui/material";
+import logoEP from "../../../public/images/logo_ep.png";
+import logoEneva from "../../../public/images/logo_eneva.png";
 import "./pizzaestoque.css";
 
 function formatTon(value) {
@@ -124,7 +126,7 @@ export default function PizzaEstoque({estoqueGeralDias}) {
             style={{ backgroundColor: "#00bcd4" }}
           ></span>
           <img
-            src="http://172.20.229.55/images/logo_ep.png"
+            src={logoEP}
             alt="Logo EP"
             className="logo"
           />
@@ -135,7 +137,7 @@ export default function PizzaEstoque({estoqueGeralDias}) {
             style={{ backgroundColor: "#ff6d00" }}
           ></span>
           <img
-            src="http://172.20.229.55/images/logo_eneva.png"
+            src={logoEneva}
             alt="Logo Eneva"
             className="logo"
           />
@@ -146,13 +148,13 @@ export default function PizzaEstoque({estoqueGeralDias}) {
             style={{ backgroundColor: "#8a8989" }}
           ></span>
           <img
-            src="http://172.20.229.55/images/logo_ep.png"
+            src={logoEP}
             alt="Logo EP"
             className="logo"
           />
           +
           <img
-            src="http://172.20.229.55/images/logo_eneva.png"
+            src={logoEneva}
             alt="Logo Eneva"
             className="logo"
           />

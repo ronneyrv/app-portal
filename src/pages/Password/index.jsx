@@ -5,13 +5,14 @@ import MessageAlert from "../../components/MessageAlert";
 import "./password.css";
 
 function Password() {
-  const [email, setEmail] = useState("");
-  const [novaSenha, setNovaSenha] = useState("");
-  const [novaSenha2, setNovaSenha2] = useState("");
+  const navigate = useNavigate();
   const [typeMessage, setTypeMessage] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
-
+  const [formNew, setFormNew] = useState({
+    email: "",
+    senha: "",
+    senha2: "",
+  });
   const API_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
   function fildAlert(data) {
@@ -34,26 +35,34 @@ function Password() {
     }, 3000);
   }
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormNew((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleNewPassword = async (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email || !novaSenha || !novaSenha2) {
+    if (!formNew.email || !formNew.senha || !formNew.senha2) {
       fildAlert({ type: "info", message: "Preencha todos os campos" });
       return;
     }
 
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(formNew.email)) {
       fildAlert({ type: "info", message: "e-mail inválido" });
       return;
     }
 
-    if (novaSenha.length < 6) {
+    if (formNew.senha.length < 6) {
       fildAlert({ type: "info", message: "Senha menor que 6 dígitos" });
       return;
     }
 
-    if (novaSenha !== novaSenha2) {
+    if (formNew.senha !== formNew.senha2) {
       fildAlert({ type: "info", message: "As senhas não coincidem" });
       return;
     }
@@ -64,7 +73,7 @@ function Password() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: email, senha: novaSenha }),
+      body: JSON.stringify({ dados: formNew }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -98,20 +107,23 @@ function Password() {
         <input
           type="email"
           placeholder="E-mail cadastrado"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={formNew.email}
+          onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Nova senha"
-          value={novaSenha}
-          onChange={(e) => setNovaSenha(e.target.value)}
+          name="senha"
+          value={formNew.senha}
+          onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Confirme a nova senha"
-          value={novaSenha2}
-          onChange={(e) => setNovaSenha2(e.target.value)}
+          name="senha2"
+          value={formNew.senha2}
+          onChange={handleChange}
         />
         <button type="submit">Salvar senha</button>
       </form>
